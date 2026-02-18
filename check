@@ -87,22 +87,11 @@ function
     _progress,
     _total) {
   let
-    _msg,
-    _template;
-  _template =
-    "Checking chunk '{_index}' ('{_progress}'of '{_total}').";
+    _msg;
   _msg =
-    _template.replaceAll(
-      "{_index}",
-      _index);
-  _msg =
-    _msg.replaceAll(
-      "{_progress}",
-      _progress);
-  _msg =
-    _msg.replaceAll(
-      "{_total}",
-      _total);
+    `Checking chunk ` +
+    `'${_index}' ('${_progress}' of ` +
+    `'${_total}').`;
   _msg_info(
     _msg);
 }
@@ -113,45 +102,14 @@ function
     _progress,
     _total) {
   let
-    _msg,
-    _template;
-  _template =
-    "Checked chunk '{_index}' ('{_progress}'of '{_total}').";
+    _msg;
   _msg =
-    _template.replaceAll(
-      "{_index}",
-      _index);
-  _msg =
-    _msg.replaceAll(
-      "{_progress}",
-      _progress);
-  _msg =
-    _msg.replaceAll(
-      "{_total}",
-      _total);
+    `Checked chunk ` +
+    `'${_index}' ('${_progress}' of ` +
+    `'${_total}').`;
   _msg_info(
     _msg);
 }
-
-// function
-//   _error_handle(
-//     error) {
-//   let
-//     _message;
-//   if ( 'error' in error && 
-//        error['error'] != undefined &&
-//        'message' in error['error'] ) {
-//     _message =
-//       error['error']['message'];
-//   }
-//   else if ( 'shortMessage' in error ) {
-//     _message =
-//       error['shortMessage'];
-//   }
-//   _msg_error(
-//     _message,
-//     0);
-// }
 
 async function
   _chunk_check(
@@ -168,17 +126,21 @@ async function
       await _chunk_get(
         _get_call_opts);
     if ( _value == undefined ) {
+      _msg =
+        "Got undefined value for the chunk.";
       throw {
         "error": {
           "message":
-            "Got undefined value for the chunk." } };
+            _msg } };
     }
   } catch(
       _error) {
     _error_display(
       _error);
+    _msg =
+      "Error getting chunk from the network.";
     _msg_error(
-      "Error getting chunk from the network.",
+      _msg,
       0);
     throw _error;
   }
@@ -188,8 +150,10 @@ async function
       _method_object];
   }
   else if ( _value != _chunk ) {
+    _msg =
+      `Got ${_value}.`;
     _msg_info(
-      `Got ${_value}.`);
+      _msg);
     return [
       false,
       _method_object];
@@ -206,17 +170,23 @@ function
   _total_indexes =
     _index_end - _index_start + 1;
   if ( _total_files > _total_indexes ) {
+    _msg =
+      "More indexes to check than files to read.";
     _msg_error(
-      "More files to read into than indexes to check.",
+      _msg,
       1);
   }
   if ( _total_files < _total_indexes ) {
+    _msg =
+      "More indexes to check than files to read.";
     _msg_error(
-      "More indexes to check than files to read.",
+      _msg,
       1);
   }
+  _msg =
+    "Input data checked.";
   _msg_info(
-    "Input data checked.");
+    _msg);
 }
 
 function
@@ -224,13 +194,15 @@ function
     _path,
     _index,
     _cursor) {
+  let
+    _msg;
   if ( _path == undefined ) {
+    _msg =
+      "Chunk file for index " +
+      `${_index} and cursor ` +
+      `${_cursor} undefined.`;
     console.error(
-      "Chunk file for index",
-      _index,
-      "and cursor",
-      _cursor,
-      "undefined.");
+      _msg);
     process.exit(
       1);
   }
@@ -297,8 +269,10 @@ async function
     _file_hash
   ];
   if ( _chunks_files_paths == [] ) {
+    _msg =
+      "File chunks list empty.";
     _msg_error(
-      "File chunks list empty.",
+      _msg,
       1);
   }
   if ( _chunks_files_paths != undefined ) {
@@ -306,8 +280,10 @@ async function
       _chunks_files_paths.length;
   }
   else if ( _chunks_files_paths == undefined ) {
+    _msg =
+      "No chunks files provided";
     _msg_error(
-      "No chunks files provided");
+      _msg);
   }
   _chunks_total =
     _chunks_files_paths.length;
@@ -320,8 +296,8 @@ async function
   _cursor =
     0;
   for ( var _index = _index_start;
-	_index <= _index_end;
-	_index++ ) {
+        _index <= _index_end;
+        _index++ ) {
     _msg_info_chunk_check(
       _index,
       _progress,
@@ -356,8 +332,10 @@ async function
       // or I need to re-init the array so just
       // in case we re-init whole array.
       if ( _check_call_base_opts[7] == "" ) {
+        _msg =
+          "Re-using contract method object.";
         _msg_info(
-          "Re-using contract method object.");
+          _msg);
         _read_call_base_opts = [
           _wallet_seed_path,
           _retries_max,
@@ -375,8 +353,10 @@ async function
         _error) {
       _error_display(
         _error);
+      _msg =
+        "Error checking chunk.";
       _msg_error(
-        "Error checking chunk.",
+        _msg,
         0);
       throw _error;
     }
@@ -402,59 +382,23 @@ function
     _chunks_files_paths,
     _line,
     _text;
-  _text = 
-    [];
-  _text.push(
-    "          Maximum retries: {retries_max}".replace(
-      "{retries_max}",
-      retries_max));
-  _text.push(
-    "                  API Key: {api_key_path}".replace(
-      "{api_key_path}",
-      api_key_path));
-  _text.push(
-    "           Target network: {target_network}".replace(
-      "{target_network}",
-      target_network));
-  _text.push(
-    "         Contract address: {contract_address}".replace(
-      "{contract_address}",
-      contract_address));
-  _text.push(
-    "             Contract ABI: {contract_abi_path}".replace(
-      "{contract_abi_path}",
-      contract_abi_path));
-  _text.push(
-    "        Contract bytecode: {contract_bytecode_path}".replace(
-      "{contract_bytecode_path}",
-      contract_bytecode_path));
-  _text.push(
-    " Contract compiler output: {contract_compiler_output_path}".replace(
-      "{contract_compiler_output_path}",
-      contract_compiler_output_path));
-  _text.push(
-    "    Publication namespace: {publication_namespace}".replace(
-      "{publication_namespace}",
-      publication_namespace));
-  _text.push(
-    "                File hash: {file_hash}".replace(
-      "{file_hash}",
-      file_hash));
-  _text.push(
-    "              Index start: {index_start}".replace(
-      "{index_start}",
-      index_start));
-  _text.push(
-    "                Index end: {index_end}".replace(
-      "{index_end}",
-      index_end));
   _chunks_files_paths =
     chunks_files_paths.join(
     " ");
-  _text.push(
-    "              File chunks: {_chunks_files_paths}".replace(
-      "{_chunks_files_paths}",
-      _chunks_files_paths));
+  _text = [
+    `          Maximum retries: ${retries_max}`,
+    `                  API Key: ${api_key_path}`,
+    `           Target network: ${target_network}`,
+    `         Contract address: ${contract_address}`,
+    `             Contract ABI: ${contract_abi_path}`,
+    `        Contract bytecode: ${contract_bytecode_path}`,
+    ` Contract compiler output: ${contract_compiler_output_path}`,
+    `    Publication namespace: ${publication_namespace}`,
+    `                File hash: ${file_hash}`,
+    `              Index start: ${index_start}`,
+    `                Index end: ${index_end}`,
+    `              File chunks: ${_chunks_files_paths}`
+  ];
   for ( _line in _text ) {
     _msg_info(
       _text[_line]);
@@ -580,11 +524,23 @@ function
       if ( _value == "-h" ||
            _value == "--help" ) {
         _usage(
-	  0);
+          0);
       }
   });
-  if ( file_hash == "" ||
-       publication_namespace == "" ) {
+  if ( file_hash == "" ) {
+    _msg =
+      "No file hash given.";
+    _msg_error(
+      _msg,
+      0);
+    _usage(
+      1);
+  if ( publication_namespace == "" ) {
+    _msg =
+      "No publication namespace given.";
+    _msg_error(
+      _msg,
+      0);
     _usage(
       1);
   }
@@ -612,8 +568,10 @@ async function
 if ( _cmdline_check(
        "check") == true ) {
   _global_variables();
+  _msg =
+    "Running check from command-line";
   _msg_info(
-    "Running check from command-line");
+    _msg);
   _cmdline_parse();
   _config_show();
   app_opts = [

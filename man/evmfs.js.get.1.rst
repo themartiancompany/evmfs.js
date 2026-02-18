@@ -28,14 +28,14 @@ evmfs.js.get
 -------------------------------------------------------------------
 Ethereum Virtual Machine File System download program
 -------------------------------------------------------------------
-:Version: evmfs.js.ccget |version|
+:Version: evmfs.js.get |version|
 :Manual section: 1
 
 
 Synopsis
 ========
 
-evmfs.js.ccget *quiet* *retries-max* *api-key-path* *target-network* *deployments-dir *fs-version* *rpc-selection* *contract-address* *contract-abi-path* *contract-bytecode-path* *contract-compiler-output-path *publication-namespace* *index-start* *file-hash* *index-start* *index-end* *checkpoint-file-path* *chunk-file-path*
+evmfs.js.get *quiet* *retries-max* *api-key-path* *target-network* *deployments-dir *fs-version* *rpc-selection* *contract-address* *contract-abi-path* *contract-bytecode-path* *contract-compiler-output-path *publication-namespace* *index-start* *file-hash* *index-start* *index-end* *checkpoint-file-path* *chunk-file-path*
 
 
 Description
