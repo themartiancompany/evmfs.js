@@ -121,6 +121,7 @@ build-npm:
 	cp \
 	  -r \
 	  $(_NODE_FILES) \
+	  "package.json" \
 	  "$(BUILD_DIR)"; \
 	cd \
 	  "$(BUILD_DIR)"; \
