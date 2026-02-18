@@ -120,10 +120,10 @@ build-npm:
 	      "version")"; \
 	cp \
 	  -r \
-	  $(NODE_FILES) \
+	  $(_NODE_FILES) \
 	  "$(BUILD_DIR)"; \
 	cd \
-	  "$(BULID_DIR)"; \
+	  "$(BUILD_DIR)"; \
 	npm \
 	  install \
 	    --save-dev; \
