@@ -39,7 +39,7 @@ _NODE_FILES:=\
   lengthlock \
   lock \
   publish \
-  publish-bulk \
+  publish.bulk \
   verify
 
 _INSTALL_FILE=install -vDm644
@@ -109,9 +109,10 @@ build-npm:
 	mkdir \
 	  -p \
 	  "$(BUILD_DIR)/man"
-	rst2man \
-	  "man/lib$(_PROJECT).1.rst" \
-	  "$(BUILD_DIR)/lib$(_PROJECT).1"
+	for _program in $(_NODE_FILES); do \
+	  rst2man \
+	    "man/$(_PROJECT).$${_program}.1.rst" \
+	    "$(BUILD_DIR)/$(_PROJECT).$${_program}.1"
 	_version="$$( \
 	  npm \
 	    view \
@@ -119,7 +120,7 @@ build-npm:
 	      "version")"; \
 	cp \
 	  -r \
-	  $(NPM_FILES) \
+	  $(NODE_FILES) \
 	  "$(BUILD_DIR)"; \
 	cd \
 	  "$(BULID_DIR)"; \
