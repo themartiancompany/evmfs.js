@@ -1,0 +1,93 @@
+{
+  "name":
+    "evmfs",
+  "version":
+    "0.0.1",
+  "description":
+    "Multi-level distributed, network-independent, cross-network, uncensorable, undeletable, permissionless file system running on Ethereum Virtual Machine-compatible networks.",
+  "funding":
+    { "type":
+        "patreon",
+      "url":
+        "https://patreon.com/tallero"
+  },
+  "files": [
+    "AUTHORS.rst",
+    "COPYING",
+    "README.md",
+    "ccget",
+    "contracts",
+    "get",
+    "eslint.config.mjs",
+    "check",
+    "index",
+    "lengthlock",
+    "publish",
+    "publish.bulk",
+    "lock",
+    "man",
+    "verify",
+    "package.json",
+    "webpack.config.cjs"
+  ],
+  "man":
+    "./man/libcrash-js.1",
+  "keywords": [
+    "crash-bash",
+    "dogeos",
+    "opfs",
+    "evmfs",
+    "fs",
+    "themartiancompany",
+    "ur"
+  ],
+  "homepage":
+    "https://github.com/themartiancompany/evmfs",
+  "bugs": {
+    "url":
+      "https://github.com/themartiancompany/evmfs/issues"
+  },
+  "repository": {
+    "type":
+      "git",
+    "url":
+      "git+https://github.com/themartiancompany/evmfs.js.git"
+  },
+  "license":
+    "AGPL-3.0-or-later",
+  "author":
+    { "name":
+        "Pellegrino Prevete",
+      "email":
+        "pellegrinoprevete@gmail.com",
+      "url":
+        "https://github.com/tallero"
+  },
+  "devDependencies": {
+    "crash-js-webpack":
+      "^0.0.3",
+    "eslint":
+      "^9.32.0",
+    "webpack":
+      "^5.102.1",
+    "webpack-cli":
+      "^6.0.1"
+  },
+  "dependencies": {
+    "yargs":
+      "18.0.0"
+  },
+  "type":
+    "commonjs",
+  "main":
+    "evmfs/evmfs.js",
+  "scripts":
+    { "build":
+        "npm run lint && npm run build-lib",
+      "build-lib":
+        "npx webpack --mode 'production' --config 'webpack.config.cjs' --stats-error-details",
+      "lint":
+        "npx eslint .",
+      "test":
+        "echo \"Error: no test specified\" && exit 1" }
+}
