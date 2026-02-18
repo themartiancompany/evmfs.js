@@ -47,8 +47,7 @@ _INSTALL_DIR=install -vdm755
 _INSTALL_EXE=install -vDm755
 
 _BUILD_TARGETS:=\
-  build-npm \
-  contracts
+  build-npm
 _BUILD_TARGETS_ALL:=\
   all \
   $(_BUILD_TARGETS)
@@ -113,7 +112,7 @@ build-npm:
 	  rst2man \
 	    "man/$(_PROJECT).$${_program}.1.rst" \
 	    "$(BUILD_DIR)/$(_PROJECT).$${_program}.1"; \
-	done \
+	done; \
 	_version="$$( \
 	  npm \
 	    view \
