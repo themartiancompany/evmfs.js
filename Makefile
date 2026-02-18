@@ -112,7 +112,8 @@ build-npm:
 	for _program in $(_NODE_FILES); do \
 	  rst2man \
 	    "man/$(_PROJECT).$${_program}.1.rst" \
-	    "$(BUILD_DIR)/$(_PROJECT).$${_program}.1"
+	    "$(BUILD_DIR)/$(_PROJECT).$${_program}.1"; \
+	done \
 	_version="$$( \
 	  npm \
 	    view \
