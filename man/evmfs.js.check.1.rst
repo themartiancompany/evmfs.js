@@ -48,6 +48,14 @@ Ethereum Virtual Machine File System (EVMFS).
 Arguments
 ==========
 
+    "  <publication-namespace>          Namespace in which the file will be",
+    "                                   published.",
+    "  <file-hash>                      Hash of the file to publish.",
+    "  <index-start>                    Chunk index from where to start.",
+    "  <index-end>                      Final chunk index to download.",
+    "  [chunk-file-path]                Files in which to write the chunks.",
+
+
 *quiet*
 
   Can be 'y' or 'n'.
@@ -68,21 +76,6 @@ Arguments
   Network on which the contract
   resides.
 
-*deployments-dir*
-
-  Contracts deployments directory.
-
-*fs-version*
-
-  Version of the target file
-  system contract.
-  Default: 1.0
-
-*rpc-selection*
-
-  RPC selection method.
-  Default: first
-  
 *contract-address*
 
   Address of the contract.
@@ -117,13 +110,7 @@ Arguments
 
   Final chunk index to download.
   
-*checkpoint-file-path*
-
-  Checkpoint file on which latest
-  downloaded chunk index is saved
-  in case node was to crash.
-
-*[chunk_file_path]*
+*[chunk-file-path]*
 
   Files in which to write the chunks.
 
@@ -169,7 +156,7 @@ Copyright Pellegrino Prevete. AGPL-3.0.
 See also
 ========
 
-* evmfs.js.check
+* evmfs.js.ccget
 * evmfs.js.get
 * evmfs.js.index
 * evmfs.js.lengthlock

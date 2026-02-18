@@ -499,7 +499,7 @@ function
     "  <contract-address>               Address of the contract.",
     "  <contract-abi_path>              Contract ABI path.",
     "  <contract-bytecode_path>         Path for the contract bytecode.",
-    "  <contract-compiler_output_path>  Path for the contract compiler",
+    "  <contract-compiler-output-path>  Path for the contract compiler",
     "                                   output path (the hardhat artifact).",
     "  <publication-namespace>          Namespace in which the file will be",
     "                                   published.",

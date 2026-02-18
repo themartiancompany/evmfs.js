@@ -22,11 +22,11 @@
 
 
 ================
-evmfs.js.ccget
+evmfs.js.get
 ================
 
 -------------------------------------------------------------------
-Ethereum Virtual Machine Cross Chain File System download program
+Ethereum Virtual Machine File System download program
 -------------------------------------------------------------------
 :Version: evmfs.js.ccget |version|
 :Manual section: 1
