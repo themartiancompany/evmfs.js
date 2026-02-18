@@ -21,21 +21,21 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-==============
-evmfs-get
-==============
+================
+evmfs.js.ccget
+================
 
---------------------------------------------------------
-Ethereum Virtual Machine File System download program
---------------------------------------------------------
-:Version: evmfs-get |version|
+-------------------------------------------------------------------
+Ethereum Virtual Machine Cross Chain File System download program
+-------------------------------------------------------------------
+:Version: evmfs.js.ccget |version|
 :Manual section: 1
 
 
 Synopsis
 ========
 
-evmfs.js.ccget *quiet* *retries-max* *api-key-path* *target-network* *deployments_dir *fs-version* *rpc-selection* *contract-address* *contract-abi-path* *contract-bytecode-path* *contract-compiler-output-path *publication-namespace* *index-start* *file-hash* *index-start* *index-end* *checkpoint-file-path* *chunk-file-path*
+evmfs.js.ccget *quiet* *retries-max* *api-key-path* *target-network* *deployments-dir *fs-version* *rpc-selection* *contract-address* *contract-abi-path* *contract-bytecode-path* *contract-compiler-output-path *publication-namespace* *index-start* *file-hash* *index-start* *index-end* *checkpoint-file-path* *chunk-file-path*
 
 
 Description
