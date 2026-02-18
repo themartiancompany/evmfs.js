@@ -1219,7 +1219,7 @@ function
     "Downloads chunks of an EVMFS file.",
     "",
     "Usage:",
-    "  get",
+    "  ccget",
     "    <quiet>",
     "    <retries_max>",
     "    <api_key_path>",
