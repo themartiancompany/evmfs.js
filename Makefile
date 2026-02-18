@@ -21,7 +21,6 @@
 
 SHELL=bash
 PREFIX ?= /usr/local
-SOLIDITY_COMPILER_BACKEND ?= solc
 _PROJECT=evmfs.js
 DOC_DIR=$(DESTDIR)$(PREFIX)/share/doc/$(_PROJECT)
 BIN_DIR=$(DESTDIR)$(PREFIX)/bin
@@ -47,30 +46,19 @@ _INSTALL_FILE=install -vDm644
 _INSTALL_DIR=install -vdm755
 _INSTALL_EXE=install -vDm755
 
-_INSTALL_CONTRACTS_DEPLOYMENT_FUN:=\
-  install-contracts-deployments-$(SOLIDITY_COMPILER_BACKEND)
 _BUILD_TARGETS:=\
+  build-npm \
   contracts
 _BUILD_TARGETS_ALL:=\
   all \
   $(_BUILD_TARGETS)
 _CHECK_TARGETS:=\
-  shellcheck
+  eslint
 _CHECK_TARGETS_ALL:=\
   check \
   $(_CHECK_TARGETS)
 _CLEAN_TARGETS_ALL:=\
   clean
-_INSTALL_CONTRACTS_TARGETS:=\
-  $(_INSTALL_CONTRACTS_DEPLOYMENT_FUN) \
-  install-contracts-deployments-config \
-  install-contracts-sources
-_INSTALL_CONTRACTS_TARGETS_ALL:=\
-  install-contracts \
-  install-contracts-deployments-hardhat \
-  install-contracts-deployments-solc \
-  install-contracts-deployments-config \
-  install-contracts-sources
 _INSTALL_DOC_TARGETS:=\
   install-doc \
   install-man
@@ -81,12 +69,10 @@ _INSTALL_SCRIPTS_TARGETS_ALL:=\
   install-scripts
 _INSTALL_TARGETS:=\
   $(_INSTALL_DOC_TARGETS) \
-  $(_INSTALL_CONTRACTS_TARGETS) \
   install-scripts
 _INSTALL_TARGETS_ALL:=\
   install \
   $(_INSTALL_DOC_TARGETS) \
-  $(_INSTALL_CONTRACTS_TARGETS_ALL) \
   $(_INSTALL_SCRIPTS_TARGETS_ALL)
 _UNINSTALL_SCRIPTS_TARGETS:=\
   uninstall-node-scripts
@@ -101,6 +87,7 @@ _UNINSTALL_TARGETS_ALL:=\
 _PHONY_TARGETS:=\
   $(_BUILD_TARGETS_ALL) \
   $(_CHECK_TARGETS_ALL) \
+  $(_BUILD_TARGETS_ALL) \
   $(_CLEAN_TARGETS_ALL) \
   $(_INSTALL_TARGETS_ALL) \
   $(_UNINSTALL_TARGETS_ALL)
@@ -111,94 +98,48 @@ install: $(_INSTALL_TARGETS)
 
 check: $(_CHECK_TARGETS)
 
-install-contracts: $(_INSTALL_CONTRACTS_TARGETS)
-
-install-scripts: $(_INSTALL_SCRIPTS_TARGETS)
-
-uninstall: $(_UNINSTALL_TARGETS)
-
-uninstall-scripts: $(_UNINSTALL_SCRIPTS_TARGETS)
-
 clean:
 
 	rm \
 	  -rf \
 	  "$(BUILD_DIR)"
 
-contracts:
+build-npm:
 
-	evm-make \
-	  -v \
-	  -C \
-	    . \
-	  -b \
-	    "$(SOLIDITY_COMPILER_BACKEND)" \
-	  -w \
-	    "$(BUILD_DIR)"
+	mkdir \
+	  -p \
+	  "$(BUILD_DIR)/man"
+	rst2man \
+	  "man/lib$(_PROJECT).1.rst" \
+	  "$(BUILD_DIR)/lib$(_PROJECT).1"
+	_version="$$( \
+	  npm \
+	    view \
+	      "$$(pwd)" \
+	      "version")"; \
+	cp \
+	  -r \
+	  $(NPM_FILES) \
+	  "$(BUILD_DIR)"; \
+	cd \
+	  "$(BULID_DIR)"; \
+	npm \
+	  install \
+	    --save-dev; \
+	npm \
+	  run \
+	    build; \
+	npm \
+	  pack; \
+	mv \
+	  "$(_PROJECT)-$${_version}.tgz" \
+	  ".."
 
-install-contracts-sources:
+eslint:
 
-	evm-make \
-	  -v \
-	  -C \
-	    . \
-	  -b \
-	    "$(SOLIDITY_COMPILER_BACKEND)" \
-	  -w \
-	    "$(BUILD_DIR)" \
-	  -o \
-	    "$(LIB_DIR)" \
-	  -l \
-	    "n" \
-	  install_sources
-
-install-contracts-deployments-config:
-
-	evm-make \
-	  -v \
-	  -C \
-	    . \
-	  -b \
-	    "$(SOLIDITY_COMPILER_BACKEND)" \
-	  -w \
-	    "$(BUILD_DIR)" \
-	  -o \
-	    "$(LIB_DIR)" \
-	  -l \
-	    "n" \
-	  install_deployments_config
-
-install-contracts-deployments-solc:
-
-	evm-make \
-	  -v \
-	  -C \
-	    . \
-	  -b \
-	    "solc" \
-	  -w \
-	    "$(BUILD_DIR)" \
-	  -o \
-	    "$(LIB_DIR)" \
-	  -l \
-	    "n" \
-	  install_deployments
-
-install-contracts-deployments-hardhat:
-
-	evm-make \
-	  -v \
-	  -C \
-	    . \
-	  -b \
-	    "hardhat" \
-	  -w \
-	    "$(BUILD_DIR)" \
-	  -o \
-	    "$(LIB_DIR)" \
-	  -l \
-	    "n" \
-	  install_deployments
+	npm \
+	  run \
+	    lint
 
 install-doc:
 
@@ -237,8 +178,11 @@ install-man:
 
 publish-npm:
 
-	cd \
+	mkdir \
+	  -p \
 	  "build"; \
+	cd \
+	  "$(BUILD_DIR)"; \
 	npm \
 	  publish
 
