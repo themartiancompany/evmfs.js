@@ -115,6 +115,9 @@ function
   _global_variables() {
   app_name =
     "evmfs.js";
+  /*global app_opts:writable*/
+  app_opts =
+    [];
   /*global retries_max:writable*/
   retries_max =
     "";
@@ -307,37 +310,21 @@ if ( _cmdline_check(
   _config_show();
   app_opts = [
     retries_max,
-    /*global api_key_path*/
     api_key_path,
-    /*global target_network*/
     target_network,
-    /*global deployments_dir*/
     deployments_dir,
-    /*global fs_version*/
     fs_version,
-    /*global rpc_selection*/
     rpc_selection,
-    /*global contract_address*/
     contract_address,
-    /*global abi_path*/
     contract_abi_path,
-    /*global bytecode_path*/
     contract_bytecode_path,
-    /*global compiler_output_path*/
     contract_compiler_output_path,
-    /*global method_objects*/
     method_objects,
-    /*global publication_namespace*/
     publication_namespace,
-    /*global file_hash*/
     file_hash,
-    /*global index_start*/
     index_start,
-    /*global index_end*/
     index_end,
-    /*global checkpoint_file_path*/
     checkpoint_file_path,
-    /*global chunks_files_path*/
     chunks_files_paths,
   ];
   _evmfs.apply(
