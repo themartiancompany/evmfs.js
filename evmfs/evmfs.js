@@ -143,10 +143,10 @@ function
   /*global contract_abi_path:writable*/
   contract_abi_path =
     "";
-  /*global bytecode_path:writable*/
+  /*global contract_bytecode_path:writable*/
   contract_bytecode_path =
     "";
-  /*global contract_compiler_output:writable*/
+  /*global contract_compiler_output_path:writable*/
   contract_compiler_output_path =
     "";
   /*global method_objects:writable*/
