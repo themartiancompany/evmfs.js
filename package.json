@@ -21,7 +21,7 @@
     "package.json",
     "webpack.config.cjs"
   ],
-  "man":
+  "man": [
     "./man/evmfs.js.ccget.1",
     "./man/evmfs.js.check.1",
     "./man/evmfs.js.get.1",
@@ -30,7 +30,8 @@
     "./man/evmfs.js.lock.1",
     "./man/evmfs.js.publish.1",
     "./man/evmfs.js.publish.bulk.1",
-    "./man/evmfs.js.verify.1",
+    "./man/evmfs.js.verify.1"
+  ],
   "keywords": [
     "crash-bash",
     "dogeos",
