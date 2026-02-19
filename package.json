@@ -55,6 +55,7 @@
   "devDependencies": {
     "crash-js-webpack": "^0.0.3",
     "eslint": "^10.0.0",
+    "@eslint/js": "^10.0.1",
     "webpack": "^5.102.1",
     "webpack-cli": "^6.0.1"
   },
