@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 /**    ----------------------------------------------------------------------
- *     publish
+ *     evmfs.js.publish
  *     ----------------------------------------------------------------------
  *     Copyright ©
  *       Pellegrino Prevete
@@ -29,7 +29,7 @@
 const
   _libcrash =
   require(
-    '../libcrash-js/crash-js');
+    "crash-js");
 _cmdline_check =
   _libcrash._cmdline_check;
 _error_display =
@@ -55,20 +55,20 @@ _contract_run =
 const
   _check_module =
     require(
-      "./check");
+      "./evmfs.js.check");
 _chunk_check =
   _check_module._chunk_check;
 const
   _verify_module =
     require(
-      './verify');
+      './evmfs.js.verify');
 _verify =
   _verify_module._verify;
 
 function
   _global_variables() {
   app_name =
-    "publish";
+    "evmfs.js.publish";
   retries_max =
     "";
   call_timeout =
@@ -800,7 +800,7 @@ function
 }
 
 if ( _cmdline_check(
-       "publish") == true ) {
+       "evmfs.js.publish") == true ) {
   _global_variables();
   _cmdline_parse();
   _overrides_set();

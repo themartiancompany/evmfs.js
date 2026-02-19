@@ -29,7 +29,7 @@
 const
   _libcrash =
     require(
-      '../libcrash-js/crash-js');
+      "crash-js");
 _cmdline_check =
   _libcrash._cmdline_check;
 _error_display =
@@ -50,9 +50,9 @@ _contract_call_static =
 function
   _global_variables() {
   app_name =
-    "lengthlock";
+    "evmfs.js.lengthlock";
   retries_max =
-    '';
+    "";
   api_key_path =
     "";
   target_network =
@@ -873,7 +873,7 @@ function
 }
 
 if ( _cmdline_check(
-       "lengthlock") ) {
+       "evmfs.js.lengthlock") ) {
   _global_variables();
   _cmdline_parse();
   _config_show();

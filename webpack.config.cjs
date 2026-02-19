@@ -8,7 +8,7 @@ const
       __dirname);
 const
   _input_file_name =
-    "evmfs.js.get";
+    "evmfs/evmfs.js.get";
 const
   _output_file_name =
     `${_input_file_name}.js`;

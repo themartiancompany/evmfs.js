@@ -15,28 +15,30 @@
     "AUTHORS.rst",
     "COPYING",
     "README.md",
-    "evmfs.js.ccget",
-    "evmfs.js.get",
+    "evmfs",
     "eslint.config.mjs",
-    "evmfs.js.check",
-    "evmfs.js.index",
-    "evmfs.js.lengthlock",
-    "evmfs.js.lock",
     "man",
-    "evmfs.js.publish",
-    "evmfs.js.publish.bulk",
-    "evmfs.js.verify",
     "package.json",
     "webpack.config.cjs"
   ],
   "man":
-    "./man/libcrash-js.1",
+    "./man/evmfs.js.ccget.1",
+    "./man/evmfs.js.check.1",
+    "./man/evmfs.js.get.1",
+    "./man/evmfs.js.index.1",
+    "./man/evmfs.js.lengthlock.1",
+    "./man/evmfs.js.lock.1",
+    "./man/evmfs.js.publish.1",
+    "./man/evmfs.js.publish.bulk.1",
+    "./man/evmfs.js.verify.1",
   "keywords": [
     "crash-bash",
     "dogeos",
     "opfs",
     "evmfs",
     "fs",
+    "hip",
+    "libevm",
     "themartiancompany",
     "ur"
   ],
@@ -73,6 +75,8 @@
       "^6.0.1"
   },
   "dependencies": {
+    "crash-js":
+      "^0.1.69",
     "yargs":
       "18.0.0"
   },

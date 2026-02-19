@@ -2,29 +2,34 @@
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-//    ----------------------------------------------------------------------
-//    Copyright © 2024, 2025, 2026  Pellegrino Prevete
-//
-//    All rights reserved
-//    ----------------------------------------------------------------------
-//
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License as published
-//    by the Free Software Foundation, either version 3 of the License, or
-//    (at your option) any later version.
-//
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+/**    ----------------------------------------------------------------------
+ *     evmfs.js.get
+ *     ----------------------------------------------------------------------
+ *     Copyright ©
+ *       Pellegrino Prevete
+ *         2024, 2025, 2026
+ * 
+ *     All rights reserved
+ *     ----------------------------------------------------------------------
+ * 
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ * 
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ * 
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 
 const
   _libcrash =
     require(
-      "../libcrash-js/crash-js");
+      "crash-js");
 _dirname =
   _libcrash._dirname;
 _error_display =
@@ -51,7 +56,7 @@ _contract_call_static =
 function
   _global_variables() {
   app_name =
-    "lock";
+    "evmfs.js.lock";
   retries_max =
     "";
   call_timeout =
@@ -255,12 +260,22 @@ async function
        _retries_max == "" ) {
     _retries_max =
       3;
+    _msg =
+      "Setting default maximum " +
+      `retries '${_retries_max}'.`;
+    _msg_info(
+      _msg);
   }
   if ( typeof(
          _call_timeout) === "undefined" ||
        _call_timeout == "" ) {
     _call_timeout =
       60000;
+    _msg =
+      "Setting default call timeout " +
+      `'${_call_timeout}'.`;
+    _msg_info(
+      _msg);
   }
   _call_timeout =
     Number(
@@ -363,8 +378,10 @@ async function
   _file_write(
     _checkpoint_file_path,
     _checkpoint_index);
+  _msg =
+    "All chunks correcly locked.";
   _msg_info(
-    "All chunks correcly locked.");
+    _msg);
 }
 
 function
@@ -423,7 +440,7 @@ function
     "    <file-hash>",
     "    <index-start>",
     "    <index-end>",
-    "    <checkpoint_file_path>",
+    "    <checkpoint-file-path>",
     "",
     "Args:",
     "  <quiet>                          Can be 'y' or 'n'",
@@ -580,7 +597,7 @@ function
 }
 
 if ( _cmdline_check(
-       "lock") == true ) {
+       "evmfs.js.lock") == true ) {
   _global_variables();
   _cmdline_parse();
   _overrides_set();

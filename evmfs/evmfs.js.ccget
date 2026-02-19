@@ -3,6 +3,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 /**    ----------------------------------------------------------------------
+ *     evmfs.js.ccget
+ *     ----------------------------------------------------------------------
  *     Copyright ©
  *       Pellegrino Prevete
  *         2024, 2025, 2026
@@ -27,7 +29,7 @@
 const
   _libcrash =
     require(
-      '../libcrash-js/crash-js');
+      "crash-js");
 _cmdline_check =
   _libcrash._cmdline_check;
 _error_display =
@@ -63,14 +65,14 @@ _evm_chains_rpc_backend_get =
 const
   _get_module =
     require(
-      "./get");
+      "./evmfs.js.get");
 _get =
   _get_module._get;
 
 function
   _global_variables() {
   app_name =
-    "ccget";
+    "evmfs.js.ccget";
   retries_max =
     "";
   api_key_path =
@@ -1369,7 +1371,7 @@ function
 }
 
 if ( _cmdline_check(
-       "ccget") ) {
+       "evmfs.js.ccget") ) {
   _global_variables();
   _cmdline_parse();
   _overrides_set();

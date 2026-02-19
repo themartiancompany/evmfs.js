@@ -26,6 +26,7 @@ DOC_DIR=$(DESTDIR)$(PREFIX)/share/doc/$(_PROJECT)
 BIN_DIR=$(DESTDIR)$(PREFIX)/bin
 LIB_DIR=$(DESTDIR)$(PREFIX)/lib/$(_PROJECT)
 MAN_DIR?=$(DESTDIR)$(PREFIX)/share/man
+USR_DIR=$(DESTDIR)$(PREFIX)
 BUILD_DIR=build
 
 DOC_FILES=\
@@ -118,11 +119,13 @@ build-npm:
 	    view \
 	      "$$(pwd)" \
 	      "version")"; \
-	cp \
-	  -r \
-	  $(_NODE_FILES) \
-	  "package.json" \
-	  "$(BUILD_DIR)"; \
+        for _program in $(_NODE_FILES) \
+                        "package.json"; do \
+	  cp \
+	    -r \
+	    "$(PROJECT).$${_file}" \
+	    "$(BUILD_DIR)"; \
+	done; \
 	cd \
 	  "$(BUILD_DIR)"; \
 	npm \
@@ -177,6 +180,46 @@ install-man:
 	    "man/$${_file}.1.rst" \
 	    "$(MAN_DIR)/man1/$${_file}.1"; \
 	done
+
+install-npm:
+
+	_npm_opts=( \
+	  -g \
+	  --prefix \
+	    "$(USR_DIR)" \
+	); \
+	_version="$$( \
+	  npm \
+	    view \
+	      "$$(pwd)" \
+	      "version")"; \
+	npm \
+	  install \
+	    "$${_npm_opts[@]}" \
+	    "$(_PROJECT)-$${_version}.tgz"; \
+	$(_INSTALL_DIR) \
+	  "$(LIB_DIR)"; \
+	ln \
+	  -s \
+	  "$(NODE_DIR)/$(_PROJECT)" \
+	  "$(LIB_DIR)/$(_PROJECT)" || \
+	true; \
+	ln \
+	  -s \
+	  "$(NODE_DIR)/fs-utils" \
+	  "$(LIB_DIR)/fs-utils" || \
+	true; \
+	ln \
+	  -s \
+	  "$(NODE_DIR)/fs-worker" \
+	  "$(LIB_DIR)/fs-worker" || \
+	true; \
+	ln \
+	  -s \
+	  "$(NODE_DIR)/utils" \
+	  "$(LIB_DIR)/utils" || \
+	true
+
 
 publish-npm:
 
