@@ -43,9 +43,23 @@ _NODE_FILES:=\
   publish.bulk \
   verify
 
-_INSTALL_FILE=install -vDm644
-_INSTALL_DIR=install -vdm755
-_INSTALL_EXE=install -vDm755
+_NPM_FILES:=\
+  AUTHORS.rst \
+  COPYING \
+  README.md \
+  evmfs \
+  package.json \
+  webpack.config.cjs
+
+_INSTALL_FILE=\
+  install \
+    -vDm644
+_INSTALL_DIR=\
+  install \
+    -vdm755
+_INSTALL_EXE=\
+  install \
+    -vDm755
 
 _BUILD_TARGETS:=\
   build-npm
@@ -119,11 +133,11 @@ build-npm:
 	    view \
 	      "$$(pwd)" \
 	      "version")"; \
-        for _program in $(_NODE_FILES) \
+        for _program in $(_NPM_FILES) \
                         "package.json"; do \
 	  cp \
 	    -r \
-	    "$(_PROJECT).$${_program}" \
+	    "$${_program}" \
 	    "$(BUILD_DIR)"; \
 	done; \
 	cd \
