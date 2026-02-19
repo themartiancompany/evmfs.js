@@ -32,7 +32,8 @@ const
   _ccget_module =
     require(
       "./evmfs.js.ccget");
-/*global _check*/
+/*global _ccget*/
+/*exported _ccget*/
 const
   _ccget =
     _ccget_module._ccget;
@@ -41,14 +42,16 @@ const
     require(
       "./evmfs.js.check");
 /*global _check*/
+/*exported _check*/
 const
   _check =
-    _check_module._ccget;
+    _check_module._check;
 const
   _get_module =
     require(
       "./evmfs.js.get");
 /*global _get*/
+/*exported _get*/
 const
   _get =
     _get_module._get;
@@ -57,6 +60,7 @@ const
     require(
       "./evmfs.js.index");
 /*global _index*/
+/*exported _index*/
 const
   _index =
     _index_module._index;
@@ -65,6 +69,7 @@ const
     require(
       "./evmfs.js.lock");
 /*global _lock*/
+/*exported _lock*/
 const
   _lock =
     _lock_module._lock;
@@ -73,6 +78,7 @@ const
     require(
       "./evmfs.js.lengthlock");
 /*global _lengthlock*/
+/*exported _lengthlock*/
 const
   _lengthlock =
     _lengthlock_module._lengthlock;
@@ -81,6 +87,7 @@ const
     require(
       "./evmfs.js.publish");
 /*global _publish*/
+/*exported _publish*/
 const
   _publish =
     _publish_module._publish;
@@ -89,6 +96,7 @@ const
     require(
       "./evmfs.js.publish.bulk");
 /*global _publish_bulk*/
+/*exported _publish_bulk*/
 const
   _publish_bulk =
     _publish_bulk_module._publish_bulk;
@@ -97,6 +105,7 @@ const
     require(
       "./evmfs.js.verify");
 /*global _verify*/
+/*exported _verify*/
 const
   _verify =
     _verify_module._verify;
