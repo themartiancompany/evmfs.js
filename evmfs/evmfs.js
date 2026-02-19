@@ -27,78 +27,79 @@
  */
 
 
+/*eslint no-undef: "error"*/
 const
   _ccget_module =
     require(
       "./evmfs.js.ccget");
-/*global _ccget, a*/
-/*eslint no-undef: "error"*/
-_ccget =
-  _ccget_module._ccget;
+/*global _check*/
+const
+  _ccget =
+    _ccget_module._ccget;
 const
   _check_module =
     require(
       "./evmfs.js.check");
-/*global _check, a*/
-/*eslint no-undef: "error"*/
-_check =
-  _check_module._ccget;
+/*global _check*/
+const
+  _check =
+    _check_module._ccget;
 const
   _get_module =
     require(
       "./evmfs.js.get");
-/*global _get, a*/
-/*eslint no-undef: "error"*/
-_get =
-  _get_module._get;
+/*global _get*/
+const
+  _get =
+    _get_module._get;
 const
   _index_module =
     require(
       "./evmfs.js.index");
-/*global _index, a*/
-/*eslint no-undef: "error"*/
-_index =
-  _index_module._index;
+/*global _index*/
+const
+  _index =
+    _index_module._index;
 const
   _lock_module =
     require(
       "./evmfs.js.lock");
-/*global _lock, a*/
-/*eslint no-undef: "error"*/
-_lock =
-  _lock_module._lock;
+/*global _lock*/
+const
+  _lock =
+    _lock_module._lock;
 const
   _lengthlock_module =
     require(
       "./evmfs.js.lengthlock");
-/*global _lengthlock, a*/
-/*eslint no-undef: "error"*/
-_lengthlock =
-  _lengthlock_module._lengthlock;
+/*global _lengthlock*/
+const
+  _lengthlock =
+    _lengthlock_module._lengthlock;
 const
   _publish_module =
     require(
       "./evmfs.js.publish");
-/*global _publish, a*/
-/*eslint no-undef: "error"*/
-_publish =
-  _publish_module._publish;
+/*global _publish*/
+const
+  _publish =
+    _publish_module._publish;
 const
   _publish_bulk_module =
     require(
       "./evmfs.js.publish.bulk");
-/*global _publish_bulk, a*/
-/*eslint no-undef: "error"*/
-_publish_bulk =
-  _publish_bulk_module._publish_bulk;
+/*global _publish_bulk*/
+const
+  _publish_bulk =
+    _publish_bulk_module._publish_bulk;
 const
   _verify_module =
     require(
       "./evmfs.js.verify");
-/*global _verify, a*/
-/*eslint no-undef: "error"*/
-_verify =
-  _verify_module._verify;
+/*global _verify*/
+const
+  _verify =
+    _verify_module._verify;
 
 function
   _global_variables() {
