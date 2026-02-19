@@ -41,14 +41,10 @@ const
 const
   _msg_info =
     _libcrash._msg_info;
-/*global _process_exit_get*/
-const
-  _process_exit_get =
-    _utils._process_exit_get;
 /*global _process_exit*/
 const
   _process_exit =
-    _process_exit_get();
+    _libcrash._process_exit();
 const
   _ccget_module =
     require(

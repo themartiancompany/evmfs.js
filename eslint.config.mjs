@@ -28,6 +28,10 @@ import js from "@eslint/js";
 import globals from "globals";
 import { defineConfig } from "eslint/config";
 
+const
+  _project =
+    "evmfs";
+
 export default defineConfig([
  { ignores: [
      "build/**",
@@ -40,7 +44,7 @@ export default defineConfig([
          "error" } },
  { files:
      [ "**/*js,mjs,cjs}",
-       "evmfs/*" ],
+       `${_project}/*` ],
    plugins:
      { js },
    extends:
@@ -51,7 +55,7 @@ export default defineConfig([
             ...globals.node} } },
  { files:
      [ "**/*.js",
-       "evmfs/*" ],
+       `${_project}/*` ],
    languageOptions:
      { sourceType:
          "commonjs" } },
