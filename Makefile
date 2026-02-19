@@ -123,7 +123,7 @@ build-npm:
                         "package.json"; do \
 	  cp \
 	    -r \
-	    "$(PROJECT).$${_program}" \
+	    "$(_PROJECT).$${_program}" \
 	    "$(BUILD_DIR)"; \
 	done; \
 	cd \
