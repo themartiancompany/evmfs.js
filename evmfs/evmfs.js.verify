@@ -47,7 +47,7 @@ _msg_error =
 const
   _check_module =
     require(
-      "./check");
+      "./evmfs.js.check");
 _check =
   _check_module._check;
 _chunk_file_path_check =

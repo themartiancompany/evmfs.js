@@ -44,6 +44,8 @@ const
   _get_module =
     require(
       "./evmfs.js.get");
+/*global _chunk_get, a*/
+/*eslint no-undef: "error"*/
 _chunk_get =
   _get_module._chunk_get;
 

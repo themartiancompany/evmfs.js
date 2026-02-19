@@ -66,6 +66,8 @@ const
   _get_module =
     require(
       "./evmfs.js.get");
+/*global _get, a*/
+/*eslint no-undef: "error"*/
 _get =
   _get_module._get;
 

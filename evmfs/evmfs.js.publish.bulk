@@ -50,18 +50,20 @@ const
   _evm_contract_call_dynamic_module =
     require(
       '../evm-contracts-tools/evm-contract-call-dynamic');
+/*global _contract_run, a*/
+/*eslint no-undef: "error"*/
 _contract_run =
   _evm_contract_call_dynamic_module._contract_run;
 const
   _check_module =
     require(
-      "./check");
+      "./evmfs.js.check");
 _chunk_check =
   _check_module._chunk_check;
 const
   _verify_module =
     require(
-      './verify');
+      './evmfs.js.verify');
 _verify =
   _verify_module._verify;
 

@@ -42,8 +42,10 @@ _msg_error =
   _libcrash._msg_error;
 const
   _evm_contract_call =
-  require(
-    '../evm-contracts-tools/evm-contract-call-static');
+    require(
+      '../evm-contracts-tools/evm-contract-call-static');
+/*global _contract_call_static, a*/
+/*eslint no-undef: "error"*/
 _contract_call_static =
   _evm_contract_call._contract_call_static
 
