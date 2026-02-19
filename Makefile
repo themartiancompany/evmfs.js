@@ -47,6 +47,7 @@ _NPM_FILES:=\
   AUTHORS.rst \
   COPYING \
   README.md \
+  eslint.config.mjs \
   evmfs \
   package.json \
   webpack.config.cjs
