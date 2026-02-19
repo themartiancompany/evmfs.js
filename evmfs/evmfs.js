@@ -28,7 +28,7 @@
 
 
 /*eslint no-undef: "error"*/
-/*eslint no-unused-vars: "error"*/
+/*eslint no-unused-vars: ["error", { "vars": "local" }]*/
 const
   _ccget_module =
     require(
@@ -113,6 +113,7 @@ const
 
 function
   _global_variables() {
+  /*global app_name:writable*/
   app_name =
     "evmfs.js";
   /*global app_opts:writable*/
@@ -139,7 +140,7 @@ function
   /*global contract_address:writable*/
   contract_address =
     "";
-  /*global abi_path:writable*/
+  /*global contract_abi_path:writable*/
   contract_abi_path =
     "";
   /*global bytecode_path:writable*/
