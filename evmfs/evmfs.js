@@ -28,6 +28,7 @@
 
 
 /*eslint no-undef: "error"*/
+/*eslint no-unused-vars: "error"*/
 const
   _ccget_module =
     require(
@@ -331,6 +332,8 @@ module.exports = {
     _index,
   _get:
     _get,
+  _lengthlock:
+    _lengthlock,
   _lock:
     _lock,
   _publish:
