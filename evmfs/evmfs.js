@@ -41,10 +41,14 @@ const
 const
   _msg_info =
     _libcrash._msg_info;
-/*global _msg_error*/
+/*global _process_exit_get*/
 const
-  _msg_error =
-    _libcrash._msg_error;
+  _process_exit_get =
+    _utils._process_exit_get;
+/*global _process_exit*/
+const
+  _process_exit =
+    _process_exit_get();
 const
   _ccget_module =
     require(
@@ -217,16 +221,16 @@ function
   _usage(
     _exit) {
   let
-    _line,
-    _text;
-  _text = [
-    "Hello.",
-  ];
+    _line;
+  const
+    _text = [
+      "Hello.",
+    ];
   for ( _line of _text ) {
     _msg_info(
       _line);
   }
-  process.exit(
+  _process_exit(
     _exit);
 }
 
