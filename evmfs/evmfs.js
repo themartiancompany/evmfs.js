@@ -115,40 +115,58 @@ function
   _global_variables() {
   app_name =
     "evmfs.js";
+  /*global retries_max:writable*/
   retries_max =
     "";
+  /*global api_key_path:writable*/
   api_key_path =
     "";
+  /*global target_network:writable*/
   target_network =
     "";
+  /*global deployments_dir:writable*/
   deployments_dir =
     "";
+  /*global fs_version:writable*/
   fs_version =
     "";
+  /*global rpc_selection:writable*/
   rpc_selection =
     "";
+  /*global contract_address:writable*/
   contract_address =
     "";
+  /*global abi_path:writable*/
   contract_abi_path =
     "";
+  /*global bytecode_path:writable*/
   contract_bytecode_path =
     "";
+  /*global contract_compiler_output:writable*/
   contract_compiler_output_path =
     "";
+  /*global method_objects:writable*/
   method_objects =
     {};
+  /*global publication_namespace:writable*/
   publication_namespace =
     "";
+  /*global file_hash:writable*/
   file_hash =
     "";
+  /*global index_start:writable*/
   index_start =
     "";
+  /*global index_end:writable*/
   index_end =
     "";
+  /*global checkpoint_file_path:writable*/
   checkpoint_file_path =
     "";
+  /*global chunks_files_paths:writable*/
   chunks_files_paths =
     [];
+  /*global quiet:writable*/
   quiet =
     "";
 }
@@ -289,21 +307,37 @@ if ( _cmdline_check(
   _config_show();
   app_opts = [
     retries_max,
+    /*global api_key_path*/
     api_key_path,
+    /*global target_network*/
     target_network,
+    /*global deployments_dir*/
     deployments_dir,
+    /*global fs_version*/
     fs_version,
+    /*global rpc_selection*/
     rpc_selection,
+    /*global contract_address*/
     contract_address,
+    /*global abi_path*/
     contract_abi_path,
+    /*global bytecode_path*/
     contract_bytecode_path,
+    /*global compiler_output_path*/
     contract_compiler_output_path,
+    /*global method_objects*/
     method_objects,
+    /*global publication_namespace*/
     publication_namespace,
+    /*global file_hash*/
     file_hash,
+    /*global index_start*/
     index_start,
+    /*global index_end*/
     index_end,
+    /*global checkpoint_file_path*/
     checkpoint_file_path,
+    /*global chunks_files_path*/
     chunks_files_paths,
   ];
   _evmfs.apply(
