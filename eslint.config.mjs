@@ -50,7 +50,8 @@ export default defineConfig([
          {  ...globals.browser,
             ...globals.node} } },
  { files:
-     [ "**/*.js" ],
+     [ "**/*.js",
+       "evmfs/*" ],
    languageOptions:
      { sourceType:
          "commonjs" } },
