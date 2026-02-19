@@ -26,9 +26,25 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
 /*eslint no-undef: "error"*/
 /*eslint no-unused-vars: ["error", { "vars": "local" }]*/
+
+const
+  _libcrash =
+    require(
+      "crash-js");
+/*global _cmdline_check*/
+const
+  _cmdline_check =
+    _libcrash._cmdline_check;
+/*global _msg_info*/
+const
+  _msg_info =
+    _libcrash._msg_info;
+/*global _msg_error*/
+const
+  _msg_error =
+    _libcrash._msg_error;
 const
   _ccget_module =
     require(
@@ -182,9 +198,11 @@ async function
   let
     _msg;
   _msg =
-    "stub";
+    `stub '${_stub}'.`;
+  _msg =
+    _msg + _msg;
   _msg_info(
-  _msg);
+    _msg);
 }
 
 function
