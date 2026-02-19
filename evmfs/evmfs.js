@@ -152,6 +152,7 @@ function
     _text;
   _text = [
     "Hello.",
+  ];
   for ( _line of _text ) {
     _msg_info(
       _line);
