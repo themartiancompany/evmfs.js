@@ -246,7 +246,7 @@ build-npm:
 	  build-man
 	cp \
 	  -r \
-	  $(NPM_FILES) \
+	  $(_NPM_FILES) \
 	  "build"; \
 	cd \
 	  "build"; \
