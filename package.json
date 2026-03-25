@@ -2,7 +2,7 @@
   "name":
     "evmfs",
   "version":
-    "0.0.2",
+    "0.0.3",
   "description":
     "Multi-level distributed, network-independent, cross-network, uncensorable, undeletable, permissionless file system running on Ethereum Virtual Machine-compatible networks.",
   "funding":
@@ -33,6 +33,26 @@
     "./man/evmfs.js.publish.bulk.1",
     "./man/evmfs.js.verify.1"
   ],
+  "bin":
+    { "evmfs.js.ccget":
+        "evmfs/evmfs.js.ccget",
+      "evmfs.js.check":
+        "evmfs/evmfs.js.check",
+      "evmfs.js.get":
+        "evmfs/evmfs.js.get",
+      "evmfs.js.index":
+        "evmfs/evmfs.js.index",
+      "evmfs.js.lengthlock":
+        "evmfs/evmfs.js.lengthlock",
+      "evmfs.js.lock":
+        "evmfs/evmfs.js.lock",
+      "evmfs.js.publish":
+        "evmfs/evmfs.js.publish",
+      "evmfs.js.publish.bulk":
+        "evmfs/evmfs.js.publish.bulk",
+      "evmfs.js.verify":
+        "evmfs/evmfs.js.verify"
+    },
   "keywords": [
     "crash-bash",
     "dogeos",
