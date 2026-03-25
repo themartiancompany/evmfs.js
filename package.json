@@ -16,7 +16,6 @@
     "COPYING",
     "README.md",
     "evmfs",
-    "libevmfs",
     "contracts",
     "eslint.config.mjs",
     "man",

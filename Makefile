@@ -52,7 +52,6 @@ _NPM_FILES:=\
   README.md \
   eslint.config.mjs \
   fs-worker.webpack.config.cjs \
-  $(NODE_FILES) \
   package.json \
   webpack.config.cjs
 
@@ -248,6 +247,10 @@ build-npm:
 	  -r \
 	  $(_NPM_FILES) \
 	  "build"; \
+	cp \
+	  -r \
+	  "evmfs" \
+	  "build"; \
 	cd \
 	  "build"; \
 	_version="$$( \
@@ -293,8 +296,8 @@ install-node-scripts:
 
 	for _file in $(_NODE_FILES); do \
 	  $(_INSTALL_EXE) \
-	  "$${_file}" \
-	  "$(LIB_DIR)/$${_file}"; \
+	    "$${_file}" \
+	    "$(LIB_DIR)/$${_file}"; \
 	done
 
 install-man:
