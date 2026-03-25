@@ -42,6 +42,15 @@ _NODE_FILES:=\
   publish \
   publish-bulk \
   verify
+_NPM_FILES=\
+  "AUTHORS.rst" \
+  "COPYING" \
+  "README.md" \
+  eslint.config.mjs \
+  fs-worker.webpack.config.cjs \
+  $(NODE_FILES) \
+  package.json \
+  webpack.config.cjs
 
 _INSTALL_FILE=install -vDm644
 _INSTALL_DIR=install -vdm755
@@ -124,6 +133,33 @@ clean:
 	rm \
 	  -rf \
 	  "$(BUILD_DIR)"
+
+build-npm:
+
+	make \
+	  build-man
+	cp \
+	  -r \
+	  $(NPM_FILES) \
+	  "build"; \
+	cd \
+	  "build"; \
+	_version="$$( \
+	  npm \
+	    view \
+	      "$${PWD}" \
+	      "version")"; \
+	npm \
+	  install; \
+	npm \
+	  run \
+	    "build"; \
+	npm \
+	  pack; \
+	mv \
+	  "$(_PROJECT_NPM)-$${_version}.tgz" \
+	  ".."
+
 
 contracts:
 
