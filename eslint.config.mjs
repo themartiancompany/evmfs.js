@@ -29,7 +29,7 @@ import { defineConfig } from "eslint/config";
 
 const
   _project =
-    "encoding-tools";
+    "evmfs";
 
 export default defineConfig([
  {

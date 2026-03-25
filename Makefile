@@ -22,11 +22,13 @@
 SHELL=bash
 PREFIX ?= /usr/local
 SOLIDITY_COMPILER_BACKEND ?= solc
-_PROJECT=evmfs.js
+_PROJECT_NPM=evmfs
+_PROJECT=$(_PROJECT_NPM).js
 DOC_DIR=$(DESTDIR)$(PREFIX)/share/doc/$(_PROJECT)
 BIN_DIR=$(DESTDIR)$(PREFIX)/bin
 LIB_DIR=$(DESTDIR)$(PREFIX)/lib/$(_PROJECT)
 MAN_DIR?=$(DESTDIR)$(PREFIX)/share/man
+USR_DIR=$(DESTDIR)$(PREFIX)
 BUILD_DIR=build
 
 DOC_FILES=\
@@ -38,48 +40,57 @@ _NODE_FILES:=\
   get \
   index \
   lengthlock \
+  libevmfs \
   lock \
   publish \
-  publish-bulk \
+  publish.bulk \
   verify
-_NPM_FILES=\
-  "AUTHORS.rst" \
-  "COPYING" \
-  "README.md" \
+
+_NPM_FILES:=\
+  AUTHORS.rst \
+  COPYING \
+  README.md \
   eslint.config.mjs \
   fs-worker.webpack.config.cjs \
   $(NODE_FILES) \
   package.json \
   webpack.config.cjs
 
-_INSTALL_FILE=install -vDm644
-_INSTALL_DIR=install -vdm755
-_INSTALL_EXE=install -vDm755
+_INSTALL_FILE=\
+  install \
+    -vDm644
+_INSTALL_DIR=\
+  install \
+    -vdm755
+_INSTALL_EXE=\
+  install \
+    -vDm755
 
 _INSTALL_CONTRACTS_DEPLOYMENT_FUN:=\
   install-contracts-deployments-$(SOLIDITY_COMPILER_BACKEND)
 _BUILD_TARGETS:=\
-  contracts
+  build-npm
+  # contracts
 _BUILD_TARGETS_ALL:=\
   all \
   $(_BUILD_TARGETS)
 _CHECK_TARGETS:=\
-  shellcheck
+  eslint
 _CHECK_TARGETS_ALL:=\
   check \
   $(_CHECK_TARGETS)
 _CLEAN_TARGETS_ALL:=\
   clean
-_INSTALL_CONTRACTS_TARGETS:=\
-  $(_INSTALL_CONTRACTS_DEPLOYMENT_FUN) \
-  install-contracts-deployments-config \
-  install-contracts-sources
-_INSTALL_CONTRACTS_TARGETS_ALL:=\
-  install-contracts \
-  install-contracts-deployments-hardhat \
-  install-contracts-deployments-solc \
-  install-contracts-deployments-config \
-  install-contracts-sources
+# _INSTALL_CONTRACTS_TARGETS:=\
+#   $(_INSTALL_CONTRACTS_DEPLOYMENT_FUN)  \
+#   install-contracts-deployments-config \
+#   install-contracts-sources
+# _INSTALL_CONTRACTS_TARGETS_ALL:=\
+#   install-contracts \
+#   install-contracts-deployments-hardhat \
+#   install-contracts-deployments-solc \
+#   install-contracts-deployments-config \
+#   install-contracts-sources
 _INSTALL_DOC_TARGETS:=\
   install-doc \
   install-man
@@ -90,13 +101,13 @@ _INSTALL_SCRIPTS_TARGETS_ALL:=\
   install-scripts
 _INSTALL_TARGETS:=\
   $(_INSTALL_DOC_TARGETS) \
-  $(_INSTALL_CONTRACTS_TARGETS) \
   install-scripts
+  # $(_INSTALL_CONTRACTS_TARGETS)
 _INSTALL_TARGETS_ALL:=\
   install \
   $(_INSTALL_DOC_TARGETS) \
-  $(_INSTALL_CONTRACTS_TARGETS_ALL) \
   $(_INSTALL_SCRIPTS_TARGETS_ALL)
+  # $(_INSTALL_CONTRACTS_TARGETS_ALL)
 _UNINSTALL_SCRIPTS_TARGETS:=\
   uninstall-node-scripts
 _UNINSTALL_SCRIPTS_TARGETS_ALL:=\
@@ -110,6 +121,7 @@ _UNINSTALL_TARGETS_ALL:=\
 _PHONY_TARGETS:=\
   $(_BUILD_TARGETS_ALL) \
   $(_CHECK_TARGETS_ALL) \
+  $(_BUILD_TARGETS_ALL) \
   $(_CLEAN_TARGETS_ALL) \
   $(_INSTALL_TARGETS_ALL) \
   $(_UNINSTALL_TARGETS_ALL)
@@ -133,33 +145,6 @@ clean:
 	rm \
 	  -rf \
 	  "$(BUILD_DIR)"
-
-build-npm:
-
-	make \
-	  build-man
-	cp \
-	  -r \
-	  $(NPM_FILES) \
-	  "build"; \
-	cd \
-	  "build"; \
-	_version="$$( \
-	  npm \
-	    view \
-	      "$${PWD}" \
-	      "version")"; \
-	npm \
-	  install; \
-	npm \
-	  run \
-	    "build"; \
-	npm \
-	  pack; \
-	mv \
-	  "$(_PROJECT_NPM)-$${_version}.tgz" \
-	  ".."
-
 
 contracts:
 
@@ -236,6 +221,49 @@ install-contracts-deployments-hardhat:
 	    "n" \
 	  install_deployments
 
+build-man:
+
+	mkdir \
+	  -p \
+	  "$(BUILD_DIR)/man"
+	for _program in $(_NODE_FILES); do \
+	  rst2man \
+	    "man/$(_PROJECT_NPM).$${_program}.1.rst" \
+	    "$(BUILD_DIR)/$(_PROJECT_NPM).$${_program}.1"; \
+	done; \
+
+build-npm:
+
+	make \
+	  build-man
+	cp \
+	  -r \
+	  $(NPM_FILES) \
+	  "build"; \
+	cd \
+	  "build"; \
+	_version="$$( \
+	  npm \
+	    view \
+	      "$${PWD}" \
+	      "version")"; \
+	npm \
+	  install; \
+	npm \
+	  run \
+	    "build"; \
+	npm \
+	  pack; \
+	mv \
+	  "$(_PROJECT_NPM)-$${_version}.tgz" \
+	  ".."
+
+eslint:
+
+	npm \
+	  run \
+	    lint
+
 install-doc:
 
 	$(_INSTALL_FILE) \
@@ -257,7 +285,7 @@ install-node-scripts:
 
 	for _file in $(_NODE_FILES); do \
 	  $(_INSTALL_EXE) \
-	  "$(_PROJECT)/nodejs/$${_file}" \
+	  "$${_file}" \
 	  "$(LIB_DIR)/$${_file}"; \
 	done
 
@@ -271,10 +299,54 @@ install-man:
 	    "$(MAN_DIR)/man1/$${_file}.1"; \
 	done
 
+install-npm:
+
+	_npm_opts=( \
+	  -g \
+	  --prefix \
+	    "$(USR_DIR)" \
+	); \
+	_version="$$( \
+	  npm \
+	    view \
+	      "$${PWD}" \
+	      "version")"; \
+	npm \
+	  install \
+	    "$${_npm_opts[@]}" \
+	    "$(_PROJECT_NPM)-$${_version}.tgz"; \
+	$(_INSTALL_DIR) \
+	  "$$(dirname \
+	      "$(LIB_DIR)")"; \
+	ln \
+	  -s \
+	  "$(NODE_DIR)/$(_PROJECT_NPM)" \
+	  "$(LIB_DIR)" || \
+	true; \
+	ln \
+	  -s \
+	  "$(NODE_DIR)/fs-utils" \
+	  "$(LIB_DIR)/fs-utils" || \
+	true; \
+	ln \
+	  -s \
+	  "$(NODE_DIR)/fs-worker" \
+	  "$(LIB_DIR)/fs-worker" || \
+	true; \
+	ln \
+	  -s \
+	  "$(NODE_DIR)/utils" \
+	  "$(LIB_DIR)/utils" || \
+	true
+
+
 publish-npm:
 
-	cd \
+	mkdir \
+	  -p \
 	  "build"; \
+	cd \
+	  "$(BUILD_DIR)"; \
 	npm \
 	  publish
 

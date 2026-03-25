@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 /**    ----------------------------------------------------------------------
- *     index
+ *     evmfs.js.index
  *     ----------------------------------------------------------------------
  *     Copyright ©
  *       Pellegrino Prevete
@@ -29,7 +29,7 @@
 const
   _libcrash =
     require(
-      "../libcrash-js/crash-js");
+      "crash-js");
 _dirname =
   _libcrash._dirname;
 _file_write =
@@ -42,19 +42,23 @@ const
   _evm_contract_call_dynamic_module =
     require(
       '../evm-contracts-tools/evm-contract-call-dynamic');
+/*global _contract_run, a*/
+/*eslint no-undef: "error"*/
 _contract_run =
   _evm_contract_call_dynamic_module._contract_run;
 const
   _ccget_module =
     require(
-      "./ccget");
+      "./evmfs.js.ccget");
+/*global _references_read, a*/
+/*eslint no-undef: "error"*/
 _references_read =
   _ccget_module._references_read;
 
 function
   _global_variables() {
   app_name =
-    "index";
+    "evmfs.js.index";
   retries_max =
     "";
   call_timeout =
@@ -97,23 +101,10 @@ function
     _progress,
     _total) {
   let
-    _msg,
-    _template;
-  _template =
-    "Indexing chunk '{_index}'" +
-    "('{_progress}'of '{_total}').";
+    _msg;
   _msg =
-    _template.replaceAll(
-      "{_index}",
-      _index);
-  _msg =
-    _msg.replaceAll(
-      "{_progress}",
-      _progress);
-  _msg =
-    _msg.replaceAll(
-      "{_total}",
-      _total);
+    `Indexing chunk '${_index}'` +
+    `('${_progress}'of '${_total}').`;
   _msg_info(
     _msg);
 }
@@ -124,23 +115,10 @@ function
     _progress,
     _total) {
   let
-    _msg,
-    _template;
-  _template =
-    "Indexed chunk '{_index}' " +
-    "('{_progress}'of '{_total}').";
+    _msg;
   _msg =
-    _template.replaceAll(
-      "{_index}",
-      _index);
-  _msg =
-    _msg.replaceAll(
-      "{_progress}",
-      _progress);
-  _msg =
-    _msg.replaceAll(
-      "{_total}",
-      _total);
+    `Indexed chunk '${_index}' ` +
+    `('${_progress}'of '${_total}').`;
   _msg_info(
     _msg);
 }
@@ -151,14 +129,19 @@ function
   let
     _message;
   if ( "error" in error &&
-       error["error"] != undefined &&
-       "message" in error["error"] ) {
+       error[
+         "error"] != undefined &&
+       "message" in error[
+                      "error"] ) {
     _message =
-      error["error"]["message"];
+      error[
+        "error"][
+          "message"];
   }
   else if ( "shortMessage" in error ) {
     _message =
-      error["shortMessage"];
+      error[
+        "shortMessage"];
   }
   _msg_error(
     _message,
@@ -168,30 +151,43 @@ function
 function
   _input_data_check(
     _chunks_total) {
+  let
+    _msg;
   if ( _chunks_total < 1 ) {
+    _msg =
+      "Upper chunk index lower " +
+      "than lower chunk index.";
     _msg_error(
-      "Upper chunk index lower than lower chunk index.",
+      _msg,
       1);
   }
+  _msg =
+    "Input data checked.";
   _msg_info(
-    "Input data checked.");
+    _msg);
 }
 
 async function
   _chunk_index(
     _contract_run_opts) {
   let
+    _msg,
     _tx;
   try {
     _tx = await
       _contract_run.apply(
         null,
         _contract_run_opts);
-  } catch(e) {
-    _msg_error(
+  } catch(
+      _error) {
+    console.error(
+      _error);
+    _msg =
       "Error indexing chunk.",
+    _msg_error(
+      _msg,
       0);
-    throw e;
+    throw _error;
   }
   return _tx;
 }
@@ -227,7 +223,9 @@ async function
     _reference,
     _tx,
     _wallet_password;
-  if ( _call_timeout == "" ) {
+  if ( typeof(
+         _call_timeout) === "undefined" ||
+       _call_timeout == "" ) {
     _call_timeout =
       300000;
   }
@@ -341,8 +339,10 @@ async function
     _progress =
       _progress + 1;
   }
+  _msg =
+    "All chunks correcly indexed.";
   _msg_info(
-    "All chunks correcly indexed.");
+    _msg);
 }
 
 function
@@ -350,78 +350,29 @@ function
   let
     _line,
     _text;
-  _text =
-    [];
-  _text.push(
+  _text = [
     " Index configuration:"
-  );
-  _text.push(
-    "          Maximum retries: {retries_max}".replace(
-      "{retries_max}",
-      retries_max));
-  _text.push(
-    "            Call timeout: {call_timeout}".replace(
-      "{call_timeout}",
-      call_timeout));
-  _text.push(
-    "              Wallet seed: {wallet_seed_path}".replace(
-      "{wallet_seed_path}",
-      wallet_seed_path));
-  _text.push(
-    "                  API Key: {api_key_path}".replace(
-      "{api_key_path}",
-      api_key_path));
-  _text.push(
-    "           Target network: {target_network}".replace(
-      "{target_network}",
-      target_network));
-  _text.push(
-    "         Contract address: {contract_address}".replace(
-      "{contract_address}",
-      contract_address));
-  _text.push(
-    "             Contract ABI: {contract_abi_path}".replace(
-      "{contract_abi_path}",
-      contract_abi_path));
-  _text.push(
-    "        Contract bytecode: {contract_bytecode_path}".replace(
-      "{contract_bytecode_path}",
-      contract_bytecode_path));
-  _text.push(
-    " Contract compiler output: {contract_compiler_output_path}".replace(
-      "{contract_compiler_output_path}",
-      contract_compiler_output_path));
-  _text.push(
-    "    Publication namespace: {publication_namespace}".replace(
-      "{publication_namespace}",
-      publication_namespace));
-  _text.push(
-    "                File hash: {file_hash}".replace(
-      "{file_hash}",
-      file_hash));
-  _text.push(
-    "              Index start: {index_start}".replace(
-      "{index_start}",
-      index_start));
-  _text.push(
-    "                Index end: {index_end}".replace(
-      "{index_end}",
-      index_end));
-  _text.push(
-    "           Chunk chain ID: {chunk_chain_id}".replace(
-      "{chunk_chain_id}",
-      chunk_chain_id));
-  _text.push(
-    "         Chunk FS address: {chunk_fs_address}".replace(
-      "{chunk_fs_address}",
-      chunk_fs_address));
-  _text.push(
-    "     Checkpoint file path: {checkpoint_file_path}".replace(
-      "{checkpoint_file_path}",
-      checkpoint_file_path));
+    `          Maximum retries: ${retries_max}`,
+    `             Call timeout: ${call_timeout}`,
+    `              Wallet seed: ${wallet_seed_path}`,
+    `                  API Key: ${api_key_path}`,
+    `           Target network: ${target_network}`,
+    `         Contract address: ${contract_address}`,
+    `             Contract ABI: ${contract_abi_path}`,
+    `        Contract bytecode: ${contract_bytecode_path}`,
+    ` Contract compiler output: ${contract_compiler_output_path}`,
+    `    Publication namespace: ${publication_namespace}`,
+    `                File hash: ${file_hash}`,
+    `              Index start: ${index_start}`,
+    `                Index end: ${index_end}`,
+    `           Chunk chain ID: ${chunk_chain_id}`,
+    `         Chunk FS address: ${chunk_fs_address}`,
+    `     Checkpoint file path: ${checkpoint_file_path}`,
+  ];
   for ( _line in _text ) {
     _msg_info(
-      _text[_line]);
+      _text[
+        _line]);
   }
 }
 
@@ -437,49 +388,49 @@ function
     "Usage:",
     "  index",
     "    <quiet>",
-    "    <retries_max>",
-    "    <call_timeout>",
-    "    <api_key_path>",
-    "    <target_network>",
-    "    <contract_address>",
-    "    <contract_abi_path>",
-    "    <contract_bytecode_path>",
-    "    <contract_compiler_output_path>",
-    "    <publication_namespace>",
-    "    <index_start>",
-    "    <file_hash>",
-    "    <index_start>",
-    "    <index_end>",
-    "    <chunk_chain_id>",
-    "    <chunk_fs_address>",
-    "    <checkpoint_file_path>",
+    "    <retries-max>",
+    "    <call-timeout>",
+    "    <api-key-path>",
+    "    <target-network>",
+    "    <contract-address>",
+    "    <contract-abi-path>",
+    "    <contract-bytecode-path>",
+    "    <contract-compiler-output-path>",
+    "    <publication-namespace>",
+    "    <index-start>",
+    "    <file-hash>",
+    "    <index-start>",
+    "    <index-end>",
+    "    <chunk-chain-id>",
+    "    <chunk-fs-address>",
+    "    <checkpoint-file-path>",
     "",
     "Args:",
     "  <quiet>                          Can be 'y' or 'n'",
     "                                   Default: y",
-    "  <retries_max>                    Maximum number of retries before",
+    "  <retries-max>                    Maximum number of retries before",
     "                                   failing.",
-    "  <call_timeout>                   How many milliseconds to wait for a return",
+    "  <call-timeout>                   How many milliseconds to wait for a return",
     "                                   before declaring the call failed.",
-    "  <api_key_path>                   Path of the API key for the",
+    "  <api-key-path>                   Path of the API key for the",
     "                                   contract ABI provider service.",
-    "  <target_network>                 Network on which the contract",
+    "  <target-network>                 Network on which the contract",
     "                                   resides.",
-    "  <contract_address>               Address of the contract.",
-    "  <contract_abi_path>              Contract ABI path.",
-    "  <contract_bytecode_path>         Path for the contract bytecode.",
-    "  <contract_compiler_output_path>  Path for the contract compiler",
+    "  <contract-address>               Address of the contract.",
+    "  <contract-abi_path>              Contract ABI path.",
+    "  <contract-bytecode_path>         Path for the contract bytecode.",
+    "  <contract-compiler_output_path>  Path for the contract compiler",
     "                                   output path (the hardhat artifact).",
-    "  <publication_namespace>          Namespace in which the file is being",
+    "  <publication-namespace>          Namespace in which the file is being",
     "                                   published.",
-    "  <file_hash>                      Hash of the file to publish.",
-    "  <index_start>                    Chunk index from where to start.",
-    "  <index_end>                      Final chunk index to index.",
-    "  <chunk_chain_id>                 Chain ID of the network on which",
+    "  <file-hash>                      Hash of the file to publish.",
+    "  <index-start>                    Chunk index from where to start.",
+    "  <index-end>                      Final chunk index to index.",
+    "  <chunk-chain-id>                 Chain ID of the network on which",
     "                                   the chunk has been published.",
-    "  <chunk_fs_address>               File system address on which",
+    "  <chunk-fs-address>               File system address on which",
     "                                   the chunk has been published.",
-    "  <checkpoint_file_path>           Checkpoint file on which latest",
+    "  <checkpoint-file-path>           Checkpoint file on which latest",
     "                                   downloaded chunk index is saved",
     "                                   in case node was to crash.",
   ];
@@ -577,10 +528,25 @@ function
           0);
       }
   });
-  if ( file_hash == "" ||
-       publication_namespace == "" ) {
+  if ( file_hash == "" ) {
     quiet =
       "n";
+    _msg =
+      "No file hash given.";
+    _msg_error(
+      _msg,
+      0);
+    _usage(
+      1);
+  }
+  if ( publication_namespace == "" ) {
+    quiet =
+      "n";
+    _msg =
+      "No publication namespace given.";
+    _msg_error(
+      _msg,
+      0);
     _usage(
       1);
   }
@@ -595,7 +561,7 @@ function
 }
 
 if ( _cmdline_check(
-       "index") == true ) {
+       "evmfs.js.index") == true ) {
   _global_variables();
   _cmdline_parse();
   _overrides_set();

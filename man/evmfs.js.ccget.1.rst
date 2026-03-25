@@ -21,21 +21,21 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-==============
-evmfs-get
-==============
+================
+evmfs.js.ccget
+================
 
---------------------------------------------------------
-Ethereum Virtual Machine File System download program
---------------------------------------------------------
-:Version: evmfs-get |version|
+-------------------------------------------------------------------
+Ethereum Virtual Machine Cross Chain File System download program
+-------------------------------------------------------------------
+:Version: evmfs.js.ccget |version|
 :Manual section: 1
 
 
 Synopsis
 ========
 
-evmfs-get *[options]* *-o* *output-file* *address*
+evmfs.js.ccget *quiet* *retries-max* *api-key-path* *target-network* *deployments-dir *fs-version* *rpc-selection* *contract-address* *contract-abi-path* *contract-bytecode-path* *contract-compiler-output-path *publication-namespace* *index-start* *file-hash* *index-start* *index-end* *checkpoint-file-path* *chunk-file-path*
 
 
 Description
@@ -43,6 +43,89 @@ Description
 
 Program used to retrieve files from the
 Ethereum Virtual Machine File System (EVMFS).
+
+
+Arguments
+==========
+
+*quiet*
+
+  Can be 'y' or 'n'.
+  Default: y
+  
+*retries-max*
+
+  Maximum number of retries before",
+  failing (not implemented).
+
+*api-key-path*
+
+  Path of the API key for the
+  contract ABI provider service.
+
+*target-network*
+
+  Network on which the contract
+  resides.
+
+*deployments-dir*
+
+  Contracts deployments directory.
+
+*fs-version*
+
+  Version of the target file
+  system contract.
+  Default: 1.0
+
+*rpc-selection*
+
+  RPC selection method.
+  Default: first
+  
+*contract-address*
+
+  Address of the contract.
+
+*contract-abi-path*
+
+  Contract ABI path.
+
+*contract-bytecode-path*
+
+  Path for the contract bytecode.
+
+*contract-compiler-output-path*
+
+  Path for the contract compiler
+  output path (the hardhat artifact).
+
+*publication-namespace*
+
+  Namespace in which the file will be
+  published.
+  
+*file-hash*
+
+  Hash of the file to publish.
+
+*index-start* 
+
+  Chunk index from where to start.
+
+*index-end*
+
+  Final chunk index to download.
+  
+*checkpoint-file-path*
+
+  Checkpoint file on which latest
+  downloaded chunk index is saved
+  in case node was to crash.
+
+*[chunk_file_path]*
+
+  Files in which to write the chunks.
 
 
 Networks
@@ -68,62 +151,14 @@ EVMFS deployments, refer to those programs' manuals.
 Options
 =======
 
--o output_file          Name of the file in which to save
-                        the downloaded resource.
--m call_method          Can be standalone or 'bulk'.
--r retries_max          Maximum number of retries before
-                        failing.
--P tasks_parallel       Tasks to perform in parallel.
-
-
-Contract options
-=================
-
--A fs_address           Address of the EVM file system
-                        on the network.
--B ll_address           Address of the Length Lock contract
-                        on the network.
--C ccfs_address         Address of the CrossChainFileSystem
-                        contract on the network.
--V fs_version           Version of the target EVM file
-                        system.
-
-
-LibEVM options
-================
-
--u                      Whether to retrieve file system
-                        address from user directory or custom
-                        deployment.
--d deployments_dir      Contracts deployments directory.
--n network              EVM network name (${_networks[*]}).
-
-
-Credentials options
-====================
-
--N wallet_name>         Wallet name.
--w wallet_path>         Wallet path.
--p wallet_password>     Wallet password.
--s wallet_seed          Wallet seed path.
--k api_key              Etherscan-like service key.
-
-
-Application options
-====================
-
--W cache_dir            Location where to temporary store
-                        the downloaded resource chunks.
-
 -h                      Displays help message.
--c                      Enable color output
 -v                      Enable verbose output
 
 
 Bugs
 ====
 
-https://github.com/themartiancompany/evmfs/-/issues
+https://github.com/themartiancompany/evmfs.js/-/issues
 
 
 Copyright
@@ -134,6 +169,13 @@ Copyright Pellegrino Prevete. AGPL-3.0.
 See also
 ========
 
+* evmfs.js.check
+* evmfs.js.get
+* evmfs.js.index
+* evmfs.js.lengthlock
+* evmfs.js.lock
+* evmfs.js.publish
+* evmfs.js.veryfy
 * evmfs
 * evmfs-publish
 * evm-wallet
