@@ -236,7 +236,7 @@ build-man:
 	  if [[ "$${_program}" != "libevmfs" ]]; then \
 	    rst2man \
 	      "man/$(_PROJECT).$${_program}.1.rst" \
-	      "$(BUILD_DIR)/$(_PROJECT).$${_program}.1"; \
+	      "$(BUILD_DIR)/man/$(_PROJECT).$${_program}.1"; \
 	  fi \
 	done; \
 
