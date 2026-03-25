@@ -148,6 +148,12 @@ clean:
 
 contracts:
 
+	git \
+	  submodule \
+	    update \
+	      --init \
+	      "contracts" || \
+	true
 	evm-make \
 	  -v \
 	  -C \
