@@ -233,9 +233,11 @@ build-man:
 	  -p \
 	  "$(BUILD_DIR)/man"
 	for _program in $(_NODE_FILES); do \
-	  rst2man \
-	    "man/$(_PROJECT_NPM).$${_program}.1.rst" \
-	    "$(BUILD_DIR)/$(_PROJECT_NPM).$${_program}.1"; \
+	  if [[ "$${_program}" != "libevmfs" ]]; then \
+	    rst2man \
+	      "man/$(_PROJECT).$${_program}.1.rst" \
+	      "$(BUILD_DIR)/$(_PROJECT).$${_program}.1"; \
+	  fi \
 	done; \
 
 build-npm:
