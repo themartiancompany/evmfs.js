@@ -105,6 +105,8 @@
       "^0.1.88",
     "encoding-tools":
       "0.0.4",
+    "ethereum-data":
+      "0.0.1",
     "yargs":
       "18.0.0"
   },

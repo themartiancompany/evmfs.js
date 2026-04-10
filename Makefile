@@ -246,10 +246,8 @@ build-npm:
 	cp \
 	  -r \
 	  $(_NPM_FILES) \
-	  "build"; \
-	cp \
-	  -r \
-	  "evmfs" \
+	  "lib$(_PROJECT_NPM)" \
+	  "$(_PROJECT_NPM)" \
 	  "build"; \
 	cd \
 	  "build"; \
