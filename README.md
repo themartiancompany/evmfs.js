@@ -22,7 +22,7 @@
 # Ethereum Virtual Machine File System Javascript reference implementation (`evmfs.js`)
 
 [![NPM version](
-  https://img.shields.io/npm/e/evmfs/evmfs.svg)](
+  https://img.shields.io/npm/last-update/:evmfs)](
     https://npmjs.org/package/evmfs)
 
 Reference Javascript implementation of the Ethereum Virtual Machine File System (EVMFS).
