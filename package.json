@@ -2,7 +2,7 @@
   "name":
     "evmfs",
   "version":
-    "0.0.4",
+    "0.0.5",
   "description":
     "Multi-level distributed, network-independent, cross-network, uncensorable, undeletable, permissionless file system running on Ethereum Virtual Machine-compatible networks.",
   "funding":
@@ -107,6 +107,8 @@
       "0.0.4",
     "ethereum-data":
       "0.0.1",
+    "evm-wallet":
+      "evm-wallet.js@^0.0.3",
     "yargs":
       "18.0.0"
   },
