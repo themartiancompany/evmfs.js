@@ -108,7 +108,7 @@
     "ethereum-data":
       "0.0.1",
     "evm-wallet":
-      "evm-wallet.js@^0.0.3",
+      "npm:evm-wallet.js@^0.0.3",
     "yargs":
       "18.0.0"
   },
