@@ -19,7 +19,16 @@
 [comment]: <> (License along with this program.)
 [comment]: <> (If not, see <https://www.gnu.org/licenses/>.)
 
-# Ethereum Virtual Machine File System Javascript reference implementation (`evmfs.js`)
+# Ethereum Virtual Machine File System (EVMFS) Javascript reference implementation (`evmfs.js`)
+
+<div
+   align="center">
+  <img
+     src="https://raw.githubusercontent.com/themartiancompany/evmfs-data/2fb357f70c07ab25ef5c74b6558d23e63f8a26e2/evmfs.png"
+     width="500"
+     align="center"
+  />
+</div>
 
 [![NPM version](
   https://img.shields.io/npm/last-update/evmfs)](
