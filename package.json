@@ -37,7 +37,12 @@
     "./man/evmfs.js.verify.1"
   ],
   "bin":
-    { "evmfs.js.ccget":
+    {
+      "evmfs":
+        "evmfs",
+      "evmfs.js":
+        "evmfs" },
+      "evmfs.js.ccget":
         "evmfs/evmfs.js.ccget",
       "evmfs.js.check":
         "evmfs/evmfs.js.check",
@@ -113,7 +118,7 @@
     "evm-wallet":
       "npm:evm-wallet.js@^0.0.3",
     "evmfs-contracts":
-      "0.0.3",
+      "0.0.2",
     "yargs":
       "18.0.0"
   },
@@ -121,11 +126,6 @@
     "commonjs",
   "main":
     "libevmfs",
-  "bin": {
-    "evmfs":
-      "evmfs",
-    "evmfs.js":
-      "evmfs" },
   "scripts":
     { "build":
         "npm run lint && npm run build-lib && npm build-bin",
