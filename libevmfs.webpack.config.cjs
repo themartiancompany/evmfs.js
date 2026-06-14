@@ -1,5 +1,5 @@
 /**    ----------------------------------------------------------------
- *     webpack.config.cjs
+ *     libevmfs.webpack.config.cjs
  *     ----------------------------------------------------------------
  *     Copyright ©
  *       Pellegrino Prevete
@@ -33,7 +33,7 @@ const
       __dirname);
 const
   _input_file_name =
-    `evmfs`;
+    `libevmfs`;
 const
   _input_file_path =
     `./${_input_file_name}`;

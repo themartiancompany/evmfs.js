@@ -28,39 +28,39 @@
 const
   _check_module =
     require(
-      "./check");
+      "./lib/check");
 const
   _ccget_module =
     require(
-      "./ccget");
+      "./lib/ccget");
 const
   _get_module =
     require(
-      "./get");
+      "./lib/get");
 const
   _index_module =
     require(
-      "./index");
+      "./lib/index");
 const
   _lengthlock_module =
     require(
-      "./lengthlock");
+      "./lib/lengthlock");
 const
   _lock_module =
     require(
-      "./lock");
+      "./lib/lock");
 const
   _publish_module =
     require(
-      "./publish");
+      "./lib/publish");
 const
   _publish_bulk_module =
     require(
-      "./publish.bulk");
+      "./lib/publish.bulk");
 const
   _verify_module =
     require(
-      "./verify");
+      "./lib/verify");
 
 module.exports = {
   _ccget:
