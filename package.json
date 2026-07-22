@@ -42,23 +42,23 @@
       "evmfs.js":
         "evmfs",
       "evmfs.js.ccget":
-        "evmfs/evmfs.js.ccget",
+        "lib/evmfs.js.ccget",
       "evmfs.js.check":
-        "evmfs/evmfs.js.check",
+        "lib/evmfs.js.check",
       "evmfs.js.get":
-        "evmfs/evmfs.js.get",
+        "lib/evmfs.js.get",
       "evmfs.js.index":
-        "evmfs/evmfs.js.index",
+        "lib/evmfs.js.index",
       "evmfs.js.lengthlock":
-        "evmfs/evmfs.js.lengthlock",
+        "lib/evmfs.js.lengthlock",
       "evmfs.js.lock":
-        "evmfs/evmfs.js.lock",
+        "lib/evmfs.js.lock",
       "evmfs.js.publish":
-        "evmfs/evmfs.js.publish",
+        "lib/evmfs.js.publish",
       "evmfs.js.publish.bulk":
-        "evmfs/evmfs.js.publish.bulk",
+        "lib/evmfs.js.publish.bulk",
       "evmfs.js.verify":
-        "evmfs/evmfs.js.verify" },
+        "lib/evmfs.js.verify" },
   "keywords": [
     "dogeos",
     "opfs",
@@ -115,6 +115,8 @@
       "0.0.4",
     "evm-wallet.js":
       "0.0.72",
+    "libevm":
+      "0.0.32",
     "evmfs-contracts":
       "0.0.2",
     "yargs":
@@ -122,7 +124,9 @@
   },
   "overrides": {
     "evm-wallet":
-      "evm-wallet.js"
+      "npm:evm-wallet.js@0.0.72",
+    "libevm":
+      "0.0.32"
   },
   "type":
     "commonjs",
