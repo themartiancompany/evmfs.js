@@ -244,10 +244,10 @@ function
 
 function
   _overrides_set() {
-  if ( rpc_selection == "" ) {
-    rpc_selection =
-      "kirsh";
-  }
+  _override_set(
+    "rpc",
+    "selection",
+    "kirsh");
 }
 
 function
@@ -390,8 +390,89 @@ function
 
 }
 
+# Shows configuration options.
+_show_config() {
+  TZ=UTC \
+  _msg_info "       Contract configuration:"
+  _msg_info "            File system address:   ${fs_address}"
+  _msg_info "Cross-chain file system address:   ${ccfs_address}"
+  _msg_info "            File system version:   ${fs_version}"
+  _msg_info "         LibEVM configuration:"
+  _msg_info "                     User level:   ${user_level}"
+  _msg_info "          Deployments directory:   ${deployments_dir}"
+  _msg_info "                 Target network:   ${target_network}"
+  _msg_info "    Credentials configuration:"
+  _msg_info "                    Wallet name:   ${wallet_name}"
+  _msg_info "                    Wallet path:   ${wallet_path}"
+  _msg_info "                Wallet password:   ${wallet_password}"
+  _msg_info "                    Wallet seed:   ${wallet_seed}"
+  _msg_info "                        API key:   ${api_key}"
+  _msg_info "    Application configuration:"
+  _msg_info "                Cache directory:   ${cache_dir}"
+}
+
+function
+  _config_show() {
+  /* LibEVM-defined global variables */
+  /* global
+       api_key */
+  /* global
+       wallet_address */
+  /* global
+       wallet_password */
+  /* global
+       wallet_path */
+  /* global
+       wallet_seed */
+  let
+    _line;
+  const
+    _text = [
+      `${app_name} configuration:`,
+      `                  Call date:   ${call_date}`,
+      `            Runtime environment:   ${runtime_environment}`,
+      `                  Target command:   ${target_command}`,
+      `                      Target key:   ${target_key}`,
+      `                    Target value:   ${target_value}`,
+      `                   Index network:   ${target_network}`,
+      `                     Call method:   ${target_network}`,
+      `                    Chunk length:   ${chunk_length}`,
+      `           Publication options:`,
+      `                       Lock only:   ${lock_only}`,
+      `                   Skip encoding:   ${encoding_skip}`,
+      "              Download options:",
+      `                     Output type:   ${output_type}`,
+      "              Contract options:",
+      `             File system address:   ${fs_address}`,
+      ` Cross-chain file system address:   ${ccfs_address}`,
+      `             File system version:   ${fs_version}`,
+      `           Credentials options:`,
+      `                     Wallet name:   ${wallet_name}`,
+      `                  Wallet address:   ${wallet_address}`,
+      `                     Wallet path:   ${wallet_path}`,
+      `                     Wallet seed:   ${wallet_seed}`,
+      `                         API Key:   ${api_key}`,
+      "                LibEVM options:",
+      `                      User level:   ${user_level}`,
+      `           Deployments directory:   ${deployments_dir}`,
+      `                  Target network:   ${target_network}`,
+      `               Network options:`,
+      `                 Maximum retries:   ${retries_max}`,
+      `                    Call timeout:   ${call_timeout}`,
+      `                  Parallel tasks:   ${tasks_parallel}`,
+      `           Application options:`,
+      `                 Cache directory:   ${cache_dir}`,
+    ];
+  for ( _line of _text ) {
+    _msg_info(
+      _line);
+  }
+}
+
 if ( _cmdline_check(
-       "evmfs.js") ) {
+       "evmfs.js" ||
+     _cmdline_check(
+       "evmfs") ) ) {
   _global_variables();
   _cmdline_parse();
   _overrides_set();
