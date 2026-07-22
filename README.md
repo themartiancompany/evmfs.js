@@ -51,7 +51,7 @@ permissionless file system running on Ethereum Virtual Machine-compatible networ
 Links pointing to the file system resources are structured in the following way:
 
 ```
-evmfs://<evm_network_id>/<evmfs_contract_address>/<user_namespace>/<file_hash>
+evmfs://<evm-network-id>/<evmfs-contract-address>/<user-namespace>/<file-hash>
 ```
 
 Files can be published by running
@@ -59,7 +59,7 @@ Files can be published by running
 ```bash
 evmfs.js \
   publish \
-    [target_files]
+    [target-files]
 ```
 
 and retrieved with
@@ -67,7 +67,7 @@ and retrieved with
 ```bash
 evmfs.js \
   get \
-    <evmfs_uri>
+    <evmfs-uri>
 ```
 
 Public file system's contracts' deployment addresses on
@@ -118,7 +118,8 @@ Life and DogeOS user repository and application store,
 so it can be seamlessly installed by typing
 
 ```bash
-ur evmfs
+ur \
+  evmfs
 ```
 
 Since the EVMFS is actually an Ur dependency, if
@@ -167,7 +168,7 @@ Notes and other documentation are in the
 [`docs`](
   docs)
 source tree directory and installed onto the
-`<data_dir>/doc/evmfs` directory.
+`<data-dir>/doc/evmfs` directory.
 
 You can consult the manual from an online mirror of this
 repository. The `rst` source files are located in the `man`

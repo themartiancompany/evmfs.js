@@ -300,9 +300,9 @@ async function
     _wallet_seed_path,
     _wallet_password,
     _api_key_path,
-    "",       // <---------  Price selection mode:
-	      //               it can be 'auto',
-	      //               'fast' or an integer directly.
+    "",       // <---------    Price selection mode:
+	          //                 it can be 'auto',
+	          //                 'fast' or an integer directly.
     0,
     "wei",
     _target_network,

@@ -1,25 +1,29 @@
-/**    ----------------------------------------------------------------
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+/**    ---------------------------------------------------------
  *     webpack.config.cjs
- *     ----------------------------------------------------------------
+ *     ---------------------------------------------------------
  *     Copyright ©
  *       Pellegrino Prevete
  *         2024, 2025, 2026
  * 
  *     All rights reserved
- *     ----------------------------------------------------------------
+ *     ---------------------------------------------------------
  * 
  *     This program is free software: you can redistribute it and/or
- *     modify it under the terms of the GNU General Public License as
- *     published by the Free Software Foundation, either version 3 of
- *     the License, or (at your option) any later version.
+ *     modify it under the terms of the GNU General Public License
+ *     as published by the Free Software Foundation, either
+ *     version 3 of the License, or (at your option) any later
+ *     version.
  * 
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
+ *     This program is distributed in the hope that it will be
+ *     useful, but WITHOUT ANY WARRANTY; without even the implied
+ *     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ *     PURPOSE.
+ *     See the GNU General Public License for more details.
  * 
- *     You should have received a copy of the GNU General Public License
- *     along with this program.
+ *     You should have received a copy of the
+ *     GNU General Public License along with this program.
  *     If not, see <https://www.gnu.org/licenses/>.
  */
 
@@ -48,6 +52,10 @@ const
       _output_file_name
 };
 const
+  _node_fs_ignore =
+  { resourceRegExp:
+      /^node:fs$/ };
+const
   _yargs_ignore =
   { resourceRegExp:
       /^yargs$/ };
@@ -62,6 +70,10 @@ const
 const
   _ignore_plugin =
     _webpack.IgnorePlugin; 
+const
+  _node_fs_ignore_plugin =
+    new _ignore_plugin(
+          _node_fs_ignore);
 const
   _yargs_ignore_plugin =
     new _ignore_plugin(
@@ -80,10 +92,14 @@ module.exports = {
   },
   resolve: {
     alias: {
+      "node:fs":
+        _path.resolve(
+          __dirname,
+          'node_modules/opfs/opfs'),
       "fs":
         _path.resolve(
           __dirname,
-          'node_modules/fs/fs'),
+          "node_modules/fs/fs"),
       "path":
         _path.resolve(
           __dirname,
@@ -120,6 +136,7 @@ module.exports = {
     { yargs:
         'yargs' },
   plugins: [
+    _node_fs_ignore_plugin,
     _yargs_ignore_plugin,
     _yargs_helpers_ignore_plugin
   ]
