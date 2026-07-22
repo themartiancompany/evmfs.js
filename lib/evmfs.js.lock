@@ -192,6 +192,12 @@ async function
         _contract_run_opts);
   } catch(
       _error) {
+    if ( _verbose ) {
+      console.log(
+        _tx);
+      console.log(
+        _error);
+    }
     _msg =
       "Error locking chunk.";
     _msg_error(
