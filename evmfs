@@ -67,114 +67,77 @@ const
   _process_exit =
     _libcrash._process_exit();
 const
-  _ccget_module =
-    require(
-      "./lib/evmfs.js.ccget");
-/* global
-     _ccget */
-/* exported
-     _ccget */
-const
-  _ccget =
-    _ccget_module._ccget;
-const
-  _check_module =
-    require(
-      "./lib/evmfs.js.check");
-/* global
-     _check */
-/* exported
-     _check */
-const
-  _check =
-    _check_module._check;
-const
-  _get_module =
-    require(
-      "./lib/evmfs.js.get");
-/* global
-     _get */
-/* exported
-     _get */
-const
-  _get =
-    _get_module._get;
-const
-  _index_module =
-    require(
-      "./lib/evmfs.js.index");
-/* global
-     _index */
-/* exported
-     _index */
-const
-  _index =
-    _index_module._index;
-const
-  _lock_module =
-    require(
-      "./lib/evmfs.js.lock");
-/* global
-     _lock */
-/* exported
-     _lock*/
-const
-  _lock =
-    _lock_module._lock;
-const
-  _lengthlock_module =
-    require(
-      "./lib/evmfs.js.lengthlock");
-/* global
-     _lengthlock*/
-/* exported
- *   _lengthlock*/
-const
-  _lengthlock =
-    _lengthlock_module._lengthlock;
-const
-  _publish_module =
-    require(
-      "./lib/evmfs.js.publish");
-/* global
-     _publish*/
-/* exported
-     _publish*/
-const
-  _publish =
-    _publish_module._publish;
-const
-  _publish_bulk_module =
-    require(
-      "./lib/evmfs.js.publish.bulk");
-/* global
-     _publish_bulk */
-/* exported
-     _publish_bulk */
-const
-  _publish_bulk =
-    _publish_bulk_module._publish_bulk;
-const
-  _verify_module =
-    require(
-      "./lib/evmfs.js.verify");
-/* global
-     _verify */
-/* exported
-     _verify */
-const
-  _verify =
-    _verify_module._verify;
-const
-  _libevmfs =
+  _libevmfs_module =
     require(
       "./libevmfs");
 /* global
      _evmfs */
 const
   _evmfs =
-    _libevmfs._evmfs;
-
+    _libevmfs_module._evmfs;
+/* global
+     _ccget */
+/* exported
+     _ccget */
+const
+  _ccget =
+    _libevmfs_module._ccget;
+/* global
+     _check */
+/* exported
+     _check */
+const
+  _check =
+    _libevmfs_module._check;
+/* global
+     _get */
+/* exported
+     _get */
+const
+  _get =
+    _libevmfs_module._get;
+/* global
+     _index */
+/* exported
+     _index */
+const
+  _index =
+    _libevmfs_module._index;
+/* global
+     _lock */
+/* exported
+     _lock*/
+const
+  _lock =
+    _libevmfs_module._lock;
+/* global
+     _lengthlock*/
+/* exported
+ *   _lengthlock*/
+const
+  _lengthlock =
+    _libevmfs_module._lengthlock;
+/* global
+     _publish*/
+/* exported
+     _publish*/
+const
+  _publish =
+    _libevmfs_module._publish;
+/* global
+     _publish_bulk */
+/* exported
+     _publish_bulk */
+const
+  _publish_bulk =
+    _libevmfs_module._publish_bulk;
+/* global
+     _verify */
+/* exported
+     _verify */
+const
+  _verify =
+    _libevmfs_module._verify;
 
 function
   _global_variables() {
