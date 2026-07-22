@@ -165,6 +165,16 @@ const
 const
   _verify =
     _verify_module._verify;
+const
+  _libevmfs =
+    require(
+      "./libevmfs");
+/* global
+     _evmfs */
+const
+  _evmfs =
+    _libevmfs._evmfs;
+
 
 function
   _global_variables() {
@@ -267,20 +277,6 @@ function
          writable */
   quiet =
     "";
-}
-
-async function
-  _evmfs(
-    _stub
-  ) {
-  let
-    _msg;
-  _msg =
-    `stub '${_stub}'.`;
-  _msg =
-    _msg + _msg;
-  _msg_info(
-    _msg);
 }
 
 function
@@ -460,38 +456,3 @@ if ( _cmdline_check(
     null,
     app_opts);
 }
-
-module.exports = {
-  _chain_id_read:
-    _chain_id_read,
-  _fs_address_read:
-    _fs_address_read,
-  _ccget:
-    _ccget,
-  _chunk_check:
-    _chunk_check,
-  _chunk_get:
-    _chunk_get,
-  _chunk_publish:
-    _chunk_publish,
-  _chunks_publish_bulk:
-    _chunks_publish_bulk,
-  _check:
-    _check,
-  _index:
-    _index,
-  _get:
-    _get,
-  _lengthlock:
-    _lengthlock,
-  _lock:
-    _lock,
-  _publish:
-    _publish,
-  _publish_bulk:
-    _publish_bulk,
-  _references_read:
-    _references_read,
-  _verify:
-    _verify
-};

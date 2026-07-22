@@ -62,11 +62,27 @@ const
     require(
       "./lib/verify");
 
+async function
+  _evmfs(
+    _stub
+  ) {
+  let
+    _msg;
+  _msg =
+    `stub '${_stub}'.`;
+  _msg =
+    _msg + _msg;
+  _msg_info(
+    _msg);
+}
+
 module.exports = {
   _ccget:
     _ccget_module,
   _check:
     _check_module,
+  _evmfs:
+    _evmfs,
   _index:
     _index_module,
   _lengthlock:
