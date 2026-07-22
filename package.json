@@ -113,12 +113,16 @@
       "0.0.14",
     "ethereum-data":
       "0.0.4",
-    "evm-wallet":
+    "evm-wallet.js":
       "0.0.72",
     "evmfs-contracts":
       "0.0.2",
     "yargs":
       "18.0.0"
+  },
+  "overrides": {
+    "evm-wallet":
+      "evm-wallet.js"
   },
   "type":
     "commonjs",
