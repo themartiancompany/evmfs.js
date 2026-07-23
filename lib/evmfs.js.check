@@ -40,6 +40,8 @@ _msg_info =
   _libcrash._msg_info;
 _msg_error =
   _libcrash._msg_error;
+_process_exit =
+  _libcrash._process_exit;
 const
   _get_module =
     require(
@@ -130,10 +132,13 @@ async function
     if ( _value == undefined ) {
       _msg =
         "Got undefined value for the chunk.";
-      throw {
-        "error": {
-          "message":
-            _msg } };
+      const
+        _error = {
+          "error": {
+            "message":
+              _msg }
+        };
+      throw _error;
     }
   } catch(
       _error) {
@@ -151,14 +156,14 @@ async function
       true,
       _method_object];
   }
-  else if ( _value != _chunk ) {
+  else {
     _msg =
       `Got ${_value}.`;
     _msg_info(
       _msg);
     return [
       false,
-      _method_object];
+      _method_object ];
   }
 }
 
@@ -205,7 +210,7 @@ function
       `${_cursor} undefined.`;
     console.error(
       _msg);
-    process.exit(
+    _process_exit(
       1);
   }
 }
@@ -401,9 +406,9 @@ function
     `                Index end: ${index_end}`,
     `              File chunks: ${_chunks_files_paths}`
   ];
-  for ( _line in _text ) {
+  for ( _line of _text ) {
     _msg_info(
-      _text[_line]);
+      _line);
   }
 }
 
@@ -458,7 +463,7 @@ function
     _msg_info(
       _line);
   }
-  process.exit(
+  _process_exit(
     _exit);
 }
 
@@ -520,7 +525,7 @@ function
           _value;
       }
       if ( 13 < _index ) {
-	chunks_files_paths.push(
+        chunks_files_paths.push(
           _value);
       }
       if ( _value == "-h" ||
@@ -537,6 +542,7 @@ function
       0);
     _usage(
       1);
+  }
   if ( publication_namespace == "" ) {
     _msg =
       "No publication namespace given.";
@@ -548,53 +554,53 @@ function
   }
 }
 
-async function
-  _check_cmdline(
-    _app_opts) {
-  let
-    _chunk,
-    _chunks_checked,
-    _method_object;
-  [_chunks_checked,
-   _method_object] = 
-    await _check.apply(
-      null,
-      _app_opts);
-  for ( _chunk in _chunks_published ) {
-    _echo(
-      _chunks_checked[
-        _chunk].toString());
-  }
-}
-
-if ( _cmdline_check(
-       "evmfs.js.check") == true ) {
-  _global_variables();
-  _msg =
-    "Running check from command-line.";
-  _msg_info(
-    _msg);
-  _cmdline_parse();
-  _config_show();
-  app_opts = [
-    retries_max,
-    api_key_path,
-    target_network,
-    contract_address,
-    contract_abi_path,
-    contract_bytecode_path,
-    contract_compiler_output_path,
-    method_object,
-    publication_namespace,
-    file_hash,
-    index_start,
-    index_end,
-    chunks_files_paths,
-  ];
-  _check_cmdline.apply(
-    null,
-    app_opts);
-}
+// async function
+//   _check_cmdline(
+//     _app_opts) {
+//   let
+//     _chunk,
+//     _chunks_checked,
+//     _method_object;
+//   [_chunks_checked,
+//    _method_object] = 
+//     await _check.apply(
+//       null,
+//       _app_opts);
+//   for ( _chunk in _chunks_published ) {
+//     _echo(
+//       _chunks_checked[
+//         _chunk].toString());
+//   }
+// }
+// 
+// if ( _cmdline_check(
+//        "evmfs.js.check") ) {
+//   _global_variables();
+//   _msg =
+//     "Running check from command-line.";
+//   _msg_info(
+//     _msg);
+//   _cmdline_parse();
+//   _config_show();
+//   app_opts = [
+//     retries_max,
+//     api_key_path,
+//     target_network,
+//     contract_address,
+//     contract_abi_path,
+//     contract_bytecode_path,
+//     contract_compiler_output_path,
+//     method_object,
+//     publication_namespace,
+//     file_hash,
+//     index_start,
+//     index_end,
+//     chunks_files_paths,
+//   ];
+//   _check_cmdline.apply(
+//     null,
+//     app_opts);
+// }
 
 module.exports = {
   _chunk_check:
