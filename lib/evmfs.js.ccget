@@ -45,15 +45,15 @@ _msg_error =
 _sleep =
   _libcrash._sleep;
 const
-  _evm_contract_call_module =
+  _evm_contracts_tools_module =
     require(
-      "../evm-contracts-tools/evm-contract-call-static");
+      "evm-contracts-tools");
 _contract_call_static =
-  _evm_contract_call_module._contract_call_static;
+  _evm_contracts_tools_module._contract_call_static;
 const
   _libevm_module =
     require(
-      "../libevm/libevm-js");
+      "libevm");
 _contract_abi_get =
   _libevm_module._contract_abi_get;
 _contract_bytecode_get =
