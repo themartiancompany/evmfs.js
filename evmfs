@@ -273,7 +273,7 @@ function
       "      <file-path>",
       "",
       "  networks:",
-      `    '${_target_networks}`',
+      `    '${_target_networks}'`,
       "",
       "  options:",
       "",
