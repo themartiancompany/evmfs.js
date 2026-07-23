@@ -33,7 +33,6 @@
        wallet_name:
          writable */
 
-
 /* eslint-disable
      no-unused-vars */
 
@@ -65,11 +64,36 @@ const
      _process_exit */
 const
   _process_exit =
-    _libcrash._process_exit();
+    _libcrash._process_exit_get();
+const
+  _libevm_module =
+    require(
+      "libevm");
+/* global
+     _libevm_cmdline_parse */
+const
+  _libevm_cmdline_parse =
+    _libevm_module._libevm_cmdline_parse;
+/* global
+     _libevm_global_variables */
+const
+  _libevm_global_variables =
+    _libevm_module._libevm_global_variables;
+/* global
+     _libevm_url_parse */
+const
+  _libevm_url_parse =
+    _libevm_module._libevm_url_parse;
 const
   _libevmfs_module =
     require(
       "./libevmfs");
+/* global
+     _wallet_overrides_set */
+const
+  _wallet_overrides_set =
+    _libevm_module._wallet_overrides_set;
+
 /* global
      _evmfs */
 const
@@ -383,13 +407,6 @@ function
     _exit_code);
 }
 
-function 
-  _cmdline_parse() {
-  quiet = 
-    "y";
-
-}
-
 function
   _config_show() {
   /* LibEVM-defined global variables */
@@ -568,6 +585,7 @@ async function
     "y";
   runtime_environment =
     "node";
+  console.log("Hello");
   if ( _argv[
          "h"] ||
        _argv[
@@ -790,9 +808,6 @@ function
     _argv_url_get(
       "output_type")[
         0];
-  currency_type =
-    _argv_url_get(
-      "currency_type")[
   currency_address =
     _argv_url_get(
       "currency_address")[
@@ -815,15 +830,19 @@ function
   }
 }
 
+console.log("hello");
 _global_variables();
 _libevm_global_variables();
+console.log("hello");
 if ( _cmdline_check(
-       "evmfs.js") ||
+       "evmfs.js") == true ||
      _cmdline_check(
-       "evmfs") ) {
+       "evmfs") == true ) {
+  console.log("hello");
   _cmdline_parse();
 }
 else {
+  console.log("hello");
   _url_parse();
 }
 _main();
