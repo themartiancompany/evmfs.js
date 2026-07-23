@@ -144,5 +144,11 @@
       "start":
         "npx safely-serve 'dist/evmfs'",
       "test":
-        "echo \"Error: no test specified\" && exit 1" }
+        "echo \"Error: no test specified\" && exit 1" },
+  "yargs": {
+    "parse-numbers":
+      false,
+    "parse-positional-numbers":
+      false
+  }
 }
