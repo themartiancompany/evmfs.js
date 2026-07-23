@@ -448,34 +448,382 @@ function
   }
 }
 
-if ( _cmdline_check(
-       "evmfs.js" ||
-     _cmdline_check(
-       "evmfs") ) ) {
-  _global_variables();
-  _cmdline_parse();
-  _overrides_set();
+async function
+  _main() {
+  let
+    _msg,
+    _result;
+  const
+    _overrides_set_up =
+      await _overrides_set();
   _config_show();
-  app_opts = [
-    retries_max,
-    api_key_path,
-    target_network,
-    deployments_dir,
-    fs_version,
-    rpc_selection,
-    contract_address,
-    contract_abi_path,
-    contract_bytecode_path,
-    contract_compiler_output_path,
-    method_objects,
-    publication_namespace,
-    file_hash,
-    index_start,
-    index_end,
-    checkpoint_file_path,
-    chunks_files_paths,
-  ];
-  _evmfs.apply(
-    null,
-    app_opts);
+  // const
+  //   app_opts = [
+  //     retries_max,
+  //     api_key_path,
+  //     target_network,
+  //     deployments_dir,
+  //     fs_version,
+  //     rpc_selection,
+  //     contract_address,
+  //     contract_abi_path,
+  //     contract_bytecode_path,
+  //     contract_compiler_output_path,
+  //     method_objects,
+  //     publication_namespace,
+  //     file_hash,
+  //     index_start,
+  //     index_end,
+  //     checkpoint_file_path,
+  //     chunks_files_paths,
+  //   ];
+  const
+    app_opts = [
+      _wallet_name,
+      _wallet_path,
+      _wallet_password,
+      _wallet_seed,
+      _wallet_address,
+      _gnupg_home,
+      _gnupg_public,
+      _key_passphrase,
+      _key_comment,
+      _with_colons,
+      _input_type,
+      _output_type,
+      _key_type,
+      _key_publish,
+      _cache_dir,
+      _target_command,
+      _command_key,
+      _command_value,
+      _command_args
+    ];
+  const
+    _results =
+      await _evm_gpg.apply(
+        null,
+        app_opts);
+  const
+    _results_type =
+      typeof(
+        _results);
+  if ( _results_type == "bigint" ) {
+    console.log(
+      _results.toString());
+  }
+  else if ( _results_type == "string" ) {
+    console.log(
+      _results);
+  }
+  else if ( _results_type == "object" ) {
+    for ( _result of _results ) {
+      console.log(
+        _result);
+    }
+  }
+  else if ( _results_type == "undefined" ) {
+    _msg =
+      `No results.`;
+    _msg_error(
+      _msg,
+      1);
+  }
+  else {
+    _msg =
+      "Error retrieving results for command. " +
+      `Type of return: '${_results_type}'.`;
+    _msg_error(
+      _msg,
+      1);
+  }
 }
+
+async function 
+  _cmdline_parse() {
+  let
+    _help_display;
+  const
+    _argv_args = {
+      "booleans": [
+        "h",
+        "help",
+        "Q",
+        "with-colons",
+        "v",
+        "verbose"
+      ],
+      "string":
+        true
+    };
+  const
+    _argv =
+      _argv_get(
+        _argv_args);
+  const
+    _options =
+      _argv[
+        "_"];
+  quiet = 
+    "y";
+  runtime_environment =
+    "node";
+  if ( _argv[
+         "h"] ||
+       _argv[
+         "help"] ) {
+    _help_display =
+      true;
+  }
+  if ( _help_display ) {
+    quiet =
+      "n";
+    await _overrides_set();
+    _usage(
+      0);
+  }
+  if ( _argv[
+         "Q"] ||
+       _argv[
+         "with-colons"] ) {
+    with_colons =
+      "y";
+  }
+  else {
+    with_colons =
+      "n";
+  }
+  if ( typeof(
+       _argv) != "undefined" &&
+       0 < _argv[
+             "_"].length ) {
+    target_command =
+      _argv[
+        "_"][
+          0];
+  }
+  if ( typeof(
+       _argv) != "undefined" &&
+       1 < _argv[
+             "_"].length ) {
+    command_key =
+      _argv[
+        "_"][
+          1];
+  }
+  if ( typeof(
+       _argv) != "undefined" &&
+       2 < _argv[
+             "_"].length ) {
+    command_value =
+      _argv[
+        "_"][
+          2];
+  }
+  if ( "R" in _argv ) {
+    rpc_selection =
+      _argv[
+        "R"];
+  }
+  if ( "rpc-selection" in _argv ) {
+    rpc_selection =
+      _argv[
+        "rpc-selection"];
+  }
+  if ( "S" in _argv ) {
+    explorer_selection =
+      _argv[
+        "S"];
+  }
+  if ( "explorer-selection" in _argv ) {
+    explorer_selection =
+      _argv[
+        "explorer-selection"];
+  }
+  if ( "r" in _argv ) {
+    retries_max =
+      _argv[
+        "r"];
+  }
+  if ( "retries-max" in _argv ) {
+    retries_max =
+      _argv[
+        "retries-max"];
+  }
+  if ( "u" in _argv ) {
+    measure_unit =
+      _argv[
+        "u"];
+  }
+  if ( "measure-unit" in _argv ) {
+    measure_unit =
+      _argv[
+        "measure-unit"];
+  }
+  if ( "l" in _argv ) {
+    balance_lifespan =
+      _argv[
+        "l"];
+  }
+  if ( "balance-lifespan" in _argv ) {
+    balance_lifespan =
+      _argv[
+        "balance-lifespan"];
+  }
+  if ( "a" in _argv ) {
+    networks_all =
+      "y";
+  }
+  if ( "networks-all" in _argv ) {
+    networks_all =
+      "y";
+  }
+  if ( "P" in _argv ) {
+    tasks_parallel =
+      _argv[
+        "P"];
+  }
+  if ( "tasks-parallel" in _argv ) {
+    tasks_parallel =
+      _argv[
+        "tasks-parallel"];
+  }
+  if ( "Q" in _argv ) {
+    qr_support =
+      _argv[
+        "Q"];
+  }
+  if ( "qr-support" in _argv ) {
+    qr_support =
+      _argv[
+        "qr-support"];
+  }
+  if ( "o" in _argv ) {
+    output_type =
+      _argv[
+        "o"];
+  }
+  if ( "output-type" in _argv ) {
+    output_type =
+      _argv[
+        "output-type"];
+  }
+  if ( "t" in _argv ) {
+    currency_type =
+      _argv[
+        "t"];
+  }
+  if ( "currency-type" in _argv ) {
+    currency_type =
+      _argv[
+        "currency-type"];
+  }
+  if ( "C" in _argv ) {
+    currency_address =
+      _argv[
+        "C"];
+  }
+  if ( "currency" in _argv ) {
+    currency_address =
+      _argv[
+        "currency"];
+  }
+  _libevm_cmdline_parse(
+    _argv);
+  if ( _argv[
+         "v"] ||
+       _argv[
+         "verbose"]) {
+    verbose =
+      true;
+  }
+  if ( verbose ) {
+    quiet =
+      "n";
+  }
+}
+
+function
+  _url_parse() {
+  const
+    _argv =
+      _argv_url_get();
+  runtime_environment =
+    "browser";
+  wallet_name =
+    _argv_url_get(
+      "wallet_name")[
+        0];
+  rpc_selection =
+    _argv_url_get(
+      "rpc_selection")[
+        0];
+  explorer_selection =
+    _argv_url_get(
+      "explorer_selection")[
+        0];
+  retries_max =
+    _argv_url_get(
+      "retries_max")[
+        0];
+  measure_unit =
+    _argv_url_get(
+      "measure_unit")[
+        0];
+  balance_lifespan =
+    _argv_url_get(
+      "balance_lifespan")[
+        0];
+  networks_all =
+    _argv_url_get(
+      "networks_all")[
+        0];
+  tasks_parallel =
+    _argv_url_get(
+      "tasks_parallel")[
+        0];
+  qr_support =
+    _argv_url_get(
+      "qr_support")[
+        0];
+  output_type =
+    _argv_url_get(
+      "output_type")[
+        0];
+  currency_type =
+    _argv_url_get(
+      "currency_type")[
+  currency_address =
+    _argv_url_get(
+      "currency_address")[
+        0];
+  config_dir =
+    _argv_url_get(
+      "config_dir")[
+        0];
+  cache_dir =
+    _argv_url_get(
+      "cache_dir")[
+        0];
+  _libevm_url_parse();
+  quiet =
+    _argv_url_get(
+      "quiet");
+  if ( quiet.length === 0 ) {
+    quiet =
+      "n";
+  }
+}
+
+_global_variables();
+_libevm_global_variables();
+if ( _cmdline_check(
+       "evmfs.js") ||
+     _cmdline_check(
+       "evmfs") ) {
+  _cmdline_parse();
+}
+else {
+  _url_parse();
+}
+_main();
