@@ -46,7 +46,7 @@ const
   _process_exit =
     _libcrash._process_exit;
 const
-  _evm_contract_tools_module =
+  _evm_contracts_tools_module =
     require(
       "evm-contracts-tools");
 /*global _contract_run, a*/

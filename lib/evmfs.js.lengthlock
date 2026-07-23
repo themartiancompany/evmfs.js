@@ -600,7 +600,7 @@ async function
           _error);
         _msg =
           "Error retrieving file " +
-          "length.""
+          "length."
         _msg_error(
           _msg,
           0);
