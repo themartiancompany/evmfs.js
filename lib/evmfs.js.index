@@ -46,14 +46,14 @@ const
   _process_exit =
     _libcrash._process_exit;
 const
-  _evm_contract_call_dynamic_module =
+  _evm_contract_tools_module =
     require(
-      '../evm-contracts-tools/evm-contract-call-dynamic');
+      "evm-contracts-tools");
 /*global _contract_run, a*/
 /*eslint no-undef: "error"*/
 const
   _contract_run =
-    _evm_contract_call_dynamic_module._contract_run;
+    _evm_contracts_tools_module._contract_run;
 const
   _ccget_module =
     require(
