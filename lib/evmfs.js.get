@@ -30,31 +30,41 @@ const
   _libcrash =
     require(
       "crash-js");
-_cmdline_check =
-  _libcrash._cmdline_check;
-_error_display =
-  _libcrash._error_display;
-_file_write =
-  _libcrash._file_write;
-_msg_info =
-  _libcrash._msg_info;
-_msg_error =
-  _libcrash._msg_error;
 const
-  _evm_contract_call =
+  _cmdline_check =
+    _libcrash._cmdline_check;
+const
+  _error_display =
+    _libcrash._error_display;
+const
+  _file_write =
+    _libcrash._file_write;
+const
+  _msg_info =
+    _libcrash._msg_info;
+const
+  _msg_error =
+    _libcrash._msg_error;
+const
+  _evm_contracts_tools =
     require(
-      '../evm-contracts-tools/evm-contract-call-static');
-/*global _contract_call_static, a*/
-/*eslint no-undef: "error"*/
-_contract_call_static =
-  _evm_contract_call._contract_call_static
+      "evm-contracts-tools");
+/* global
+     _contract_call_static,
+     a */
+/*eslint
+    no-undef:
+    "error" */
+const
+  _contract_call_static =
+    _evm_contracts_tools._contract_call_static;
 
 function
   _global_variables() {
   app_name =
     "evmfs.js.get";
   retries_max =
-    '';
+    "";
   api_key_path =
     "";
   target_network =
