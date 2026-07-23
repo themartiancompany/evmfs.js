@@ -28,39 +28,39 @@
 const
   _check_module =
     require(
-      "./lib/check");
+      "./lib/evmfs.js.check");
 const
   _ccget_module =
     require(
-      "./lib/ccget");
+      "./lib/evmfs.js.ccget");
 const
   _get_module =
     require(
-      "./lib/get");
+      "./lib/evmfs.js.get");
 const
   _index_module =
     require(
-      "./lib/index");
+      "./lib/evmfs.js.index");
 const
   _lengthlock_module =
     require(
-      "./lib/lengthlock");
+      "./lib/evmfs.js.lengthlock");
 const
   _lock_module =
     require(
-      "./lib/lock");
+      "./lib/evmfs.js.lock");
 const
   _publish_module =
     require(
-      "./lib/publish");
+      "./lib/evmfs.js.publish");
 const
   _publish_bulk_module =
     require(
-      "./lib/publish.bulk");
+      "./lib/evmfs.js.publish.bulk");
 const
   _verify_module =
     require(
-      "./lib/verify");
+      "./lib/evmfs.js.verify");
 
 async function
   _evmfs(
