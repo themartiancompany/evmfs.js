@@ -554,53 +554,53 @@ function
   }
 }
 
-// async function
-//   _check_cmdline(
-//     _app_opts) {
-//   let
-//     _chunk,
-//     _chunks_checked,
-//     _method_object;
-//   [_chunks_checked,
-//    _method_object] = 
-//     await _check.apply(
-//       null,
-//       _app_opts);
-//   for ( _chunk in _chunks_published ) {
-//     _echo(
-//       _chunks_checked[
-//         _chunk].toString());
-//   }
-// }
-// 
-// if ( _cmdline_check(
-//        "evmfs.js.check") ) {
-//   _global_variables();
-//   _msg =
-//     "Running check from command-line.";
-//   _msg_info(
-//     _msg);
-//   _cmdline_parse();
-//   _config_show();
-//   app_opts = [
-//     retries_max,
-//     api_key_path,
-//     target_network,
-//     contract_address,
-//     contract_abi_path,
-//     contract_bytecode_path,
-//     contract_compiler_output_path,
-//     method_object,
-//     publication_namespace,
-//     file_hash,
-//     index_start,
-//     index_end,
-//     chunks_files_paths,
-//   ];
-//   _check_cmdline.apply(
-//     null,
-//     app_opts);
-// }
+async function
+  _check_cmdline(
+    _app_opts) {
+  let
+    _chunk,
+    _chunks_checked,
+    _method_object;
+  [_chunks_checked,
+   _method_object] = 
+    await _check.apply(
+      null,
+      _app_opts);
+  for ( _chunk in _chunks_published ) {
+    _echo(
+      _chunks_checked[
+        _chunk].toString());
+  }
+}
+
+if ( _cmdline_check(
+       "evmfs.js.check") ) {
+  _global_variables();
+  _msg =
+    "Running check from command-line.";
+  _msg_info(
+    _msg);
+  _cmdline_parse();
+  _config_show();
+  app_opts = [
+    retries_max,
+    api_key_path,
+    target_network,
+    contract_address,
+    contract_abi_path,
+    contract_bytecode_path,
+    contract_compiler_output_path,
+    method_object,
+    publication_namespace,
+    file_hash,
+    index_start,
+    index_end,
+    chunks_files_paths,
+  ];
+  _check_cmdline.apply(
+    null,
+    app_opts);
+}
 
 module.exports = {
   _chunk_check:
