@@ -50,7 +50,8 @@ _NPM_FILES:=\
   AUTHORS.rst \
   COPYING \
   README.md \
-  "lib" \
+  dist \
+  lib \
   eslint.config.mjs \
   fs-worker.webpack.config.cjs \
   package.json \
