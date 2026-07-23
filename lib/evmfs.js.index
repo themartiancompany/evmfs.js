@@ -30,14 +30,20 @@ const
   _libcrash =
     require(
       "crash-js");
+const
 _dirname =
   _libcrash._dirname;
+const
 _file_write =
   _libcrash._file_write;
+const
 _msg_info =
   _libcrash._msg_info;
+const
 _msg_error =
   _libcrash._msg_error;
+const
+  _libcrash._process_exit;
 const
   _evm_contract_call_dynamic_module =
     require(
@@ -216,6 +222,7 @@ async function
     _chunk_references_no,
     _chunk_references,
     _chunks_total,
+    _index,
     _index_call_base_opts,
     _index_call_opts,
     _method_args,
@@ -263,7 +270,7 @@ async function
     _chunks_total);
   _progress =
     1;
-  for ( var _index = _index_start;
+  for ( _index = _index_start;
         _index <= _index_end;
         _index++ ) {
     _msg_info_chunk_index(
@@ -300,7 +307,7 @@ async function
       _chunk_references.length;
     _published_already =
       false;
-    for ( var _reference = 0;
+    for ( _reference = 0;
           _reference <= _chunk_references_no - 1;
           _index++ ) {
       [ _chunk_chain_id,
@@ -369,10 +376,9 @@ function
     `         Chunk FS address: ${chunk_fs_address}`,
     `     Checkpoint file path: ${checkpoint_file_path}`,
   ];
-  for ( _line in _text ) {
+  for ( _line of _text ) {
     _msg_info(
-      _text[
-        _line]);
+      _line);
   }
 }
 
@@ -438,7 +444,7 @@ function
     _msg_info(
       _line);
   }
-  process.exit(
+  _process_exit(
     _exit);
 }
 
