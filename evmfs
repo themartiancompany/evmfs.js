@@ -64,7 +64,7 @@ const
      _process_exit */
 const
   _process_exit =
-    _libcrash._process_exit_get();
+    _libcrash._process_exit;
 const
   _libevm_module =
     require(
