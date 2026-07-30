@@ -165,25 +165,21 @@ function
 function
   _msg_info_length_got(
     _hash,
-    _progress,
-    _total) {
+    _value) {
   const
     _msg =
-      `Got length for hash '${_hash}' ` +
-      `('${_progress}'of '${_total}').`;
+      `Length for hash '${_hash}' ` +
+      `is '${_value}'.`;
   _msg_info(
     _msg);
 }
 
 function
   _msg_info_lock_get(
-    _hash,
-    _progress,
-    _total) {
+    _hash) {
   const
     _msg =
-      `Getting lock status for hash '${_hash}' ` +
-      `('${_progress}'of '${_total}').`;
+      `Getting lock status for hash '${_hash}'.`;
   _msg_info(
     _msg);
 }
@@ -191,12 +187,11 @@ function
 function
   _msg_info_lock_got(
     _hash,
-    _progress,
-    _total) {
+    _lock) }
   const
     _msg =
-      `Got lock status for hash '${_hash}' ` +
-      `('${_progress}'of '${_total}').`;
+      `Locked status for hash '${_hash}' ` +
+      `is '${_lock}'.`;
   _msg_info(
     _msg);
 }
@@ -304,13 +299,11 @@ function
     _files_hashes_total,
     _files_locks_paths_total,
     _files_lengths_paths_total) {
-  let
-    _hash;
   _lock_input_data_check(
     _files_hashes,
     _files_hashes_total,
     _files_locks_paths_total);
-  if ( _files_lengths_paths_total > 0 ) {
+  if ( 0 < _files_lengths_paths_total ) {
     if ( _files_lengths_paths_total != 
          _files_hashes_total ) {
       const
@@ -394,9 +387,7 @@ async function
     0;
   for ( _hash of _files_hashes ) {
     _msg_info_lock_get(
-      _hash,
-      _progress,
-      _files_hashes_total);
+      _hash);
     _method_args =
       _method_base_args.concat(
         [ _hash ]
@@ -434,8 +425,7 @@ async function
       }
       _msg_info_lock_got(
         _hash,
-        _progress,
-        _files_hashes_total);
+        _lock);
       if ( _file_lock_path != "" ) {
         _file_write(
           _file_lock_path,
@@ -606,8 +596,7 @@ async function
         }
         _msg_info_length_got(
           _hash,
-          _progress,
-          _chunks_total);
+	  _value);
         if ( _file_length_path ) {
           _file_write(
             _file_length_path,
@@ -701,7 +690,7 @@ function
       "Check if a file length is locked.",
       "",
       "Usage:",
-      "  exists",
+      `  ${app_name}`,
       "    <quiet>",
       "    <retries-max>",
       "    <api-key-path>",
@@ -875,11 +864,9 @@ if ( _cmdline_check(
     contract_compiler_output_path,
     method_object,
     publication_namespace,
-    file_hash,
     checkpoint_file_path,
-    chunks_files_paths,
-    chunks_locks_paths,
-    chunks_lengths_paths
+    files_hashes,
+    _files_locks_paths
   ];
   _length_lock.apply(
     null,
