@@ -232,7 +232,7 @@ function
     _msg =
       `Published chunk '${_index}' ` +
       `('${_progress}'of '${_total}')` +
-      `at transaction with nonce '${_tx.nonce}' `
+      `at transaction with nonce '${_tx.nonce}' ` +
       `and hash '${_tx.hash}'.`;
   _msg_info(
     _msg);
@@ -600,7 +600,10 @@ async function
   }
   if ( _indexes_unverified.length != 0 ) {
     _msg =
-      "Some index are left to verify.";
+      "There is a total of " +
+      `'${_indexes_unverified.length}' indexes ` +
+      `left to verify. Expected prefix ` +
+      `'${_chunks_files_paths_prefix}'.`;
     _msg_info(
       _msg);
     // _verify(
