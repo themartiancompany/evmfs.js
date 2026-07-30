@@ -69,21 +69,17 @@ const
 const
   _contract_run =
     _evm_contract_call_dynamic_module._contract_run;
-const
-  _check_module =
-    require(
-      "./evmfs.js.check");
-/* global
-     _chunk_check */
-const
-  _chunk_check =
-    _check_module._chunk_check;
+// const
+//   _check_module =
+//     require(
+//       "./evmfs.js.check");
+// const
+//   _chunk_check =
+//     _check_module._chunk_check;
 // const
 //   _verify_module =
 //     require(
 //       './evmfs.js.verify');
-/* global
-     _verify */
 // const
 //   _verify =
 //     _verify_module._verify;
@@ -228,13 +224,16 @@ function
 
 function
   _msg_info_chunk_published(
+    _tx,
     _index,
     _progress,
     _total) {
   const
     _msg =
       `Published chunk '${_index}' ` +
-      `('${_progress}'of '${_total}').`;
+      `('${_progress}'of '${_total}')` +
+      `at transaction with nonce '${_tx.nonce}' `
+      `and hash '${_tx.hash}'.`;
   _msg_info(
     _msg);
 }
@@ -467,9 +466,6 @@ async function
     _chunk_file_path =
       _chunks_files_paths[
         _cursor];
-    _chunk_file_path =
-      _chunks_files_paths[
-        _cursor];
     _chunk_file_path_check(
       _chunk_file_path,
       _index,
@@ -558,12 +554,14 @@ async function
         throw _error;
       }
       _msg_info_chunk_published(
+        _tx,
         _index,
         _progress,
         _chunks_total);
-      _chunks_unverified.push(
-        [_index,
-         _chunk_file_path]);
+      _chunks_unverified.push([
+        _index,
+        _chunk_file_path
+      ]);
     }
     else {
       _msg_error(
@@ -685,7 +683,7 @@ function
   const
     _text = [
       "Usage:",
-      "  publish",
+      `  ${app_name}`,
       "    <quiet>",
       "    <retries-max>",
       "    <call-timeout>",

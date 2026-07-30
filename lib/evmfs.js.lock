@@ -26,6 +26,9 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/* eslint-disable
+     no-unused-vars */
+
 /* Crash Javascript global variables */
 
 /* global
@@ -180,13 +183,16 @@ function
 
 function
   _msg_info_chunk_locked(
+    _tx,
     _index,
     _progress,
     _total) {
   const
     _msg =
       `Locked chunk '${_index}' ` +
-      `('${_progress}'of '${_total}').`;
+      `('${_progress}'of '${_total}') ` +
+      `at transaction with nonce '${_tx.nonce}' ` +
+      `and hash '${_tx.hash}'.`;
   _msg_info(
     _msg);
 }
@@ -202,31 +208,6 @@ function
       `('${_progress}'of '${_total}').`;
   _msg_info(
     _msg);
-}
-
-function
-  _error_handle(
-    error) {
-  let
-    _message;
-  if ( "error" in error &&
-       error[
-         "error"] != undefined &&
-       "message" in error[
-                      "error"] ) {
-    _message =
-      error[
-        "error"][
-          "message"];
-  }
-  else if ( "shortMessage" in error ) {
-    _message =
-      error[
-        "shortMessage"];
-  }
-  _msg_error(
-    _message,
-    0);
 }
 
 function
@@ -268,6 +249,9 @@ async function
         _contract_run_opts);
   } catch(
       _error) {
+    // TODO:
+    // check if locked already according
+    // to received error message
     if ( _verbose ) {
       console.log(
         _tx);
@@ -331,6 +315,7 @@ async function
     _checkpoint_index,
     _lock_call_opts,
     _locked,
+    _locked_call_base_opts,
     _locked_call_opts,
     _locked_method_object,
     _method_args,
@@ -392,19 +377,18 @@ async function
       _contract_compiler_output_path,
       "lockChunk"
     ];
-  const
-    _locked_call_base_opts = [
-      _wallet_seed_path,
-      _retries_max,
-      _api_key_path,
-      _target_network,
-      _contract_abi_path,
-      _contract_bytecode_path,
-      _contract_compiler_output_path,
-      _locked_method_object,
-      _contract_address,
-      "lock"
-    ];
+  _locked_call_base_opts = [
+    _wallet_seed_path,
+    _retries_max,
+    _api_key_path,
+    _target_network,
+    _contract_abi_path,
+    _contract_bytecode_path,
+    _contract_compiler_output_path,
+    _locked_method_object,
+    _contract_address,
+    "lock"
+  ];
   const
     _method_base_args = [
       _publication_namespace,
@@ -433,10 +417,26 @@ async function
     _locked_call_opts =
       _locked_call_base_opts.concat(
         [_method_args] );
-    [_locked,
-     _locked_method_object] =
+    [ _locked,
+      _locked_method_object ] =
       await _chunk_locked(
         _locked_call_opts);
+    _msg =
+      "Re-using method object";
+    _msg_info(
+      _msg);
+    _locked_call_base_opts = [
+      _wallet_seed_path,
+      _retries_max,
+      _api_key_path,
+      _target_network,
+      _contract_abi_path,
+      _contract_bytecode_path,
+      _contract_compiler_output_path,
+      _locked_method_object,
+      _contract_address,
+      "lock"
+    ];
     if ( _locked == true ) {
       _msg_info_chunk_locked_already(
         _index,
@@ -448,6 +448,7 @@ async function
         _chunk_lock(
           _lock_call_opts);
       _msg_info_chunk_locked(
+        _tx,
         _index,
         _progress,
         _chunks_total);
@@ -512,7 +513,7 @@ function
       "Lock chunks of an EVMFS file.",
       "",
       "Usage:",
-      "  lock",
+      `  ${app_name}`,
       "    <quiet>",
       "    <retries-max>",
       "    <call-timeout>",

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 /**    ----------------------------------------------------------------------
- *     publish
+ *     evmfs.js.publish.bulk
  *     ----------------------------------------------------------------------
  *     Copyright ©
  *       Pellegrino Prevete
@@ -25,6 +25,9 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
+/* eslint-disable
+     no-unused-vars */
 
 /* Crash Javascript global variables */
 
@@ -74,13 +77,13 @@ const
 const
   _chunk_check =
     _check_module._chunk_check;
-const
-  _verify_module =
-    require(
-      './evmfs.js.verify');
-const
-  _verify =
-    _verify_module._verify;
+// const
+//   _verify_module =
+//     require(
+//       './evmfs.js.verify');
+// const
+//   _verify =
+//     _verify_module._verify;
 
 function
   _global_variables() {
@@ -380,7 +383,6 @@ async function
     _chunk,
     _chunk_check_args,
     _chunk_file_path,
-    _chunks_buffer,
     _chunks_files_paths_prefix,
     _cursor,
     _index,
@@ -391,6 +393,9 @@ async function
     _publish_bulk_args,
     _published,
     _tx;
+  const
+    _chunks_buffer =
+      [];
   const
     _chunks_buffers =
       [];
