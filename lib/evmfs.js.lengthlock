@@ -487,15 +487,15 @@ async function
   const
     _files_lengths =
       [];
-  if ( _method_object == undefined ) {
+  if ( _method_object === "" ||
+       typeof(
+         _method_object) === "undefined" ) {
     _method_object =
-      '';
+      {};
   }
   const
     _wallet_seed_path =
-      '';
-  _method_object =
-    '';
+      "";
   _length_call_base_opts = [
     _wallet_seed_path,
     _retries_max,
@@ -866,7 +866,7 @@ if ( _cmdline_check(
     publication_namespace,
     checkpoint_file_path,
     files_hashes,
-    _files_locks_paths
+    files_locks_paths
   ];
   _length_lock.apply(
     null,

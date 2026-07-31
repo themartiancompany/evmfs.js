@@ -181,8 +181,6 @@ async function
     _read_call_opts) {
   let
     _method_object,
-    _passed,
-    _retry,
     _value;
   try {
     [_value,
@@ -204,7 +202,7 @@ async function
   }
   return [
     _value.toString(),
-    _method_object];
+    _method_object ];
 }
 
 function
@@ -285,11 +283,9 @@ async function
   let
     _checkpoint_index,
     _chunk_file_path,
-    _chunks_total,
     _cursor,
     _read_call_base_opts,
     _read_call_opts,
-    _method_base_args,
     _method_args,
     _msg,
     _progress,
@@ -315,12 +311,14 @@ async function
     _contract_address,
     "readChunk",
   ];
-  _method_base_args = [
-    _publication_namespace,
-    _file_hash
-  ];
-  _chunks_total =
-    _chunks_files_paths.length;
+  const
+    _method_base_args = [
+      _publication_namespace,
+      _file_hash
+    ];
+  const
+    _chunks_total =
+      _chunks_files_paths.length;
   _input_data_check(
     _index_start,
     _index_end,
@@ -450,7 +448,7 @@ function
       "Downloads chunks of an EVMFS file.",
       "",
       "Usage:",
-      "  get",
+      `  ${app_name}`,
       "    <quiet>",
       "    <retries-max>",
       "    <api-key-path>",

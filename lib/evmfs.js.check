@@ -179,8 +179,6 @@ async function
   let
     _method_object,
     _msg,
-    _passed,
-    _retry,
     _value;
   try {
     [_value,
@@ -482,7 +480,7 @@ function
       "Checks published chunks of an EVMFS file.",
       "",
       "Usage:",
-      "  check",
+      `  ${app_name}`,
       "    <quiet>",
       "    <retries-max>",
       "    <api-key-path>",
