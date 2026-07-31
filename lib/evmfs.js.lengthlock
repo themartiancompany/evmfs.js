@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 /**    ----------------------------------------------------------------------
- *     lengthlock
+ *     evmfs.js.lengthlock
  *     ----------------------------------------------------------------------
  *     Copyright ©
  *       Pellegrino Prevete
@@ -473,8 +473,7 @@ async function
     _checkpoint_file_path,
     _files_hashes,
     _chunks_locks_paths,
-    _chunks_lengths_paths
-  ) {
+    _chunks_lengths_paths) {
   let
     _cursor,
     _files_lengths_total,
@@ -913,7 +912,8 @@ if ( _cmdline_check(
     checkpoint_file_path,
     disk_write,
     files_hashes,
-    files_locks_paths
+    files_locks_paths,
+    files_lengths_paths
   ];
   _length_lock.apply(
     null,
