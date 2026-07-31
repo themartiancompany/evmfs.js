@@ -181,40 +181,18 @@ function
 
 function
   _msg_info_chunk_indexed(
+    _tx,
     _index,
     _progress,
     _total) {
   const
     _msg =
       `Indexed chunk '${_index}' ` +
-      `('${_progress}'of '${_total}').`;
+      `('${_progress}'of '${_total}') ` +
+      `with transaction with nonce '${_tx.nonce}' ` +
+      `at hash '${_tx.hash}'.`;
   _msg_info(
     _msg);
-}
-
-function
-  _error_handle(
-    error) {
-  let
-    _message;
-  if ( "error" in error &&
-       error[
-         "error"] != undefined &&
-       "message" in error[
-                      "error"] ) {
-    _message =
-      error[
-        "error"][
-          "message"];
-  }
-  else if ( "shortMessage" in error ) {
-    _message =
-      error[
-        "shortMessage"];
-  }
-  _msg_error(
-    _message,
-    0);
 }
 
 function
@@ -282,10 +260,10 @@ async function
   ) {
   let
     _checkpoint_index,
+    _chunk_fs,
     _chunk_references_no,
     _chunk_references,
     _index,
-    _index_call_base_opts,
     _index_call_opts,
     _method_args,
     _msg,
@@ -308,21 +286,22 @@ async function
   const
     _wallet_password =
       "";
-  _index_call_base_opts = [
-    _retries_max,
-    _call_timeout,
-    _wallet_seed_path,
-    _wallet_password,
-    _api_key_path,
-    0,
-    "ether",
-    _target_network,
-    _contract_address,
-    _contract_abi_path,
-    _contract_bytecode_path,
-    _contract_compiler_output_path,
-    "publishCrossChainChunk"
-  ];
+  const
+    _index_call_base_opts = [
+      _retries_max,
+      _call_timeout,
+      _wallet_seed_path,
+      _wallet_password,
+      _api_key_path,
+      0,
+      "ether",
+      _target_network,
+      _contract_address,
+      _contract_abi_path,
+      _contract_bytecode_path,
+      _contract_compiler_output_path,
+      "publishCrossChainChunk"
+    ];
   const
     _method_base_args = [
       _publication_namespace,
@@ -345,41 +324,41 @@ async function
     // TODO:
     //   Check the pointer has not
     //   been already written.
-    _reference =
-      0;
-    _references_read_opts = [
-      _retries_max,
-      _api_key_path,
-      _target_network,
-      _deployments_dir,
-      _fs_version,
-      _rpc_selection,
-      _contract_address,
-      _contract_abi_path,
-      _contract_bytecode_path,
-      _contract_compiler_output_path,
-      _method_objects,
-      _publication_namespace,
-      _file_hash,
-      _index,
-      _index
-    ];
+    // TODO:
+    // Contract object is not reused
+    // probably.
+    const
+      _references_read_opts = [
+        _retries_max,
+        _api_key_path,
+        _target_network,
+        _deployments_dir,
+        _fs_version,
+        _rpc_selection,
+        _contract_address,
+        _contract_abi_path,
+        _contract_bytecode_path,
+        _contract_compiler_output_path,
+        _method_objects,
+        _publication_namespace,
+        _file_hash,
+        _index,
+        _index
+      ];
     _chunk_references =
       await _references_read.apply(
         null,
         _references_read_opts);
     _chunk_references_no =
       _chunk_references.length;
-    _published_already =
-      false;
     for ( _reference = 0;
           _reference <= _chunk_references_no - 1;
           _index++ ) {
       [ _chunk_chain_id,
         _chunk_fs ] =
-        _chunks_references[
+        _chunk_references[
           _reference];
-       if ( _chunks_references[
+       if ( _chunk_references[
               _reference] == [ _chunk_chain_id,
                                _chunk_fs_address ] ) {
          _msg =
@@ -389,17 +368,20 @@ async function
        }
     }
     _method_args =
-      _method_base_args.concat(
-        [_index.toString(),
-         _chunk_chain_id,
-         _chunk_fs_address]);
+      _method_base_args.concat([
+        _index.toString(),
+        _chunk_chain_id,
+        _chunk_fs_address
+      ]);
     _index_call_opts =
-      _index_call_base_opts.concat(
-        [_method_args]);
+      _index_call_base_opts.concat([
+        _method_args
+      ]);
     _tx = await
       _chunk_index(
         _index_call_opts);
     _msg_info_chunk_indexed(
+      _tx,
       _index,
       _progress,
       _chunks_total);
@@ -457,7 +439,7 @@ function
       "Index cross-chain chunks of an EVMFS file.",
       "",
       "Usage:",
-      "  index",
+      `  ${app_name}`,
       "    <quiet>",
       "    <retries-max>",
       "    <call-timeout>",
@@ -489,8 +471,8 @@ function
       "                                   resides.",
       "  <contract-address>               Address of the contract.",
       "  <contract-abi_path>              Contract ABI path.",
-      "  <contract-bytecode_path>         Path for the contract bytecode.",
-      "  <contract-compiler_output_path>  Path for the contract compiler",
+      "  <contract-bytecode-path>         Path for the contract bytecode.",
+      "  <contract-compiler-output-path>  Path for the contract compiler",
       "                                   output path (the hardhat artifact).",
       "  <publication-namespace>          Namespace in which the file is being",
       "                                   published.",

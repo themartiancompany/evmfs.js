@@ -49,6 +49,9 @@ const
   _msg_error =
     _libcrash._msg_error;
 const
+  _override_set =
+    _libcrash._override_set;
+const
   _process_exit =
     _libcrash._process_exit;
 const
@@ -497,10 +500,25 @@ async function
       _index_end);
   _chunks_chain_ids =
     [];
-  if ( _rpc_selection == "" ||
-       _rpc_selection == undefined ) {
+  if ( _fs_version === "" ||
+       typeof(
+         _fs_version) === "undefined" ) {
+    // TODO:
+    //   auto-detect and select highest version
+    _fs_version =
+      "1.0"
+  }
+  if ( _rpc_selection === "" ||
+       typeof(
+         _rpc_selection) === "undefined" ) {
     _rpc_selection =
       "kirsh"
+  }
+  if ( _method_objects === "" ||
+       typeof(
+         _method_objects) === "undefined" ) {
+    _method_objects =
+      {};
   }
   _method_objects_empty =
     Object.keys(
@@ -1216,6 +1234,10 @@ async function
 
 function
   _overrides_set() {
+  _override_set(
+    "fs",
+    "version",
+    "1.0");
   if ( rpc_selection == "" ) {
     rpc_selection =
       "kirsh";

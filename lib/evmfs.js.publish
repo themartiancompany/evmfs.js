@@ -72,13 +72,15 @@ const
 const
   _contract_run =
     _evm_contract_call_dynamic_module._contract_run;
-// const
-//   _check_module =
-//     require(
-//       "./evmfs.js.check");
-// const
-//   _chunk_check =
-//     _check_module._chunk_check;
+const
+  _check_module =
+    require(
+      "./evmfs.js.check");
+/* global
+     _chunk_check */
+const
+  _chunk_check =
+    _check_module._chunk_check;
 // const
 //   _verify_module =
 //     require(

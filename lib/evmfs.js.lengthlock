@@ -187,7 +187,7 @@ function
 function
   _msg_info_lock_got(
     _hash,
-    _lock) }
+    _lock) {
   const
     _msg =
       `Locked status for hash '${_hash}' ` +
