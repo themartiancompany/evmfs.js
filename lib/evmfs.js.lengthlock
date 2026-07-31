@@ -52,6 +52,9 @@ const
   _msg_error =
     _libcrash._msg_error;
 const
+  _override_set =
+    _libcrash._override_set;
+const
   _process_exit =
     _libcrash._process_exit;
 const
@@ -366,7 +369,7 @@ async function
   ];
   const
     _method_base_args = [
-      _publication_namespace
+      _publication_namespace,
       // _file_hash
     ];
   const
@@ -637,10 +640,10 @@ async function
 
 function
   _overrides_set() {
-  if ( disk_write  == "" ) {
-    disk_write =
-      "n";
-  }
+  _override_set(
+    "disk",
+    "write",
+    "n");
 }
 
 function
@@ -742,26 +745,58 @@ function
 }
 
 function 
-  _cmdline_paths_parse(
-    _paths,
+  _cmdline_list_args_parse(
+    _list_args,
     _disk_write) {
   let
     _path,
-    _paths_length,
-    _paths_total;
+    _paths_length;
+  const
+    _list_args_total =
+      _list_args.length;
+  if ( _list_args_total < 1 ) {
+    const
+      _msg =
+        "No hashes given in input.";
+    _msg_error(
+      _msg,
+      1)
+  }
   if ( disk_write == "y" ) {
-    _paths_total =
-      _paths.length;
-    _paths_length =
-      _paths_total / 3;
+    if ( _list_args_total < 2 ) {
+      _msg =
+        "No lock output file specified.";
+      _msg_error(
+        _msg,
+        1);
+    }
+    if ( _list_args_total < 3 ) {
+      _msg =
+        "No length output file specified.";
+      _msg_error(
+        _msg,
+        1);
+    }
+    if ( 0 < ( _list_args_total % 3 ) ) {
+      _msg =
+        "Number of input hashes different " +
+        "from the number of input lock and length " +
+        "output files.";
+      _msg_error(
+        _msg,
+        1);
+    }
+    const
+      _hashes_length =
+        _list_args_total / 3;
     files_hashes =
-      _paths.slice(
+      _list_args.slice(
         0,
         _paths_length);
     files_locks_paths =
-      _paths.slice(
-        _paths_length,
-        _paths_length * 2);
+      _list_args.slice(
+        _list_args_length,
+        _list_args_length * 2);
     files_lengths_paths =
       _paths.slice(
         _paths_length * 2,
@@ -769,7 +804,16 @@ function
   }
   else if ( disk_write == "n" ) {
     files_hashes =
-      _paths;
+      _list_args;
+  }
+  else {
+    _msg =
+      `Invalid value '${_disk_write}' ` +
+      "for variable 'disk_write'. " +
+      "Allowed values: 'y' or 'n'.";
+    _msg_error(
+      _msg,
+      1);
   }
 }
 
@@ -830,7 +874,7 @@ function
           _value;
       }
       if ( 12 < _index ) {
-        _paths.push(
+        _list_args.push(
           _value);
       }
       if ( _value == "-h" ||
@@ -840,7 +884,7 @@ function
       }
   });
   _cmdline_paths_parse(
-    _paths,
+    _list_args,
     disk_write);
   if ( file_hash == "" ||
        publication_namespace == "" ) {
@@ -865,6 +909,7 @@ if ( _cmdline_check(
     method_object,
     publication_namespace,
     checkpoint_file_path,
+    disk_write,
     files_hashes,
     files_locks_paths
   ];
