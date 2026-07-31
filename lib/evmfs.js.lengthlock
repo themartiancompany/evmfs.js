@@ -706,7 +706,8 @@ function
       "    <checkpoint-file-path>",
       "    <disk-write>",
       "    [file-hash]",
-      "  ( [files-length-path] )",
+      "  ( [file-lock-path]",
+      "    [file-length-path] )",
       "",
       "Args:",
       "  <quiet>                          Can be 'y' or 'n'",
@@ -732,12 +733,13 @@ function
       "                                   Default: y",
       "  [files-hashes]                   Hashes of the files to get the",
       "                                   length and lock status of.",
-      "  [files-lengths-path]             Files in which to write the lengths.",
       "  [files-locks-path]               Files in which to write the lock.",
       "                                   statuses.",
+      "  [files-lengths-path]             Files in which to write the lengths.",
+      ""
     ];
   for ( _line of _text ) {
-    _msg_info(
+    console.log(
       _line);
   }
   _process_exit(
