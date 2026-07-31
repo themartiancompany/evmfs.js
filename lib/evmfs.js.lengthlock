@@ -750,8 +750,8 @@ function
     _list_args,
     _disk_write) {
   let
-    _path,
-    _paths_length;
+    _msg,
+    _path;
   const
     _list_args_total =
       _list_args.length;
@@ -793,15 +793,15 @@ function
     files_hashes =
       _list_args.slice(
         0,
-        _paths_length);
+        _hashes_length);
     files_locks_paths =
       _list_args.slice(
-        _list_args_length,
-        _list_args_length * 2);
+        _hashes_length,
+        _hashes_length * 2);
     files_lengths_paths =
-      _paths.slice(
-        _paths_length * 2,
-        _paths_length * 3);
+      _list_args.slice(
+        _hashes_length * 2,
+        _hashes_length * 3);
   }
   else if ( disk_write == "n" ) {
     files_hashes =
