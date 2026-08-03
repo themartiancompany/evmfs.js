@@ -113,8 +113,6 @@
       "0.0.14",
     "evm-contracts-tools":
       "0.0.46",
-    "ethereum-data":
-      "0.0.4",
     "evm-wallet.js":
       "0.0.72",
     "libevm":
