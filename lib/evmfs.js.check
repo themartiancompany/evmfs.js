@@ -177,15 +177,15 @@ async function
     _chunk,
     _get_call_opts) {
   let
-    _method_object,
-    _msg,
-    _value;
+    _msg;
   try {
-    [_value,
-     _method_object] =
-      await _chunk_get(
-        _get_call_opts);
-    if ( _value == undefined ) {
+    const
+      [ _value,
+        _method_object ] =
+        await _chunk_get(
+          _get_call_opts);
+    if ( typeof(
+           _value) === "undefined" ) {
       _msg =
         "Got undefined value for the chunk.";
       const
@@ -195,6 +195,20 @@ async function
               _msg }
         };
       throw _error;
+    }
+    if ( _value == _chunk ) {
+      return [
+        true,
+        _method_object ];
+    }
+    else {
+      _msg =
+        `Got ${_value}.`;
+      _msg_info(
+        _msg);
+      return [
+        false,
+        _method_object ];
     }
   } catch(
       _error) {
@@ -206,20 +220,6 @@ async function
       _msg,
       0);
     throw _error;
-  }
-  if ( _value == _chunk ) {
-    return [
-      true,
-      _method_object];
-  }
-  else {
-    _msg =
-      `Got ${_value}.`;
-    _msg_info(
-      _msg);
-    return [
-      false,
-      _method_object ];
   }
 }
 
@@ -291,15 +291,14 @@ async function
     _chunks_total,
     _check_call_base_opts,
     _check_call_opts,
+    _checked,
     _cursor,
     _chunk,
     _chunk_file_path,
     _index,
     _method_args,
     _msg,
-    _progress,
-    _value,
-    _wallet_seed_path;
+    _progress;
   if ( _method_object == undefined ) {
     _method_object =
       "";
@@ -313,8 +312,9 @@ async function
   const
     _chunks_checked =
       [];
-  _wallet_seed_path =
-    '';
+  const
+    _wallet_seed_path =
+      "";
   _check_call_base_opts = [
     _wallet_seed_path,
     _retries_max,
@@ -339,15 +339,22 @@ async function
       _msg,
       1);
   }
-  if ( _chunks_files_paths != undefined ) {
+  if ( typeof(
+         _chunks_files_paths) != "undefined" ) {
     _chunks_total =
       _chunks_files_paths.length;
+    _msg =
+      `Checking '${_chunks_total}' chunks.`;
+    _msg_info(
+      _msg);
   }
-  else if ( _chunks_files_paths == undefined ) {
+  else if ( typeof(
+              _chunks_files_paths) === "undefined" ) {
     _msg =
       "No chunks files provided";
     _msg_error(
-      _msg);
+      _msg,
+      1);
   }
   _chunks_total =
     _chunks_files_paths.length;
@@ -385,7 +392,7 @@ async function
         _method_args
       ]);
     try {
-      [ _check,
+      [ _checked,
         _method_object ] =
         await _chunk_check(
           _chunk,
@@ -401,7 +408,7 @@ async function
           "Re-using contract method object.";
         _msg_info(
           _msg);
-        _read_call_base_opts = [
+        _check_call_base_opts = [
           _wallet_seed_path,
           _retries_max,
           _api_key_path,
@@ -411,7 +418,7 @@ async function
           _contract_compiler_output_path,
           _method_object,
           _contract_address,
-          "readChunk",
+          "chunks",
         ];
       }
     } catch (
@@ -430,7 +437,7 @@ async function
       _progress,
       _chunks_total);
     _chunks_checked.push(
-      _check);
+      _checked);
     _progress =
       _progress + 1;
     _cursor =
@@ -620,8 +627,7 @@ async function
   let
     _chunk;
   const
-    [ _chunks_checked,
-      _method_object ] = 
+    [ _chunks_checked ] = 
       await _check.apply(
         null,
         _app_opts);

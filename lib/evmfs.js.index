@@ -314,6 +314,18 @@ async function
     _chunks_total);
   _progress =
     1;
+  const
+    _deployments_dir =
+      undefined;
+  const
+    _fs_version =
+      undefined;
+  const
+    _rpc_selection =
+      undefined;
+  const
+    _method_objects =
+      undefined;
   for ( _index = _index_start;
         _index <= _index_end;
         _index++ ) {
@@ -362,7 +374,8 @@ async function
               _reference] == [ _chunk_chain_id,
                                _chunk_fs_address ] ) {
          _msg =
-           `Already indexed at reference ${_reference}.`;
+           `Already indexed at reference ${_reference} ` +
+	   `with value ('${_chunk_chain_id}', '${_chunk_fs}').`;
          _msg_info(
            _msg);
        }

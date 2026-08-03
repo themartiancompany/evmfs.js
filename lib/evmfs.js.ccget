@@ -920,9 +920,6 @@ async function
     Number(
       _reference);
   const
-    _wallet_seed_path =
-      "";
-  const
     _read_fs_call_base_opts = [
       _wallet_seed_path,
       _retries_max,

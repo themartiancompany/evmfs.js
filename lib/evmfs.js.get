@@ -211,29 +211,34 @@ function
     _index_end,
     _total_files) {
   let
-    _msg,
-    _total_indexes;
-  _total_indexes =
-    _index_end - _index_start + 1;
+    _flag,
+    _msg;
+  const
+    _total_indexes =
+      _index_end - _index_start + 1;
+  _flag =
+    false;
   if ( _total_files == 0 ) {
     _msg =
       "File chunks list empty.";
-    _msg_error(
-      _msg,
-      1);
+    _flag =
+      true;
   }
   if ( _total_files > _total_indexes ) {
     _msg =
       "More files to save into than " +
       "indexes to download.";
-    _msg_error(
-      _msg,
-      1);
+    _flag =
+      true;
   }
   if ( _total_files < _total_indexes ) {
     _msg =
       "More indexes downloads " +
       "than files to save into.";
+    _flag =
+      true;
+  }
+  if ( _flag ) {
     _msg_error(
       _msg,
       1);
@@ -289,16 +294,15 @@ async function
     _method_args,
     _msg,
     _progress,
-    _value,
-    _wallet_seed_path;
-  if ( _method_object == undefined ) {
+    _value;
+  if ( typeof(
+         _method_object) === "undefined" ) {
     _method_object =
-      '';
+      "";
   }
-  _wallet_seed_path =
-    '';
-  _method_object =
-    '';
+  const
+    _wallet_seed_path =
+      "";
   _read_call_base_opts = [
     _wallet_seed_path,
     _retries_max,
