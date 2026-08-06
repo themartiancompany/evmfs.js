@@ -52,8 +52,8 @@ const
   _override_set =
     _libcrash._override_set;
 const
-  _process_exit =
-    _libcrash._process_exit;
+  _exit =
+    _libcrash._exit;
 const
   _sleep =
     _libcrash._sleep;
@@ -98,6 +98,11 @@ function
   _global_variables() {
   app_name =
     "evmfs.js.ccget";
+  /* global
+       app_opts:
+         writable */
+  app_opts =
+    [];
   /* global
        retries_max:
          writable */
@@ -478,7 +483,6 @@ async function
     _chunk_chain_id,
     _chunks_chain_ids,
     _cursor,
-    _method_objects_empty,
     _msg,
     _progress,
     _read_chain_id_args,
@@ -520,9 +524,10 @@ async function
     _method_objects =
       {};
   }
-  _method_objects_empty =
-    Object.keys(
-      _method_objects).length === 0
+  const
+    _method_objects_empty =
+      Object.keys(
+        _method_objects).length === 0
   if ( _method_objects_empty ) {
     _method_objects = {
       "ccfs": {
@@ -611,7 +616,7 @@ async function
           "chunksChainId",
         ];
       }
-      _chunks_chain_ids.append(
+      _chunks_chain_ids.push(
         _chunk_chain_id);
     } catch (
         _error) {
@@ -657,10 +662,8 @@ async function
     _chunk_fs_address,
     _chunks_chain_ids,
     _chunk_chain_id,
-    _chunks_references,
     _cursor,
     _fs_address_read_opts,
-    _method_objects_empty,
     _msg,
     _progress,
     _read_references_args,
@@ -684,16 +687,18 @@ async function
   _index_end =
     Number(
       _index_end);
-  _chunks_references =
-    [];
+  const
+    _chunks_references =
+      [];
   if ( _rpc_selection == "" ||
        _rpc_selection == undefined ) {
     _rpc_selection =
       "kirsh"
   }
-  _method_objects_empty =
-    Object.keys(
-      _method_objects).length === 0;
+  const
+    _method_objects_empty =
+      Object.keys(
+        _method_objects).length === 0;
   if ( _method_objects_empty ) {
     _method_objects = {
       "ccfs": {
@@ -837,7 +842,7 @@ async function
           _fs_address_read_opts);
       _chunk_fs_address =
         _chunks_fs_addresses[0];
-      _chunks_references.append(
+      _chunks_references.push(
         [ _chunk_chain_id,
           _chunk_fs_address ] );
     }
@@ -870,6 +875,7 @@ async function
     _chunk_chain_id,
     _reference) {
   let
+    _chunk_fs,
     _chunks_fs_addresses,
     _cursor,
     _msg,
@@ -899,9 +905,10 @@ async function
     _rpc_selection =
       "kirsh";
   }
-  _method_objects_empty =
-    Object.keys(
-      _method_objects).length === 0;
+  const
+    _method_objects_empty =
+      Object.keys(
+        _method_objects).length === 0;
   if ( _method_objects_empty ) {
     _method_objects = {
       "ccfs": {
@@ -967,11 +974,9 @@ async function
         await _chunk_fs_get(
           _retries_max,
           _read_fs_call_opts);
-      if ( _read_fs_call_base_opts[7] == "" ) {
-      }
     } catch (
         _error) {
-      _display_error(
+      _error_display(
         _error);
       _msg =
         "Error retrieving chunk's fs address.";
@@ -1013,7 +1018,7 @@ async function
     _chunk_chain_id,
     _chunk_file_path,
     _chunk_fs,
-    _chunks_total,
+    _chunk_reference,
     _cursor,
     _fs_contract_abi_path,
     _fs_contract_bytecode_path,
@@ -1023,12 +1028,11 @@ async function
     _reference,
     _rpcs,
     _rpc_backend,
-    _progress,
-    _value,
-    _wallet_seed_path;
-  _method_objects_empty =
-    Object.keys(
-      _method_objects).length === 0
+    _progress;
+  const
+    _method_objects_empty =
+      Object.keys(
+        _method_objects).length === 0;
   if ( _method_objects_empty ) {
     _method_objects = {
       "ccfs": {
@@ -1056,10 +1060,12 @@ async function
   }
   _get_opts =
     [];
-  _wallet_seed_path =
-    "";
-  _chunks_total =
-    _chunks_files_paths.length;
+  const
+    _wallet_seed_path =
+      "";
+  const
+    _chunks_total =
+      _chunks_files_paths.length;
   if ( _chunks_total == 0 ) {
     _msg =
       "File chunks list empty.";
@@ -1276,13 +1282,15 @@ function
 
 function
   _usage(
-    _exit) {
+    _exit_code) {
+  let
+    _line;
   const
     _text = [
       "Downloads chunks of an EVMFS file.",
       "",
       "Usage:",
-      "  ccget",
+      `  ${app_name}`,
       "    <quiet>",
       "    <retries-max>",
       "    <api-key-path>",
@@ -1336,8 +1344,8 @@ function
     _msg_info(
       _line);
   }
-  _process_exit(
-    _exit);
+  _exit(
+    _exit_code);
 }
 
 
@@ -1348,8 +1356,7 @@ function
   process.argv.forEach(
     function (
       _value,
-      _index,
-      _array) {
+      _index) {
       if ( _index == 2 ) {
         quiet =
           _value;

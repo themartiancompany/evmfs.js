@@ -33,6 +33,10 @@
        wallet_name:
          writable */
 
+  /* global
+       call_timeout:
+         writable */
+
 /* eslint-disable
      no-unused-vars */
 
@@ -181,6 +185,26 @@ function
   retries_max =
     "";
   /* global
+       call_method:
+         writable */
+  call_method =
+    "";
+  /* global
+       chunk_length:
+         writable */
+  chunk_length =
+    "";
+  /* global
+       output_file:
+         writable */
+  output_file =
+    "";
+  /* global
+       tasks_parallel:
+         writable */
+  tasks_parallel =
+    "";
+  /* global
        api_key_path:
          writable */
   api_key_path =
@@ -240,9 +264,9 @@ function
   file_hash =
     "";
   /* global
-       index_start:
+       index_network:
          writable */
-  index_start =
+  index_network =
     "";
   /* global
        index_end:
