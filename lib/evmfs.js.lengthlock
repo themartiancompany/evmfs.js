@@ -353,8 +353,6 @@ async function
   const
     _wallet_seed_path =
       "";
-  _method_object =
-    "";
   _lock_call_base_opts = [
     _wallet_seed_path,
     _retries_max,
@@ -649,7 +647,9 @@ function
   _config_show() {
   let
     _file_hash,
-    _chunks_files_paths,
+    _index,
+    _length_file,
+    _lock_file,
     _line;
   const
     _text = [
@@ -666,15 +666,23 @@ function
       `          Checkpoint file: ${checkpoint_file_path}`,
       `              File hashes:`,
     ];
+  _index =
+    0;
   for ( _file_hash of files_hashes ) {
+    _length_file =
+      files_length_paths[
+        _index];
+    _lock_file =
+      files_locks_paths[
+        _index];
     _text.push(
-      `                           ${file_hash}`);
+      `                           ${_file_hash}`);
+    _text.push(
+      `                             lock file: ${_lock_file}`);
+      `                           length file: ${_length_file}`);
+    _index =
+      _index + 1;
   }
-  _files_lengths_paths =
-    files_lengths_paths.join(
-    " ");
-  _text.push(
-    `              File chunks: ${_chunks_files_paths}`);
   for ( _line of _text ) {
     _msg_info(
         _line);
@@ -750,8 +758,7 @@ function
     _list_args,
     _disk_write) {
   let
-    _msg,
-    _path;
+    _msg;
   const
     _list_args_total =
       _list_args.length;
@@ -761,7 +768,7 @@ function
         "No hashes given in input.";
     _msg_error(
       _msg,
-      1)
+      1);
   }
   if ( disk_write == "y" ) {
     if ( _list_args_total < 2 ) {
@@ -823,7 +830,7 @@ function
   quiet = 
     "y";
   const
-    _paths =
+    _list_args =
       [];
   process.argv.forEach(
     function (
@@ -887,7 +894,7 @@ function
   _cmdline_paths_parse(
     _list_args,
     disk_write);
-  if ( file_hash == "" ||
+  if ( files_hashes.length < 1 ||
        publication_namespace == "" ) {
     _usage(
       1);
