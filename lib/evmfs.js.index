@@ -26,6 +26,9 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/* eslint-disable
+     no-unused-vars */
+
 /* Crash Javascript global variables */
 
 /* global
@@ -518,8 +521,7 @@ function
   process.argv.forEach(
     function (
       _value,
-      _index,
-      _array) {
+      _index) {
       if ( _index == 2 ) {
         quiet =
           _value;

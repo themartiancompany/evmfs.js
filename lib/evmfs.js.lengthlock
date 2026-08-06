@@ -26,6 +26,9 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/* eslint-disable
+     no-unused-vars */
+
 /* Crash Javascript global variables */
 
 /* global
@@ -670,7 +673,7 @@ function
     0;
   for ( _file_hash of files_hashes ) {
     _length_file =
-      files_length_paths[
+      files_lengths_paths[
         _index];
     _lock_file =
       files_locks_paths[
