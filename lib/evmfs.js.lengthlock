@@ -679,6 +679,7 @@ function
       `                           ${_file_hash}`);
     _text.push(
       `                             lock file: ${_lock_file}`);
+    _text.push(
       `                           length file: ${_length_file}`);
     _index =
       _index + 1;
