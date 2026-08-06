@@ -470,8 +470,8 @@ async function
     _publication_namespace,
     _checkpoint_file_path,
     _files_hashes,
-    _chunks_locks_paths,
-    _chunks_lengths_paths) {
+    _files_locks_paths,
+    _files_lengths_paths) {
   let
     _cursor,
     _files_lengths_total,
@@ -544,7 +544,7 @@ async function
       _publication_namespace,
       _checkpoint_file_path,
       _files_hashes,
-      _chunks_locks_paths,
+      _files_locks_paths,
     ];
   const [
     _locks,
