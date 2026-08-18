@@ -97,10 +97,10 @@
       "^0.0.42",
     "eslint":
       "^10.3.0",
-    "globals":
-      "^17.3.0",
     "@eslint/js":
       "^10.0.1",
+    "globals":
+      "^17.3.0",
     "webpack":
       "^5.109.2",
     "webpack-cli":
@@ -108,7 +108,7 @@
   },
   "dependencies": {
     "crash-js":
-      "0.11.11111111111111",
+      "0.11.1111111111111111",
     "encoding-tools":
       "0.0.14",
     "evm-contracts-tools":
