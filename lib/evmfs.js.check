@@ -47,6 +47,9 @@ const
   _echo =
     _libcrash._echo;
 const
+  _echo2 =
+    _libcrash._echo2;
+const
   _error_display =
     _libcrash._error_display;
 const
@@ -77,6 +80,13 @@ const
 const
   _chunk_get =
     _get_module._chunk_get;
+const
+  _common_module =
+    await import(
+      "./common");
+const
+  _chunk_file_path_check =
+    _common_module._chunk_file_path_chunk;
 
 function
   _global_variables() {
@@ -304,26 +314,8 @@ function
     _msg);
 }
 
-function
-  _chunk_file_path_check(
-    _path,
-    _index,
-    _cursor) {
-  if ( _path == undefined ) {
-    const
-      _msg =
-        "Chunk file for index " +
-        `${_index} and cursor ` +
-        `${_cursor} undefined.`;
-    console.error(
-      _msg);
-    _process_exit(
-      1);
-  }
-}
-
 async function
-  _check(
+  _chunks_check(
     _retries_max,
     _api_key_path,
     _target_network,
@@ -595,8 +587,13 @@ function
   const
     _global =
       _global_get();
+  const
+    _chunks_files_paths =
+      _get(
+        "_chunks_files",
+        "paths");
   _global[
-    "quiet"} = 
+    "quiet"] = 
     "y";
   _argv.forEach(
     function (
@@ -638,31 +635,43 @@ function
           _value);
       }
       if ( _index == 8 ) {
-        contract_bytecode_path =
-          _value;
+        _set(
+          "contract_bytecode",
+          "path",
+          _value);
       }
       if ( _index == 9 ) {
-        contract_compiler_output_path =
-          _value;
+        _set(
+          "contract_compiler_output",
+          "path",
+          _value);
       }
       if ( _index == 10 ) {
-        publication_namespace =
-          _value;
+        _set(
+          "publication",
+          "namespace",
+          _value);
       }
       if ( _index == 11 ) {
-        file_hash =
-          _value;
+        _set(
+          "file",
+          "hash",
+          _value);
       }
       if ( _index == 12 ) {
-        index_start =
-          _value;
+        _set(
+          "index",
+          "start",
+          _value);
       }
       if ( _index == 13 ) {
-        index_end =
-          _value;
+        _set(
+          "index",
+          "end",
+          _value);
       }
       if ( 13 < _index ) {
-        chunks_files_paths.push(
+        _chunks_files_paths.push(
           _value);
       }
       if ( _value == "-h" ||
@@ -671,6 +680,10 @@ function
           0);
       }
   });
+  _set(
+    "_chunks_files",
+    "paths",
+    _chunks_files_paths);
   if ( file_hash == "" ) {
     _msg =
       "No file hash given.";
@@ -708,7 +721,7 @@ async function
   }
 }
 
-if ( _cmdline_check(
+if ( await _cmdline_check(
        "evmfs.js.check") ) {
   _global_variables();
   const
@@ -733,14 +746,38 @@ if ( _cmdline_check(
     index_end,
     chunks_files_paths,
   ];
-  _check_cmdline.apply(
-    null,
-    app_opts);
+  try {
+    _check_cmdline.apply(
+      null,
+      app_opts);
+  }
+  catch(
+    _error) {
+    const
+      _msg =
+        "Error running '_check_cmdline' with " +
+        "arguments";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      app_opts);
+    throw _msg;
+  }
 }
 
-module.exports = {
-  _chunk_check:
-    _chunk_check,
-  _check:
-    _check
+export {
+  _chunk_check,
+  _chunks_check,
+  _input_data_check,
+  _msg_info_chunk_checked(
 };
+
+// module.exports = {
+//   _chunk_check:
+//     _chunk_check,
+//   _chunks_check:
+//     _chunks_check
+//   _input_data_check_check:
+//     _input_data_check
+// };
