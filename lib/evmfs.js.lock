@@ -47,6 +47,9 @@ const
   _argv =
     _libcrash._cmdline_argv;
 const
+  _basename =
+    _libcrash._basename;
+const
   _cmdline_check =
     _libcrash._cmdline_check;
 const
@@ -541,8 +544,13 @@ function
   let
     _line;
   const
+    _program =
+      _basename(
+        _argv[
+          0]);
+  const
     _text = [
-      " Lock configuration:",
+      ` ${_program} configuration:`,
       `                File hash: ${file_hash}`,
       `    Publication namespace: ${publication_namespace}`,
       `              Index start: ${index_start}`,
@@ -573,8 +581,13 @@ function
   let
     _line;
   const
+    _program =
+      _basename(
+        _argv[
+          0];
+  const
     _text = [
-      "Lock chunks of an EVMFS file.",
+      "Locks chunks of an EVMFS file.",
       "",
       "Usage:",
       `  ${app_name}`,
@@ -630,40 +643,54 @@ function
     _exit_code);
 }
 
-
 function
   _cmdline_parse() {
   let
     _msg;
-  quiet =
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] = 
     "y";
   _argv.forEach(
     function (
       _value,
       _index) {
       if ( _index == 2 ) {
-        quiet =
+        _global[
+          "quiet"] =
           _value;
       }
       if ( _index == 3 ) {
-        retries_max =
-          _value;
+        _set(
+          "retries",
+          "max",
+          _value);
       }
       if ( _index == 4 ) {
-        call_timeout =
-          _value;
+        _set(
+          "call",
+          "timeout",
+          _value);
       }
       if ( _index == 5 ) {
-        wallet_seed_path =
-          _value;
+        _set(
+          "wallet_seed",
+          "path",
+          _value);
       }
       if ( _index == 6 ) {
-        api_key_path =
-          _value;
+        _set(
+          "api_key",
+          "path",
+          _value);
       }
       if ( _index == 7 ) {
-        target_network =
-          _value;
+        _set(
+          "target",
+          "network",
+          _value);
       }
       if ( _index == 8 ) {
         contract_address =
@@ -674,36 +701,51 @@ function
           _value;
       }
       if ( _index == 10 ) {
-        contract_bytecode_path =
-          _value;
+        _set(
+          "contract_bytecode",
+          "path",
+          _value);
       }
       if ( _index == 11 ) {
-        contract_compiler_output_path =
-          _value;
+        _set(
+          "contract_compiler_output",
+          "path",
+          _value);
       }
       if ( _index == 12 ) {
-        publication_namespace =
-          _value;
+        _set(
+          "publication",
+          "namespace",
+          _value);
       }
       if ( _index == 13 ) {
-        file_hash =
-          _value;
+        _set(
+          "file",
+          "hash",
+          _value);
       }
       if ( _index == 14 ) {
-        index_start =
-          _value;
+        _set(
+          "index",
+          "start",
+          _value);
       }
       if ( _index == 15 ) {
-        index_end =
-          _value;
+        _set(
+          "index",
+          "end",
+          _value);
       }
       if ( _index == 16 ) {
-        checkpoint_file_path =
-          _value;
+        _set(
+          "checkpoint_file",
+          "path",
+          _value);
       }
       if ( _value == "-h" ||
            _value == "--help" ) {
-        quiet =
+        _global[
+          "quiet"] =
           "n";
         _usage(
           0);
@@ -715,7 +757,8 @@ function
     _msg_error(
       _msg,
       0);
-    quiet =
+    _global[
+      "quiet"] =
       "n";
     _overrides_set();
     _usage(
@@ -727,7 +770,8 @@ function
     _msg_error(
       _msg,
       0);
-    quiet =
+    _global[
+      "quiet"] =
       "n";
     _overrides_set();
     _usage(
@@ -737,19 +781,24 @@ function
 
 function
   _overrides_set() {
-  if ( call_timeout == "" ) {
-    call_timeout =
-      300000;
-  }
-  if ( retries_max == "" ) {
-    retries_max =
-      3;
-  }
+  _override_set(
+    "call",
+    "timeout",
+    300000);
+  _override_set(
+    "retries",
+    "max",
+    3);
 }
 
-if ( _cmdline_check(
+if ( await _cmdline_check(
        "evmfs.js.lock") ) {
   _global_variables();
+  const
+    _msg =
+      "Running 'chunks_lock' from command-line.";
+  _msg_info(
+    _msg);
   _cmdline_parse();
   _overrides_set();
   _config_show();
@@ -792,10 +841,28 @@ if ( _cmdline_check(
 }
 
 export {
+  _chunk_lock,
+  _chunk_locked,
   _chunks_lock,
+  _input_data_check,
+  _msg_info_chunk_lock,
+  _msg_info_chunk_locked,
+  _msg_info_chunk_locked_already
 };
 
 // module.exports = {
+//   _chunk_lock:
+//     _chunk_lock,
+//   _chunk_locked:
+//     _chunk_locked,
 //   _chunks_lock:
 //     _chunks_lock,
+//   _input_data_check:
+//     _input_data_check,
+//   _msg_info_chunk_lock:
+//     _msg_info_chunk_lock,
+//   _msg_info_chunk_locked:
+//     _msg_info_chunk_locked,
+//   _msg_info_chunk_locked_already:
+//     _msg_info_chunk_locked_already
 // };

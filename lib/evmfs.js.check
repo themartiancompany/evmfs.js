@@ -47,6 +47,9 @@ const
   _argv =
     _libcrash._cmdline_argv;
 const
+  _basename =
+    _libcrash._basename;
+const
   _cmdline_check =
     _libcrash._cmdline_check;
 const
@@ -511,23 +514,31 @@ function
   let
     _line;
   const
+    _program =
+      _basename(
+        _argv[
+          0]);
+  const
     _chunks_files_paths =
       chunks_files_paths.join(
       " ");
   const
     _text = [
-      `          Maximum retries: ${retries_max}`,
-      `                  API Key: ${api_key_path}`,
+      ` ${_program} configuration:`,
+      `                File hash: ${file_hash}`,
+      `    Publication namespace: ${publication_namespace}`,
+      `              Index start: ${index_start}`,
+      `                Index end: ${index_end}`,
+      `              File chunks: ${_chunks_files_paths}`
+      `        Network options:`,
       `           Target network: ${target_network}`,
+      `                  API Key: ${api_key_path}`,
+      `          Maximum retries: ${retries_max}`
+      `       Contract options:`,
       `         Contract address: ${contract_address}`,
       `             Contract ABI: ${contract_abi_path}`,
       `        Contract bytecode: ${contract_bytecode_path}`,
       ` Contract compiler output: ${contract_compiler_output_path}`,
-      `    Publication namespace: ${publication_namespace}`,
-      `                File hash: ${file_hash}`,
-      `              Index start: ${index_start}`,
-      `                Index end: ${index_end}`,
-      `              File chunks: ${_chunks_files_paths}`
     ];
   for ( _line of _text ) {
     _msg_info(
@@ -540,7 +551,11 @@ function
     _exit_code) {
   let
     _line;
-
+  const
+    _program =
+      _basename(
+        _argv[
+          0];
   const
     _text = [
       "Checks published chunks of an EVMFS file.",
@@ -554,8 +569,8 @@ function
       "    <contract-address>",
       "    <contract-abi-path>",
       "    <contract-bytecode-path>",
-      "    <contract-compiler-output-path",
-      "    <publication-namespace",
+      "    <contract-compiler-output-path>",
+      "    <publication-namespace>",
       "    <index-start>",
       "    <file-hash>",
       "    <index-start>",
@@ -591,7 +606,7 @@ function
     _exit_code);
 }
 
-function 
+function
   _cmdline_parse() {
   let
     _msg;
@@ -789,6 +804,8 @@ if ( await _cmdline_check(
       0);
     _echo2(
       app_opts);
+    _echo2(
+      _error);
     throw _msg;
   }
 }
