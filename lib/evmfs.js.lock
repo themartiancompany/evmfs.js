@@ -290,7 +290,7 @@ function
 
 async function
   _chunk_lock(
-    _contract_run_opts,
+    _contract_run_args,
     _verbose) {
   if ( typeof(
          _verbose) === "undefined" ||
@@ -304,7 +304,7 @@ async function
     _tx = await
       _contract_run.apply(
         null,
-        _contract_run_opts);
+        _contract_run_args);
   } catch(
       _error) {
     const
@@ -377,10 +377,10 @@ async function
     _checkpoint_file_path) {
   let
     _checkpoint_index,
-    _lock_call_opts,
+    _lock_call_args,
     _locked,
-    _locked_call_base_opts,
-    _locked_call_opts,
+    _locked_call_base_args,
+    _locked_call_args,
     _locked_method_object,
     _method_args,
     _msg,
@@ -423,7 +423,7 @@ async function
   _locked_method_object =
     "";
   const
-    _lock_call_base_opts = [
+    _lock_call_base_args = [
       _retries_max,
       _call_timeout,
       _wallet_seed_path,
@@ -441,7 +441,7 @@ async function
       _contract_compiler_output_path,
       "lockChunk"
     ];
-  _locked_call_base_opts = [
+  _locked_call_base_args = [
     _wallet_seed_path,
     _retries_max,
     _api_key_path,
@@ -475,21 +475,21 @@ async function
     _method_args =
       _method_base_args.concat(
         [_index.toString()]);
-    _lock_call_opts =
-      _lock_call_base_opts.concat(
+    _lock_call_args =
+      _lock_call_base_args.concat(
         [_method_args]);
-    _locked_call_opts =
-      _locked_call_base_opts.concat(
+    _locked_call_args =
+      _locked_call_base_args.concat(
         [_method_args] );
     [ _locked,
       _locked_method_object ] =
       await _chunk_locked(
-        _locked_call_opts);
+        _locked_call_args);
     _msg =
       "Re-using method object";
     _msg_info(
       _msg);
-    _locked_call_base_opts = [
+    _locked_call_base_args = [
       _wallet_seed_path,
       _retries_max,
       _api_key_path,
@@ -510,7 +510,7 @@ async function
     else if ( _locked == false ) {
       _tx = await
         _chunk_lock(
-          _lock_call_opts);
+          _lock_call_args);
       _msg_info_chunk_locked(
         _tx,
         _index,
@@ -569,7 +569,7 @@ function
 
 function
   _usage(
-    _exit) {
+    _exit_code) {
   let
     _line;
   const
@@ -626,8 +626,8 @@ function
     _msg_info(
       _line);
   }
-  _process_exit(
-    _exit);
+  _exit(
+    _exit_code);
 }
 
 
@@ -637,11 +637,10 @@ function
     _msg;
   quiet =
     "y";
-  process.argv.forEach(
+  _argv.forEach(
     function (
       _value,
-      _index,
-      _array) {
+      _index) {
       if ( _index == 2 ) {
         quiet =
           _value;
@@ -770,9 +769,26 @@ if ( _cmdline_check(
     index_end,
     checkpoint_file_path
   ];
-  _lock.apply(
-    null,
-    app_opts);
+  try {
+    _chunks_lock.apply(
+      null,
+      app_opts);
+  }
+  catch(
+    _error) {
+    const
+      _msg =
+        "Error running '_chunks_lock' with" +
+        "arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      app_opts);
+    _echo2(
+      _error);
+    throw _msg;
+  }
 }
 
 export {
