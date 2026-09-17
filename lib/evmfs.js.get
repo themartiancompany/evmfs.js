@@ -37,11 +37,29 @@
 
 const
   _libcrash =
-    require(
-      "crash-js");
+    await import(
+      "libcrash-js");
+const
+  _argv =
+    _libcrash._argv;
 const
   _cmdline_check =
     _libcrash._cmdline_check;
+const
+  _echo =
+    _libcrash._echo;
+const
+  _echo2 =
+    _libcrash._echo2;
+const
+  _exit =
+    _libcrash._exit;
+const
+  _get =
+    _libcrash._get;
+const
+  _global_get =
+    _libcrash._global_get;
 const
   _error_display =
     _libcrash._error_display;
@@ -55,128 +73,157 @@ const
   _msg_error =
     _libcrash._msg_error;
 const
-  _process_exit =
-    _libcrash._process_exit;
+  _override_set =
+    _libcrash._override_set;
+const
+  _set =
+    _libcrash._set;
 const
   _evm_contracts_tools =
-    require(
+    await import(
       "evm-contracts-tools");
 /* global
      _contract_call_static */
 const
   _contract_call_static =
     _evm_contracts_tools._contract_call_static;
+const
+  _commons =
+    await import(
+      "./commons");
+const
+  _chunk_file_path_check =
+    _commons._chunk_file_path_check;
+const
+  _input_data_check =
+    _commons._input_data_check;
+const
+  _msg_info_chunk_get =
+    _commons._msg_info_chunk_get;
+const
+  _msg_info_chunk_got =
+    _commons._msg_info_chunk_got;
 
 function
   _global_variables() {
   /* global
        app_name:
          writable */
-  app_name =
-    "evmfs.js.get";
+  _set(
+    "app",
+    "name",
+    "evmfs.js.get");
   /* global
        app_opts:
          writable */
-  app_opts =
-    [];
+  _set(
+    "app",
+    "opts",
+    []);
   /* global
        retries_max:
          writable */
-  retries_max =
-    "";
+  _set(
+    "retries",
+    "max",
+    "");
   /* global
        api_key_path:
          writable */
-  api_key_path =
-    "";
+  _set(
+    "api_key",
+    "path",
+    "");
   /* global
        target_network:
          writable */
-  target_network =
-    "";
+  _set(
+    "target",
+    "network",
+    "");
   /* global
        contract_address:
          writable */
-  contract_address =
-    "";
+  _set(
+    "contract",
+    "address",
+    "");
   /* global
        contract_abi_path:
          writable */
-  contract_abi_path =
-    "";
+  _set(
+    "contract_abi",
+    "path",
+    "");
   /* global
        contract_bytecode_path:
          writable */
-  contract_bytecode_path =
-    "";
+  _set(
+    "contract_bytecode",
+    "path",
+    "");
   /* global
        contract_compiler_output_path:
          writable */
-  contract_compiler_output_path =
-    "";
+  _set(
+    "contract_compiler_output",
+    "path",
+    "");
   /* global
        method_object:
          writable */
-  method_object =
-    "";
+  _set(
+    "method",
+    "object",
+    "");
   /* global
        publication_namespace:
          writable */
-  publication_namespace =
-    "";
+  _set(
+    "publication",
+    "namespace",
+    "");
   /* global
        file_hash:
          writable */
-  file_hash =
-    "";
+  _set(
+    "file",
+    "hash",
+    "");
   /* global
        index_start:
          writable */
-  index_start =
-    "";
+  _set(
+    "index",
+    "start",
+    "");
   /* global
        index_end:
          writable */
-  index_end =
-    "";
+  _set(
+    "index",
+    "end",
+    "");
   /* global
        checkpoint_file_path:
          writable */
-  checkpoint_file_path =
-    "";
+  _set(
+    "checkpoint_file",
+    "path",
+    "");
   /* global
        chunks_files_paths:
          writable */
-  chunks_files_paths =
-    [];
-  quiet =
+  _set(
+    "chunks_files",
+    "paths",
+    []);
+  const
+    _global =
+      global_get();
+  global[
+    "quiet"] =
     "";
-}
-
-function
-  _msg_info_chunk_get(
-    _index,
-    _progress,
-    _total) {
-  const
-    _msg =
-      `Downloading chunk '${_index}' ` +
-      `('${_progress}'of '${_total}').`;
-  _msg_info(
-    _msg);
-}
-
-function
-  _msg_info_chunk_got(
-    _index,
-    _progress,
-    _total) {
-  const
-    _msg =
-      `Downloaded chunk '{_index}' ` +
-      `('${_progress}'of '${_total}').`;
-  _msg_info(
-    _msg);
 }
 
 async function
@@ -205,74 +252,12 @@ async function
   }
   return [
     _value.toString(),
-    _method_object ];
-}
-
-function
-  _input_data_check(
-    _index_start,
-    _index_end,
-    _total_files) {
-  let
-    _flag,
-    _msg;
-  const
-    _total_indexes =
-      _index_end - _index_start + 1;
-  _flag =
-    false;
-  if ( _total_files == 0 ) {
-    _msg =
-      "File chunks list empty.";
-    _flag =
-      true;
-  }
-  if ( _total_files > _total_indexes ) {
-    _msg =
-      "More files to save into than " +
-      "indexes to download.";
-    _flag =
-      true;
-  }
-  if ( _total_files < _total_indexes ) {
-    _msg =
-      "More indexes downloads " +
-      "than files to save into.";
-    _flag =
-      true;
-  }
-  if ( _flag ) {
-    _msg_error(
-      _msg,
-      1);
-  }
-  _msg =
-    "Input data checked.";
-  _msg_info(
-    _msg);
-}
-
-function
-  _chunk_file_path_check(
-    _path,
-    _index,
-    _cursor) {
-  if ( _path == undefined ) {
-    const
-      _msg =
-        "Chunk file for index " +
-        _index +
-        " and cursor " +
-        _cursor +
-        " undefined.";
-    _msg_error(
-      _msg,
-      1);
-  }
+    _method_object
+  ];
 }
 
 async function
-  _get(
+  _chunks_get(
     _retries_max,
     _api_key_path,
     _target_network,
@@ -447,7 +432,7 @@ function
 
 function
   _usage(
-    _exit) {
+    _exit_code) {
   let
     _line;
   const
@@ -497,11 +482,11 @@ function
       "  [chunk-file-path]                Files in which to write the chunks.",
     ];
   for ( _line of _text ) {
-    _msg_info(
+    _echo(
       _line);
   }
-  _process_exit(
-    _exit);
+  _exit(
+    _exit_code);
 }
 
 
@@ -509,67 +494,100 @@ function
   _cmdline_parse() {
   let
     _msg;
-  quiet = 
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] =
     "y";
-  process.argv.forEach(
+  const
+    _chunks_files_paths =
+      _get(
+        "chunks_files",
+        "paths");
+  _argv.forEach(
     function (
       _value,
-      _index,
-      _array) {
+      _index) {
       if ( _index == 2 ) {
-        quiet =
+        _global[
+          "quiet"] =
           _value;
       }
       if ( _index == 3 ) {
-        retries_max =
-          _value;
+        _set(
+          "retries",
+          "max",
+          _value);
       }
       if ( _index == 4 ) {
-        api_key_path =
-          _value;
+        _set(
+          "api_key",
+          "path",
+          _value);
       }
       if ( _index == 5 ) {
-        target_network =
-          _value;
+        _set(
+          "target",
+          "network",
+          _value);
       }
       if ( _index == 6 ) {
-        contract_address =
-          _value;
+        _set(
+          "contract",
+          "address",
+          _value);
       }
       if ( _index == 7 ) {
-        contract_abi_path =
-          _value;
+        _set(
+          "contract_abi",
+          "path",
+          _value);
       }
       if ( _index == 8 ) {
-        contract_bytecode_path =
-          _value;
+        _set(
+          "contract_bytecode",
+          "path",
+          _value);
       }
       if ( _index == 9 ) {
-        contract_compiler_output_path =
-          _value;
+        _set(
+          "contract_compiler_output",
+          "path",
+          _value);
       }
       if ( _index == 10 ) {
-        publication_namespace =
-          _value;
+        _set(
+          "publication",
+          "namespace",
+          _value);
       }
       if ( _index == 11 ) {
-        file_hash =
-          _value;
+        _set(
+          "file",
+          "hash",
+          _value);
       }
       if ( _index == 12 ) {
-        index_start =
-          _value;
+        _set(
+          "index",
+          "start",
+          _value);
       }
       if ( _index == 13 ) {
-        index_end =
-          _value;
+        _set(
+          "index",
+          "end",
+          _value);
       }
       if ( _index == 14 ) {
-        checkpoint_file_path =
-          _value;
+        _set(
+          "checkpoint_file",
+          "path",
+          _value);
       }
       if ( 14 < _index ) {
-	chunks_files_paths.push(
+	_chunks_files_paths.push(
           _value);
       }
       if ( _value == "-h" ||
@@ -578,6 +596,10 @@ function
 	  0);
       }
   });
+  _set(
+    "chunks_files",
+    "paths",
+    _chunks_files_paths);
   if ( file_hash == "" ) {
     _msg =
       "No file hash given.";
@@ -598,7 +620,7 @@ function
   }
 }
 
-if ( _cmdline_check(
+if ( await _cmdline_check(
        "evmfs.js.get") ) {
   _global_variables();
   _cmdline_parse();
@@ -619,14 +641,32 @@ if ( _cmdline_check(
     checkpoint_file_path,
     chunks_files_paths,
   ];
-  _get.apply(
-    null,
-    app_opts);
+  try {
+    _chunks_get.apply(
+      null,
+      app_opts);
+  }
+  catch(
+    _error) {
+    const
+      _msg =
+        "Error running '_chunks_get' " +
+        "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    throw _error;
+  }
 }
 
-module.exports = {
-  _chunk_get:
-    _chunk_get,
-  _get:
-    _get
+export {
+  _chunk_get,
+  _chunks_get
 };
+
+// module.exports = {
+//   _chunk_get:
+//     _chunk_get,
+//   _chunks_get:
+//     _chunks_get
+// };

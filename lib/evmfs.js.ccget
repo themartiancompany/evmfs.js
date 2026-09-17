@@ -34,14 +34,26 @@
 
 const
   _libcrash =
-    require(
-      "crash-js");
+    await import(
+      "libcrash-js");
 const
   _cmdline_check =
     _libcrash._cmdline_check;
 const
- _error_display =
-   _libcrash._error_display;
+  _echo2 =
+    _libcrash._echo2;
+const
+  _exit =
+    _libcrash._exit;
+const
+  _get =
+    _libcrash._get;
+const
+  _global_get =
+    _libcrash._global_get;
+const
+  _error_display =
+    _libcrash._error_display;
 const
   _msg_info =
     _libcrash._msg_info;
@@ -52,21 +64,21 @@ const
   _override_set =
     _libcrash._override_set;
 const
-  _exit =
-    _libcrash._exit;
+  _set =
+    _libcrash._set;
 const
   _sleep =
     _libcrash._sleep;
 const
   _evm_contracts_tools_module =
-    require(
+    await import(
       "evm-contracts-tools");
 const
   _contract_call_static =
     _evm_contracts_tools_module._contract_call_static;
 const
   _libevm_module =
-    require(
+    await import(
       "libevm");
 const
   _contract_abi_get =
@@ -81,8 +93,8 @@ const
   _evm_chains_rpc_backend_get =
     _libevm_module._rpc_backend_get;
 const
-  _get_module =
-    require(
+  _chunks_get_module =
+    await import(
       "./evmfs.js.get");
 /* global
      _get,
@@ -91,8 +103,8 @@ const
      no-undef:
        "error" */
 const
-  _get =
-    _get_module._get;
+  _chunks_get =
+    _chunks_get_module._get;
 
 function
   _global_variables() {

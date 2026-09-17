@@ -1,0 +1,175 @@
+#!/usr/bin/env node
+
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+/**    ----------------------------------------------------------------------
+ *     evmfs.common
+ *     ----------------------------------------------------------------------
+ *     Copyright ©
+ *       Pellegrino Prevete
+ *         2024, 2025, 2026
+ * 
+ *     All rights reserved
+ *     ----------------------------------------------------------------------
+ * 
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ * 
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ * 
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+/* eslint-disable
+     no-unused-vars */
+
+/* Crash Javascript global variables */
+
+/* global
+     quiet:
+       writable */
+
+// const
+//   _libcrash =
+//     await import(
+//       "libcrash-js");
+
+function
+  _chunk_file_path_check(
+    _path,
+    _index,
+    _cursor) {
+  let
+    _msg;
+  const
+    _path_type =
+      typeof(
+        _path);
+  if ( _path_type === "undefined" ) {
+    _msg =
+      "Chunk file for index " +
+      `'${_index}' and cursor ` +
+      `'${_cursor}' undefined.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  else if ( _path_type === "string" ) {
+    if ( _path.length < 1 ) {
+      _msg =
+        "Chunk file for index " +
+        `'${_index}' and cursor ` +
+        `'${_cursor}' not specified.`;
+      _msg_error(
+        _msg,
+        0);
+      throw _msg;
+    }
+  else {
+    _msg =
+      `Unknown type '${_path_type}' for ` +
+      `variable '_path' in function ` +
+      `'_chunk_file_path_check' run with ` +
+      `arguments ('${_path}','${_index}','${_cursor}').`;
+    msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  return _path;
+}
+
+function
+  _msg_info_chunk_get(
+    _index,
+    _progress,
+    _total) {
+  const
+    _msg =
+      `Downloading chunk '${_index}' ` +
+      `('${_progress}'of '${_total}').`;
+  _msg_info(
+    _msg);
+}
+
+function
+  _msg_info_chunk_got(
+    _index,
+    _progress,
+    _total) {
+  const
+    _msg =
+      `Downloaded chunk '{_index}' ` +
+      `('${_progress}'of '${_total}').`;
+  _msg_info(
+    _msg);
+}
+
+function
+  _input_data_check(
+    _index_start,
+    _index_end,
+    _total_files) {
+  let
+    _flag,
+    _msg;
+  const
+    _total_indexes =
+      _index_end - _index_start + 1;
+  _flag =
+    false;
+  if ( _total_files == 0 ) {
+    _msg =
+      "File chunks list empty.";
+    _flag =
+      true;
+  }
+  if ( _total_files > _total_indexes ) {
+    _msg =
+      "More files to save into than " +
+      "indexes to download.";
+    _flag =
+      true;
+  }
+  if ( _total_files < _total_indexes ) {
+    _msg =
+      "More indexes downloads " +
+      "than files to save into.";
+    _flag =
+      true;
+  }
+  if ( _flag ) {
+    _msg_error(
+      _msg,
+      1);
+  }
+  _msg =
+    "Input data checked.";
+  _msg_info(
+    _msg);
+}
+
+export {
+  _chunk_file_path_check,
+  _input_data_check,
+  _msg_info_chunk_get,
+  _msg_info_chunk_got
+};
+
+// module.exports = {
+//   _chunk_file_path_check:
+//     _chunk_file_path_check,
+//   _input_data_check:
+//     _input_data_check,
+//   _msg_info_chunk_get:
+//     _msg_info_chunk_get,
+//   _msg_info_chunk_got:
+//     _msg_info_chunk_got
+// };

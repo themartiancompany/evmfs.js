@@ -35,8 +35,8 @@
 
 const
   _libcrash =
-    require(
-      "crash-js");
+    await import(
+      "libcrash-js");
 const
   _cmdline_check =
     _libcrash._cmdline_check;
@@ -47,8 +47,17 @@ const
   _error_display =
     _libcrash._error_display;
 const
+  _exit =
+    _libcrash._exit;
+const
   _file_read =
     _libcrash._file_read;
+const
+  _get =
+    _libcrash._get;
+const
+  _global_get =
+    _libcrash._global_get;
 const
   _msg_info =
     _libcrash._msg_info;
@@ -56,11 +65,11 @@ const
   _msg_error =
     _libcrash._msg_error;
 const
-  _process_exit =
-    _libcrash._process_exit;
+  _override_set =
+    _libcrash._override_set;
 const
   _get_module =
-    require(
+    await import(
       "./evmfs.js.get");
 const
   _chunk_get =
@@ -71,79 +80,113 @@ function
   /* global
        app_name:
          writable */
-  app_name =
-    "evmfs.js.check";
+  _set(
+    "app",
+    "name",
+    "evmfs.js.check");
   /* global
        app_opts:
          writable */
-  app_opts =
-    [];
+  _set(
+    "app",
+    "opts",
+    []);
   /* global
        retries_max:
          writable */
-  retries_max =
-    "";
+  _set(
+    "retries",
+    "max",
+    "");
   /* global
        api_key_path:
          writable */
-  api_key_path =
-    "";
+  _set(
+    "api_key",
+    "path",
+    "");
   /* global
        target_network:
          writable */
-  target_network =
-    "";
+  _set(
+    "target",
+    "network",
+    "");
   /* global
        contract_address:
          writable */
-  contract_address =
-    "";
+  _set(
+    "contract",
+    "address",
+    "");
   /* global
        contract_abi_path:
          writable */
-  contract_abi_path =
-    "";
+  _set(
+    "contract_abi",
+    "path",
+    "");
   /* global
        contract_bytecode_path:
          writable */
-  contract_bytecode_path =
-    "";
+  _set(
+    "contract_bytecode",
+    "path",
+    "");
   /* global
        contract_compiler_output_path:
          writable */
-  contract_compiler_output_path =
-    "";
+  _set(
+    "contract_compiler_output",
+    "path",
+    "");
   /* global
        method_object:
          writable */
-  method_object =
-    "";
+  _set(
+    "method",
+    "object",
+    "");
   /* global
        publication_namespace:
          writable */
-  publication_namespace =
-    "";
+  _set(
+    "publication",
+    "namespace",
+    "");
   /* global
        file_hash:
          writable */
-  file_hash =
-    "";
+  _set(
+    "file",
+    "hash",
+    "");
   /* global
        index_start:
          writable */
-  index_start =
-    "";
+  _set(
+    "index",
+    "start",
+    "");
   /* global
        index_end:
          writable */
-  index_end =
-    "";
+  _set(
+    "index",
+    "end",
+    "");
   /* global
        chunks_files_paths:
          writable */
-  chunks_files_paths =
-    [];
-  quiet =
+  _set(
+    "chunk_files",
+    "paths",
+    []);
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] =
     "";
 }
 
