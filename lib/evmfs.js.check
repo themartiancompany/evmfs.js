@@ -81,12 +81,12 @@ const
   _chunk_get =
     _get_module._chunk_get;
 const
-  _common_module =
+  _commons_module =
     await import(
-      "./common");
+      "./commons");
 const
   _chunk_file_path_check =
-    _common_module._chunk_file_path_chunk;
+    _commons_module._chunk_file_path_check;
 
 function
   _global_variables() {
@@ -587,11 +587,6 @@ function
   const
     _global =
       _global_get();
-  const
-    _chunks_files_paths =
-      _get(
-        "_chunks_files",
-        "paths");
   _global[
     "quiet"] = 
     "y";
@@ -710,15 +705,31 @@ function
 }
 
 async function
-  _check_cmdline(
+  _chunks_check_cmdline(
     _app_opts) {
   let
-    _chunk;
-  const
+    _chunk,
+    _chunks_checked;
+  try {
     [ _chunks_checked ] = 
-      await _check.apply(
+      await _chunks_check.apply(
         null,
         _app_opts);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_chunks_check' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _app_opts);
+    _echo2(
+      _error);
+    throw _error;
+  }
   for ( _chunk in _chunks_checked ) {
     _echo(
       _chunks_checked[
@@ -731,7 +742,7 @@ if ( await _cmdline_check(
   _global_variables();
   const
     _msg =
-      "Running check from command-line.";
+      "Running 'chunks_check' from command-line.";
   _msg_info(
     _msg);
   _cmdline_parse();
@@ -775,14 +786,19 @@ export {
   _chunk_check,
   _chunks_check,
   _input_data_check,
-  _msg_info_chunk_checked(
+  _msg_info_chunk_check,
+  _msg_info_chunk_checked
 };
 
 // module.exports = {
 //   _chunk_check:
 //     _chunk_check,
 //   _chunks_check:
-//     _chunks_check
-//   _input_data_check_check:
-//     _input_data_check
+//     _chunks_check,
+//   _input_data_check:
+//     _input_data_check,
+//   _msg_info_chunk_check:
+//     _msg_info_chunk_check,
+//   _msg_info_chunk_checked:
+//     _msg_info_chunk_checked
 // };
