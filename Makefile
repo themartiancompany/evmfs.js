@@ -1,39 +1,49 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-#    ----------------------------------------------------------------------
+#    -----------------------------------------------------
 #    Copyright © 2024, 2025, 2026  Pellegrino Prevete
 #
 #    All rights reserved
-#    ----------------------------------------------------------------------
+#    -----------------------------------------------------
 #
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
+#    This program is free software: you can redistribute
+#    it and/or modify it under the terms of the
+#    GNU Affero General Public License as published by
+#    the Free Software Foundation, either version 3 of
+#    the License, or (at your option) any later version.
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
+#    This program is distributed in the hope that it
+#    will be useful, but WITHOUT ANY WARRANTY;
+#    without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#    See the GNU Affero General Public License for
+#    more details.
 #
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#    You should have received a copy of the
+#    GNU Affero General Public License
+#    along with this program.
+#    If not, see <https://www.gnu.org/licenses/>.
 
-SHELL=bash
+_NPM ?= false
+SHELL ?= bash
 PREFIX ?= /usr/local
 SOLIDITY_COMPILER_BACKEND ?= solc
 _PROJECT_NPM=evmfs
 _PROJECT=$(_PROJECT_NPM).js
-DOC_DIR=$(DESTDIR)$(PREFIX)/share/doc/$(_PROJECT)
+DOC_DIR=$(DESTDIR)$(PREFIX)/share/doc/$(_PROJECT_NPM)
 BIN_DIR=$(DESTDIR)$(PREFIX)/bin
-LIB_DIR=$(DESTDIR)$(PREFIX)/lib/$(_PROJECT)
+LIB_DIR=$(DESTDIR)$(PREFIX)/lib/$(_PROJECT_NPM)
 MAN_DIR?=$(DESTDIR)$(PREFIX)/share/man
 USR_DIR=$(DESTDIR)$(PREFIX)
+NODE_DIR=$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)
 BUILD_DIR=build
 
 DOC_FILES=\
-  $(wildcard *.rst) \
-  $(wildcard docs/*.md)
+  $(wildcard \
+      *.rst) \
+  $(wildcard \
+      docs/*.md)
+
 _NODE_FILES:=\
   ccget \
   check \
@@ -57,6 +67,12 @@ _NPM_FILES:=\
   package.json \
   webpack.config.cjs
 
+_MAKE_LINK=\
+  ln \
+    -sv
+_MAKE_EXE=\
+  chmod \
+    755
 _INSTALL_FILE=\
   install \
     -vDm644
@@ -141,6 +157,47 @@ uninstall: $(_UNINSTALL_TARGETS)
 
 uninstall-scripts: $(_UNINSTALL_SCRIPTS_TARGETS)
 
+build-man:
+
+	mkdir \
+	  -p \
+	  "$(BUILD_DIR)/man"
+	for _program in $(_NODE_FILES); do \
+	  if [[ "$${_program}" != "libevmfs" ]]; then \
+	    rst2man \
+	      "man/$(_PROJECT).$${_program}.1.rst" \
+	      "$(BUILD_DIR)/man/$(_PROJECT).$${_program}.1"; \
+	  fi \
+	done; \
+
+build-npm:
+
+	make \
+	  build-man
+	cp \
+	  -r \
+	  $(_NPM_FILES) \
+	  "lib$(_PROJECT_NPM)" \
+	  "$(_PROJECT_NPM)" \
+	  "build"; \
+	cd \
+	  "build"; \
+	_version="$$( \
+	  npm \
+	    view \
+	      "$${PWD}" \
+	      "version")"; \
+	npm \
+	  install; \
+	npm \
+	  run \
+	    "build"; \
+	npm \
+	  pack; \
+	mv \
+	  "$(_PROJECT_NPM)-$${_version}.tgz" \
+	  ".."
+
 clean:
 
 	rm \
@@ -159,6 +216,13 @@ contracts:
 	  "contracts"; \
 	make \
 	  contracts
+
+eslint:
+
+	npm \
+	  run \
+	    lint
+
 
 install-contracts-sources:
 
@@ -212,53 +276,6 @@ install-contracts-deployments-hardhat:
 	make \
 	  install-contracts-deployments-hardhat
 
-build-man:
-
-	mkdir \
-	  -p \
-	  "$(BUILD_DIR)/man"
-	for _program in $(_NODE_FILES); do \
-	  if [[ "$${_program}" != "libevmfs" ]]; then \
-	    rst2man \
-	      "man/$(_PROJECT).$${_program}.1.rst" \
-	      "$(BUILD_DIR)/man/$(_PROJECT).$${_program}.1"; \
-	  fi \
-	done; \
-
-build-npm:
-
-	make \
-	  build-man
-	cp \
-	  -r \
-	  $(_NPM_FILES) \
-	  "lib$(_PROJECT_NPM)" \
-	  "$(_PROJECT_NPM)" \
-	  "build"; \
-	cd \
-	  "build"; \
-	_version="$$( \
-	  npm \
-	    view \
-	      "$${PWD}" \
-	      "version")"; \
-	npm \
-	  install; \
-	npm \
-	  run \
-	    "build"; \
-	npm \
-	  pack; \
-	mv \
-	  "$(_PROJECT_NPM)-$${_version}.tgz" \
-	  ".."
-
-eslint:
-
-	npm \
-	  run \
-	    lint
-
 install-doc:
 
 	$(_INSTALL_FILE) \
@@ -276,14 +293,6 @@ install-doc:
 	  "docs/media/evmfs.png" \
 	  "$(DOC_DIR)/media/evmfs.png"
 
-install-node-scripts:
-
-	for _file in $(_NODE_FILES); do \
-	  $(_INSTALL_EXE) \
-	    "$${_file}" \
-	    "$(LIB_DIR)/$${_file}"; \
-	done
-
 install-man:
 
 	$(_INSTALL_DIR) \
@@ -294,8 +303,92 @@ install-man:
 	    "$(MAN_DIR)/man1/$${_file}.1"; \
 	done
 
+install-node-scripts:
+
+	if [[ "$(_NPM)" == "false" ]]; then \
+	  $(_INSTALL_DIR) \
+	    "$(LIB_DIR)/nodejs"; \
+	  cp \
+	    -r \
+	    $$(printf \
+	         "$${PWD}/%s " \
+	         $$(cat \
+	              "$${PWD}/package.json" | \
+	              jq \
+	                --raw-output \
+	                '.files[]')) \
+	    "$(LIB_DIR)/nodejs"; \
+	  $(_MAKE_EXE) \
+	    "$(LIB_DIR)/nodejs/$(_PROJECT_NPM)"; \
+	  for _program in \
+	    $(_PROGRAMS); do \
+	    if [[ ! -s "$(BIN_DIR)/$${_program}" && \
+	          ! -e "$(BIN_DIR)/$${_program}" ]]; then \
+	      $(_MAKE_LINK) \
+	        "$(PREFIX)/lib/$(_PROJECT_NPM)/nodejs/$${_program}" \
+	        "$(BIN_DIR)/$${_program}"; \
+	    fi; \
+	  done; \
+	  rm \
+	    "$(LIB_DIR)/node_modules" || \
+	    true; \
+	  if [[ ! -s "$(LIB_DIR)/node_modules" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/node_modules" \
+	      "$(LIB_DIR)/nodejs/node_modules"; \
+	  fi; \
+	  rm \
+	    -rf \
+	    "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT)" \
+	    "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)"; \
+	  if [[ ! -s "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT)" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT_NPM)/nodejs" \
+	      "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT)"; \
+	  fi; \
+	  if [[ ! -s "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT_NPM)/nodejs" \
+	      "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)" || \
+	      true; \
+	  fi; \
+	  if [[ ! -s "$(DESTDIR)$(PREFIX)/lib/$(_PROJECT)" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT_NPM)/nodejs" \
+	      "$(DESTDIR)$(PREFIX)/lib/$(_PROJECT)" || \
+	      true; \
+	  fi; \
+	  if [[ ! -s "$(DESTDIR)$(PREFIX)/lib/$(_PROJECT_NPM)" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT_NPM)/nodejs" \
+	      "$(DESTDIR)$(PREFIX)/lib/$(_PROJECT_NPM)" || \
+	      true; \
+	  fi; \
+	  for _file in $(_NODE_FILES); do \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT_NPM)/nodejs/lib/$${_file}" \
+	      "$(LIB_DIR)/$${_file}"; \
+	  done; \
+	elif [[ "$(_NPM)" == "true" ]]; then \
+	  make \
+	    install-npm; \
+	  $(_MAKE_LINK) \
+	    "$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)" \
+	    "$(LIB_DIR)/nodejs" || \
+	  true; \
+	  for _file in $(_NODE_FILES); do \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)/lib/$${_file}" \
+	      "$(LIB_DIR)/$${_file}"; \
+	  done; \
+	fi;
+
 install-npm:
 
+	if [[ ! -e "$${PWD}/$(_PROJECT_NPM)-$${_version}.tgz" ]] ; \
+	  make \
+	    build-npm; \
+	fi; \
 	_npm_opts=( \
 	  -g \
 	  --prefix \
@@ -309,7 +402,7 @@ install-npm:
 	npm \
 	  install \
 	    "$${_npm_opts[@]}" \
-	    "$(_PROJECT_NPM)-$${_version}.tgz"; \
+	    "$${PWD}/$(_PROJECT_NPM)-$${_version}.tgz"; \
 	$(_INSTALL_DIR) \
 	  "$$(dirname \
 	      "$(LIB_DIR)")"; \
