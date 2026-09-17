@@ -2,28 +2,32 @@
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-/**    ----------------------------------------------------------------------
+/**    -----------------------------------------------------------
  *     evmfs.js.publish
- *     ----------------------------------------------------------------------
+ *     -----------------------------------------------------------
  *     Copyright ©
  *       Pellegrino Prevete
  *         2024, 2025, 2026
  * 
  *     All rights reserved
- *     ----------------------------------------------------------------------
+ *     -----------------------------------------------------------
  * 
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *     This program is free software: you can redistribute it
+ *     and/or modify it under the terms of the GNU General Public
+       License as published by the Free Software Foundation,
+ *     either version 3 of the License, or (at your option) any
+ *     later version.
  * 
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     This program is distributed in the hope that it will be
+ *     useful, but WITHOUT ANY WARRANTY; without even the implied
+ *     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ *     PURPOSE.
+ *     See the
  *     GNU General Public License for more details.
  * 
- *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     You should have received a copy of the GNU General Public
+ *     License along with this program.
+ *     If not, see <https://www.gnu.org/licenses/>.
  */
 
 /* eslint-disable
@@ -37,14 +41,29 @@
 
 const
   _libcrash =
-  require(
-    "crash-js");
+    await import(
+      "libcrash-js");
+const
+  _argv =
+    _libcrash._cmdline_argv;
+const
+  _basename =
+    _libcrash._basename;
 const
   _cmdline_check =
     _libcrash._cmdline_check;
 const
+  _echo =
+    _libcrash._echo;
+const
+  _echo2 =
+    _libcrash._echo2;
+const
   _error_display =
     _libcrash._error_display;
+const
+  _exit =
+    _libcrash._exit;
 const
   _ext_rm =
     _libcrash._ext_rm;
@@ -55,6 +74,12 @@ const
   _file_write =
     _libcrash._file_write;
 const
+  _get =
+    _libcrash._get;
+const
+  _global_get =
+    _libcrash._global_get;
+const
   _json_read =
     _libcrash._json_read;
 const
@@ -64,26 +89,35 @@ const
   _msg_error =
     _libcrash._msg_error;
 const
-  _evm_contract_call_dynamic_module =
-    require(
-      '../evm-contracts-tools/evm-contract-call-dynamic');
+  _override_set =
+    _libcrash._override_set;
+const
+  _require =
+    _libcrash._require;
+const
+  _set =
+    _libcrash._set;
+const
+  _evm_contracts_tools_module =
+    await _require(
+      "evm-contracts-tools");
 /* global
      _contract_run */
 const
   _contract_run =
-    _evm_contract_call_dynamic_module._contract_run;
+    _evm_contracts_tools_module._contract_run;
 const
-  _check_module =
-    require(
+  _chunks_check_module =
+    await import(
       "./evmfs.js.check");
 /* global
      _chunk_check */
 const
   _chunk_check =
-    _check_module._chunk_check;
+    _chunks_check_module._chunk_check;
 // const
 //   _verify_module =
-//     require(
+//     await import(
 //       './evmfs.js.verify');
 // const
 //   _verify =
@@ -94,83 +128,115 @@ function
   /* global
        app_name:
          writable */
-  app_name =
-    "evmfs.js.publish";
+  _set(
+    "app",
+    "name",
+    "evmfs.js.publish");
   /* global
        app_opts:
          writable */
-  app_opts =
-    [];
+  _set(
+    "app",
+    "opts",
+    []);
   /* global
        retries_max:
          writable */
-  retries_max =
-    "";
+  _set(
+    "retries",
+    "max",
+    "");
   /* global
        call_timeout:
          writable */
-  call_timeout =
-    "";
+  _set(
+    "call",
+    "timeout",
+    "");
   /* global
        wallet_seed_path:
          writable */
-  wallet_seed_path =
-    "";
+  _set(
+    "wallet_seed",
+    "path",
+    "");
   /* global
        api_key_path:
          writable */
-  api_key_path =
-    "";
+  _set(
+    "api_key",
+    "path",
+    "");
   /* global
        target_network:
          writable */
-  target_network =
-    "";
+  _set(
+    "target",
+    "network",
+    "");
   /* global
        contract_address:
          writable */
-  contract_address =
-    "";
+  _set(
+    "contract",
+    "address",
+    "");
   /* global
        contract_abi_path:
          writable */
-  contract_abi_path =
-    "";
+  _set(
+    "contract_abi",
+    "path",
+    "");
   /* global
        contract_bytecode_path:
          writable */
-  contract_bytecode_path =
-    "";
+  _set(
+    "contract_bytecode",
+    "path",
+    "");
   /* global
        contract_compiler_output_path:
          writable */
-  contract_compiler_output_path =
-    "";
+  _set(
+    "contract_compiler_output",
+    "path",
+    "");
   /* global
        publication_namespace:
          writable */
-  publication_namespace =
-    "";
+  _set(
+    "publication",
+    "namespace",
+    "");
   /* global
        file_hash:
          writable */
-  file_hash =
-    "";
+  _set(
+    "file",
+    "hash",
+    "");
   /* global
        index_start:
          writable */
-  index_start =
-    "";
+  _set(
+    "index",
+    "start",
+    "");
   /* global
        index_end:
          writable */
-  index_end =
-    "";
+  _set(
+    "index",
+    "end",
+    "");
   /* global
        checkpoint_file_path:
          writable */
-  checkpoint_file_path =
-    "";
+  _set(
+    "checkpoint_file",
+    "path",
+    "");
   /* global
        chunks_files_type:
          writable */
@@ -181,7 +247,11 @@ function
          writable */
   chunks_files_paths =
     [];
-  quiet =
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] =
     "";
 }
 
@@ -225,7 +295,6 @@ function
   _msg_info(
     _msg);
 }
-
 
 function
   _msg_info_chunk_published(
@@ -352,7 +421,7 @@ function
 }
 
 async function
-  _publish(
+  _chunk_publish(
     _retries_max,
     _call_timeout,
     _wallet_seed_path,
@@ -428,7 +497,10 @@ async function
       _wallet_seed_path,
       _wallet_password,
       _api_key_path,
-      "auto", // "fast", // nextblock
+      "auto",   // <---------    Price selection mode:
+                //               It can be 'auto',
+                //               'fast', 'nextblock' or an
+                //               integer directly.
       0,
       "wei",
       _target_network,
@@ -644,6 +716,11 @@ function
     _chunks_files_paths,
     _line;
   const
+    _program =
+      _basename(
+        _argv[
+          0]);
+  const
     _chars_max =
       300;
   _chunks_files_paths =
@@ -657,15 +734,16 @@ function
   }
   const
     _text = [
-      `    Publication namespace: ${publication_namespace}`,
+      ` ${_program} configuration:`,
       `                File hash: ${file_hash}`,
-      `          Maximum retries: ${retries_max}`,
-      `             Call timeout: ${call_timeout}`,
+      `    Publication namespace: ${publication_namespace}`,
       `   Credentials settings:`,
       `              Wallet seed: ${wallet_seed_path}`,
       `       Network settings:`,
       `           Target network: ${target_network}`,
       `                  API Key: ${api_key_path}`,
+      `             Call timeout: ${call_timeout}`,
+      `          Maximum retries: ${retries_max}`,
       `      Contract settings:`,
       `         Contract address: ${contract_address}`,
       `             Contract ABI: ${contract_abi_path}`,
@@ -689,7 +767,15 @@ function
   let
     _line;
   const
+    _program =
+      _basename(
+        _argv[
+          0];
+  const
     _text = [
+      "",
+      "Publishes chunks of an EVMFS file.",
+      "",
       "Usage:",
       `  ${app_name}`,
       "    <quiet>",
@@ -713,10 +799,12 @@ function
       "  <quiet>                          Can be 'y' or 'n'",
       "                                   Default: y",
       "  <retries-max>                    Maximum number of retries before",
-      "                                   failing (not implemented).",
+      "                                   failing.",
       "  <call-timeout>                   How many milliseconds to wait",
       "                                   for a return before declaring",
       "                                   the call failed.",
+      `                                   Default: ${call_timeout}`,
+
       "  <wallet-seed-path>               Path of the file containing",
       "                                   the seed phrase.",
       "  <api-key-path>                   Path of the API key for the",
@@ -732,9 +820,9 @@ function
       "                                   published.",
       "  <file-hash>                      Hash of the file to publish.",
       "  <index-start>                    Chunk index from where to start.",
-      "  <index-end>                      Final chunk index to download.",
+      "  <index-end>                      Final chunk index to publish.",
       "  <checkpoint-file-path>           Checkpoint file on which latest",
-      "                                   downloaded chunk index is saved",
+      "                                   current published chunk index is saved",
       "                                   in case node was to crash.",
       "  <chunks-files-type>              Can be 'file' or 'list. If file",
       "                                   it will consider the next arguments",
@@ -747,42 +835,63 @@ function
     _msg_info(
       _line);
   }
-  process.exit(
+  _exit(
     _exit_code);
 }
 
-function 
+function
   _cmdline_parse() {
-  quiet = 
+  let
+    _msg;
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] = 
     "y";
-  process.argv.forEach(
+  const =
+    _chunks_files_paths =
+      _get(
+        "_chunks_files",
+        "paths");
+  _argv.forEach(
     function (
       _value,
-      _index,
-      _array) {
+      _index) {
       if ( _index == 2 ) {
-        quiet =
+        _global[
+          "quiet"] =
           _value;
       }
       if ( _index == 3 ) {
-        retries_max =
-          _value;
+        _set(
+          "retries",
+          "max",
+          _value);
       }
       if ( _index == 4 ) {
-        call_timeout =
-          _value;
+        _set(
+          "call",
+          "timeout",
+          _value);
       }
       if ( _index == 5 ) {
-        wallet_seed_path =
-          _value;
+        _set(
+          "wallet_seed",
+          "path",
+          _value);
       }
       if ( _index == 6 ) {
-        api_key_path =
-          _value;
+        _set(
+          "api_key",
+          "path",
+          _value);
       }
       if ( _index == 7 ) {
-        target_network =
-          _value;
+        _set(
+          "target",
+          "network",
+          _value);
       }
       if ( _index == 8 ) {
         contract_address =
@@ -793,44 +902,61 @@ function
           _value;
       }
       if ( _index == 10 ) {
-        contract_bytecode_path =
-          _value;
+        _set(
+          "contract_bytecode",
+          "path",
+          _value);
       }
       if ( _index == 11 ) {
-        contract_compiler_output_path =
-          _value;
+        _set(
+          "contract_compiler_output",
+          "path",
+          _value);
       }
       if ( _index == 12 ) {
-        publication_namespace =
-          _value;
+        _set(
+          "publication",
+          "namespace",
+          _value);
       }
       if ( _index == 13 ) {
-        file_hash =
-          _value;
+        _set(
+          "file",
+          "hash",
+          _value);
       }
       if ( _index == 14 ) {
-        index_start =
-          _value;
+        _set(
+          "index",
+          "start",
+          _value);
       }
       if ( _index == 15 ) {
-        index_end =
-          _value;
+        _set(
+          "index",
+          "end",
+          _value);
       }
       if ( _index == 16 ) {
-        checkpoint_file_path =
-          _value;
+        _set(
+          "checkpoint_file",
+          "path",
+          _value);
       }
       if ( _index == 17) {
-        chunks_files_type =
-          _value;
+        _set(
+          "chunks_files",
+          "type",
+          _value);
       }
       if ( 17 < _index ) {
-	chunks_files_paths.push(
+	_chunks_files_paths.push(
           _value);
       }
       if ( _value == "-h" ||
            _value == "--help" ) {
-        quiet =
+        _global[
+          "quiet"] =
           "n";
         _usage(
           0);
@@ -866,40 +992,51 @@ async function
     }
   } catch (
       _error) {
-    console.error(
-      _error);
     _msg =
       "Publication error.";
     _msg_error(
       _msg,
-      1);
+      0);
+    _echo2(
+      _error);
+    throw _error;
   }
 }
 
 function
   _overrides_set() {
-  if ( call_timeout == "" ) {
-    call_timeout =
-      300000;
-  }
-  if ( chunks_files_type == "" ) {
-    call_timeout =
-      "file";
-  }
+  _override_set(
+    "call",
+    "timeout",
+    300000);
+  _override_set(
+    "chunks_files",
+    "type",
+    "file");
   if ( chunks_files_type == "list" ) {
     chunks_files_paths =
       _json_read(
-        chunks_files_paths[0]
+        chunks_files_paths[
+          0]
       );
   }
+  _override_set(
+    "retries",
+    "max",
+    3);
 }
 
-if ( _cmdline_check(
-       "evmfs.js.publish") == true ) {
+if ( await _cmdline_check(
+       "evmfs.js.publish") ) {
   _global_variables();
   _cmdline_parse();
   _overrides_set();
   _config_show();
+  const
+    _msg =
+      "Running 'chunks_publish' from command-line.";
+  _msg_info(
+    _msg);
   app_opts = [
     retries_max,
     call_timeout,
@@ -917,13 +1054,48 @@ if ( _cmdline_check(
     checkpoint_file_path,
     chunks_files_paths,
   ];
-  _publish_cmdline(
-    app_opts);
+  try {
+    _publish_cmdline(
+      app_opts);
+  }
+  catch(
+    _error) {
+    const
+      _msg =
+        "Error running '_publish_cmdline' with" +
+        "arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      app_opts);
+    _echo2(
+      _error);
+    throw _msg;
+  }
 }
 
-module.exports = {
-  _chunk_publish:
-    _chunk_publish,
-  _publish:
-    _publish
+export {
+  _chunk_publish,
+  _chunks_files_paths_prefix_get,
+  _chunks_publish,
+  _input_data_check,
+  _msg_info_chunk_published,
+  _msg_info_chunk_published_already,
+  _msg_info_chunk_unpublished,
+};
+
+// module.exports = {
+//   _chunk_publish:
+//     _chunk_publish,
+//   _chunks_files_paths_prefix_get:
+//     _chunks_files_paths_prefix_get,
+//   _chunks_publish:
+//     _chunks_publish,
+//   _msg_info_chunk_published:
+//     _msg_info_chunk_published,
+//   _msg_info_chunk_published_already:
+//     _msg_info_chunk_published_already,
+//   _msg_info_chunk_unpublished:
+//     _msg_info_chunk_unpublished
 };

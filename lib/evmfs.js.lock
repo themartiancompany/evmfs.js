@@ -10,13 +10,13 @@
  *         2024, 2025, 2026
  * 
  *     All rights reserved
- *     ---------------------------------------------------------------
+ *     -----------------------------------------------------------
  * 
  *     This program is free software: you can redistribute it
  *     and/or modify it under the terms of the GNU General Public
-       License as published by the Free Software Foundation, either
- *     version 3 of the License, or (at your option) any later
- *     version.
+       License as published by the Free Software Foundation,
+ *     either version 3 of the License, or (at your option) any
+ *     later version.
  * 
  *     This program is distributed in the hope that it will be
  *     useful, but WITHOUT ANY WARRANTY; without even the implied
@@ -82,6 +82,9 @@ const
 const
   _override_set =
     _libcrash._override_set;
+const
+  _require =
+    _libcrash._require;
 const
   _set =
     _libcrash._set;
@@ -433,8 +436,9 @@ async function
       _wallet_password,
       _api_key_path,
       "",       // <---------    Price selection mode:
-                    //                 it can be 'auto',
-                    //                 'fast' or an integer directly.
+                //               It can be 'auto',
+                //               'fast', 'nextblock' or an
+                //               integer directly.
       0,
       "wei",
       _target_network,
@@ -553,21 +557,22 @@ function
       ` ${_program} configuration:`,
       `                File hash: ${file_hash}`,
       `    Publication namespace: ${publication_namespace}`,
-      `              Index start: ${index_start}`,
-      `                Index end: ${index_end}`,
-      `     Checkpoint file path: ${checkpoint_file_path}`,
-      `    Credentials options:`,
+      `   Credentials settings:`,
       `              Wallet seed: ${wallet_seed_path}`,
-      `        Network options:`,
+      `       Network settings:`,
       `           Target network: ${target_network}`,
       `                  API Key: ${api_key_path}`,
       `             Call timeout: ${call_timeout}`,
       `          Maximum retries: ${retries_max}`,
-      `       Contract options:`,
+      `      Contract settings:`,
       `         Contract address: ${contract_address}`,
       `             Contract ABI: ${contract_abi_path}`,
       `        Contract bytecode: ${contract_bytecode_path}`,
       ` Contract compiler output: ${contract_compiler_output_path}`,
+      `       Session settings:`,
+      `              Index start: ${index_start}`,
+      `                Index end: ${index_end}`,
+      `          Checkpoint file: ${checkpoint_file_path}`,
     ];
   for ( _line of _text ) {
     _msg_info(
@@ -587,6 +592,7 @@ function
           0];
   const
     _text = [
+      "",
       "Locks chunks of an EVMFS file.",
       "",
       "Usage:",
@@ -601,8 +607,8 @@ function
       "    <contract-bytecode-path>",
       "    <contract-compiler-output-path>",
       "    <publication-namespace>",
-      "    <index-start>",
       "    <file-hash>",
+      "    <index-start>",
       "    <index-start>",
       "    <index-end>",
       "    <checkpoint-file-path>",
@@ -622,7 +628,7 @@ function
       "  <target-network>                 Network on which the contract",
       "                                   resides.",
       "  <contract-address>               Address of the contract.",
-      "  <contract-abi_path>              Contract ABI path.",
+      "  <contract-abi-path>              Contract ABI path.",
       "  <contract-bytecode-path>         Path for the contract bytecode.",
       "  <contract-compiler-output-path>  Path for the contract compiler",
       "                                   output path (the hardhat artifact).",
@@ -632,7 +638,7 @@ function
       "  <index-start>                    Chunk index from where to start.",
       "  <index-end>                      Final chunk index to lock.",
       "  <checkpoint-file-path>           Checkpoint file on which latest",
-      "                                   downloaded chunk index is saved",
+      "                                   current locked chunk index is saved",
       "                                   in case node was to crash.",
     ];
   for ( _line of _text ) {
@@ -794,14 +800,14 @@ function
 if ( await _cmdline_check(
        "evmfs.js.lock") ) {
   _global_variables();
+  _cmdline_parse();
+  _overrides_set();
+  _config_show();
   const
     _msg =
       "Running 'chunks_lock' from command-line.";
   _msg_info(
     _msg);
-  _cmdline_parse();
-  _overrides_set();
-  _config_show();
   app_opts = [
     retries_max,
     call_timeout,
