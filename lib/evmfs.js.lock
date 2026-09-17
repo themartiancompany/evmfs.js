@@ -2,9 +2,9 @@
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-/**    ---------------------------------------------------------------
+/**    -----------------------------------------------------------
  *     evmfs.js.lock
- *     ---------------------------------------------------------------
+ *     -----------------------------------------------------------
  *     Copyright ©
  *       Pellegrino Prevete
  *         2024, 2025, 2026
@@ -12,14 +12,17 @@
  *     All rights reserved
  *     ---------------------------------------------------------------
  * 
- *     This program is free software: you can redistribute it and/or
- *     modify it under the terms of the GNU General Public License as
- *     published by the Free Software Foundation, either version 3 of
- *     the License, or (at your option) any later version.
+ *     This program is free software: you can redistribute it
+ *     and/or modify it under the terms of the GNU General Public
+       License as published by the Free Software Foundation, either
+ *     version 3 of the License, or (at your option) any later
+ *     version.
  * 
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     This program is distributed in the hope that it will be
+ *     useful, but WITHOUT ANY WARRANTY; without even the implied
+ *     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ *     PURPOSE.
+ *     See the
  *     GNU General Public License for more details.
  * 
  *     You should have received a copy of the GNU General Public
@@ -41,14 +44,32 @@ const
     await import(
       "libcrash-js");
 const
+  _argv =
+    _libcrash._cmdline_argv;
+const
   _cmdline_check =
     _libcrash._cmdline_check;
+const
+  _echo =
+    _libcrash._echo;
+const
+  _echo2 =
+    _libcrash._echo2;
 const
   _error_display =
     _libcrash._error_display;
 const
+  _exit =
+    _libcrash._exit;
+const
   _file_write =
     _libcrash._file_write;
+const
+  _get =
+    _libcrash._get;
+const
+  _global_get =
+    _libcrash._global_get;
 const
   _msg_info =
     _libcrash._msg_info;
@@ -56,116 +77,152 @@ const
   _msg_error =
     _libcrash._msg_error;
 const
-  _process_exit =
-    _libcrash._process_exit;
-
+  _override_set =
+    _libcrash._override_set;
 const
-  _evm_contract_call_dynamic_module =
-    require(
-      '../evm-contracts-tools/evm-contract-call-dynamic');
+  _set =
+    _libcrash._set;
+const
+  _evm_contracts_tools_module =
+    await _require(
+      "evm-contracts-tools");
 /* global
      _contract_run */
 const
   _contract_run =
-    _evm_contract_call_dynamic_module._contract_run;
-const
-  _evm_contract_call_static_module =
-    require(
-      "../evm-contracts-tools/evm-contract-call-static");
+    _evm_contracts_tools_module._contract_run;
 /* global
      _contract_call_static */
 const
   _contract_call_static =
-    _evm_contract_call_static_module._contract_call_static;
+    _evm_contracts_tools_module._contract_call_static;
 
 function
   _global_variables() {
   /* global
        app_name:
          writable */
-  app_name =
-    "evmfs.js.lock";
+  _set(
+    "app",
+    "name",
+    "evmfs.js.lock");
   /* global
        app_opts:
          writable */
-  app_opts =
-    [];
+  _set(
+    "app",
+    "opts",
+    []);
   /* global
        retries_max:
          writable */
-  retries_max =
-    "";
+  _set(
+    "retries",
+    "max",
+    "");
   /* global
        call_timeout:
          writable */
-  call_timeout =
-    "";
+  _set(
+    "call",
+    "timeout",
+    "");
   /* global
        wallet_seed_path:
          writable */
-  wallet_seed_path =
-    "";
+  _set(
+    "wallet_seed",
+    "path",
+    "");
   /* global
        api_key_path:
          writable */
-  api_key_path =
-    "";
+  _set(
+    "api_key",
+    "path",
+    "");
   /* global
        target_network:
          writable */
-  target_network =
-    "";
+  _set(
+    "target",
+    "network",
+    "");
   /* global
        contract_address:
          writable */
-  contract_address =
-    "";
+  _set(
+    "contract",
+    "address",
+    "");
   /* global
        contract_abi_path:
          writable */
-  contract_abi_path =
-    "";
+  _set(
+    "contract_abi",
+    "path",
+    "");
   /* global
        contract_bytecode_path:
          writable */
-  contract_bytecode_path =
-    "";
+  _set(
+    "contract_bytecode",
+    "path",
+    "");
   /* global
        contract_compiler_output_path:
          writable */
-  contract_compiler_output_path =
-    "";
+  _set(
+    "contract_compiler_output",
+    "path",
+    "");
   // After the method re-use will
   // have been added to the dynamic
   // caller as well
-  // method_object =
-  //   "";
+  // _set(
+  //   "method",
+  //   "object",
+  //   "");
   /* global
        publication_namespace:
          writable */
-  publication_namespace =
-    "";
+  _set(
+    "publication",
+    "namespace",
+    "");
   /* global
        file_hash:
          writable */
-  file_hash =
-    "";
+  _set(
+    "file",
+    "hash",
+    "");
   /* global
        index_start:
          writable */
-  index_start =
-    "";
+  _set(
+    "index",
+    "start",
+    "");
   /* global
        index_end:
          writable */
-  index_end =
-    "";
+  _set(
+    "index",
+    "end",
+    "");
   /* global
        checkpoint_file_path:
          writable */
-  checkpoint_file_path =
-    "";
-  quiet =
+  _set(
+    "checkpoint_file",
+    "path",
+    "");
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] =
     "";
 }
 
@@ -250,21 +307,21 @@ async function
         _contract_run_opts);
   } catch(
       _error) {
-    // TODO:
-    // check if locked already according
-    // to received error message
-    if ( _verbose ) {
-      console.log(
-        _tx);
-      console.log(
-        _error);
-    }
     const
       _msg =
         "Error locking chunk.";
     _msg_error(
       _msg,
       0);
+    // TODO:
+    // check if locked already according
+    // to received error message
+    if ( _verbose ) {
+      _echo2(
+        _tx);
+      _echo2(
+        _error);
+    }
     throw _error;
   }
   return _tx;
@@ -272,32 +329,38 @@ async function
 
 async function
   _chunk_locked(
-    _locked_call_opts) {
-  let
-    _method_object,
-    _value;
+    _locked_call_args) {
   try {
-    [_value,
-     _method_object] =
-      await _contract_call_static.apply(
-        null,
-        _locked_call_opts);
+    const
+      [ _value,
+        _method_object
+      ] =
+        await _contract_call_static.apply(
+          null,
+          _locked_call_args);
+    return [
+      _value,
+      _method_object
+    ];
   } catch(
       _error) {
+    const
+      _msg =
+        "Error running '_contract_static_call' " +
+        "with arguments:";
+    _echo2(
+      _locked_call_args);
     _error_display(
       _error);
     _msg_error(
       _error,
-      1);
+      0);
+    throw _error;
   }
-  return [
-    _value,
-    _method_object
-  ];
 }
 
 async function
-  _lock(
+  _chunks_lock(
     _retries_max,
     _call_timeout,
     _wallet_seed_path,
@@ -712,7 +775,11 @@ if ( _cmdline_check(
     app_opts);
 }
 
-module.exports = {
-  _lock:
-    _lock,
+export {
+  _chunks_lock,
 };
+
+// module.exports = {
+//   _chunks_lock:
+//     _chunks_lock,
+// };

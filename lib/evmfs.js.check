@@ -2,26 +2,32 @@
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-/**    ----------------------------------------------------------------------
+/**    -----------------------------------------------------------
+ *     evmfs.js.check
+ *     -----------------------------------------------------------
  *     Copyright ©
  *       Pellegrino Prevete
  *         2024, 2025, 2026
  * 
  *     All rights reserved
- *     ----------------------------------------------------------------------
+ *     ---------------------------------------------------------------
  * 
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *     This program is free software: you can redistribute it
+ *     and/or modify it under the terms of the GNU General Public
+       License as published by the Free Software Foundation, either
+ *     version 3 of the License, or (at your option) any later
+ *     version.
  * 
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     This program is distributed in the hope that it will be
+ *     useful, but WITHOUT ANY WARRANTY; without even the implied
+ *     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ *     PURPOSE.
+ *     See the
  *     GNU General Public License for more details.
  * 
- *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     You should have received a copy of the GNU General Public
+ *     License along with this program.
+ *     If not, see <https://www.gnu.org/licenses/>.
  */
 
 /* eslint-disable
@@ -74,12 +80,15 @@ const
   _override_set =
     _libcrash._override_set;
 const
-  _get_module =
+  _set =
+    _libcrash._set;
+const
+  _chunks_get_module =
     await import(
       "./evmfs.js.get");
 const
   _chunk_get =
-    _get_module._chunk_get;
+    _chunks_get_module._chunk_get;
 const
   _commons_module =
     await import(
@@ -299,14 +308,16 @@ function
       "More indexes to check than files to read.";
     _msg_error(
       _msg,
-      1);
+      0);
+    throw _msg;
   }
   if ( _total_files < _total_indexes ) {
     _msg =
       "More indexes to check than files to read.";
     _msg_error(
       _msg,
-      1);
+      0);
+    throw _msg;
   }
   _msg =
     "Input data checked.";
