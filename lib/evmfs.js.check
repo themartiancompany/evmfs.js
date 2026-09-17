@@ -598,6 +598,11 @@ function
   _global[
     "quiet"} = 
     "y";
+  const
+    _chunks_files_paths =
+      _get(
+        "_chunks_files",
+        "paths");
   _argv.forEach(
     function (
       _value,
@@ -638,31 +643,43 @@ function
           _value);
       }
       if ( _index == 8 ) {
-        contract_bytecode_path =
-          _value;
+        _set(
+          "contract_bytecode",
+          "path",
+          _value);
       }
       if ( _index == 9 ) {
-        contract_compiler_output_path =
-          _value;
+        _set(
+          "contract_compiler_output",
+          "path",
+          _value);
       }
       if ( _index == 10 ) {
-        publication_namespace =
-          _value;
+        _set(
+          "publication",
+          "namespace",
+          _value);
       }
       if ( _index == 11 ) {
-        file_hash =
-          _value;
+        _set(
+          "file",
+          "hash",
+          _value);
       }
       if ( _index == 12 ) {
-        index_start =
-          _value;
+        _set(
+          "index",
+          "start",
+          _value);
       }
       if ( _index == 13 ) {
-        index_end =
-          _value;
+        _set(
+          "index",
+          "end",
+          _value);
       }
       if ( 13 < _index ) {
-        chunks_files_paths.push(
+        _chunks_files_paths.push(
           _value);
       }
       if ( _value == "-h" ||
