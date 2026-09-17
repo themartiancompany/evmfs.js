@@ -38,6 +38,9 @@ const
     await import(
       "libcrash-js");
 const
+  _argv =
+    _libcrash._cmdline_argv;
+const
   _cmdline_check =
     _libcrash._cmdline_check;
 const
@@ -245,7 +248,8 @@ async function
     if ( _value == _chunk ) {
       return [
         true,
-        _method_object ];
+        _method_object
+      ];
     }
     else {
       _msg =
@@ -254,7 +258,8 @@ async function
         _msg);
       return [
         false,
-        _method_object ];
+        _method_object
+      ];
     }
   } catch(
       _error) {
@@ -345,7 +350,11 @@ async function
     _method_args,
     _msg,
     _progress;
-  if ( _method_object == undefined ) {
+  const
+    _method_object_type =
+      typeof(
+        _method_object);
+  if ( _method_object_type === "undefined" ) {
     _method_object =
       "";
   }
@@ -525,9 +534,10 @@ function
 
 function
   _usage(
-    _exit) {
+    _exit_code) {
   let
     _line;
+
   const
     _text = [
       "Checks published chunks of an EVMFS file.",
@@ -574,44 +584,58 @@ function
     _msg_info(
       _line);
   }
-  _process_exit(
-    _exit);
+  _exit(
+    _exit_code);
 }
 
 function 
   _cmdline_parse() {
   let
     _msg;
-  quiet = 
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"} = 
     "y";
-  process.argv.forEach(
+  _argv.forEach(
     function (
       _value,
-      _index,
-      _array) {
+      _index) {
       if ( _index == 2 ) {
-        quiet =
+        _global[
+          "quiet"] =
           _value;
       }
       if ( _index == 3 ) {
-        retries_max =
-          _value;
+        _set(
+          "retries",
+          "max",
+          _value);
       }
       if ( _index == 4 ) {
-        api_key_path =
-          _value;
+        _set(
+          "api_key",
+          "path",
+          _value);
       }
       if ( _index == 5 ) {
-        target_network =
-          _value;
+        _set(
+          "target",
+          "network",
+          _value);
       }
       if ( _index == 6 ) {
-        contract_address =
-          _value;
+        _set(
+          "contract",
+          "address",
+          _value);
       }
       if ( _index == 7 ) {
-        contract_abi_path =
-          _value;
+        _set(
+          "contract_abi",
+          "path",
+          _value);
       }
       if ( _index == 8 ) {
         contract_bytecode_path =
