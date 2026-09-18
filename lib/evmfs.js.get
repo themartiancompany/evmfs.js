@@ -89,21 +89,21 @@ const
   _contract_call_static =
     _evm_contracts_tools._contract_call_static;
 const
-  _commons =
+  _common =
     await import(
-      "./commons");
+      "./common");
 const
   _chunk_file_path_check =
-    _commons._chunk_file_path_check;
+    _common._chunk_file_path_check;
 const
   _input_data_check =
-    _commons._input_data_check;
+    _common._input_data_check;
 const
   _msg_info_chunk_get =
-    _commons._msg_info_chunk_get;
+    _common._msg_info_chunk_get;
 const
   _msg_info_chunk_got =
-    _commons._msg_info_chunk_got;
+    _common._msg_info_chunk_got;
 
 function
   _global_variables() {

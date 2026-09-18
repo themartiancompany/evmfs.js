@@ -59,6 +59,9 @@ const
   _echo2 =
     _libcrash._echo2;
 const
+  _exit =
+    _libcrash._exit;
+const
   _error_display =
     _libcrash._error_display;
 const
@@ -122,6 +125,15 @@ const
 // const
 //   _verify =
 //     _verify_module._verify;
+const
+  _common_module =
+    await import(
+      "./common");
+/* global
+     _msg_info_chunk_published */
+const
+  _msg_info_chunk_published =
+    _common_module._msg_info_chunk_published;
 
 function
   _global_variables() {
@@ -240,13 +252,17 @@ function
   /* global
        chunks_files_type:
          writable */
-  chunks_files_type =
-    "";
+  _set(
+    "chunks_files",
+    "type",
+    "");
   /* global
        chunks_files_paths:
          writable */
-  chunks_files_paths =
-    [];
+  _set(
+    "chunks_files",
+    "paths",
+    []);
   const
     _global =
       _global_get();
@@ -282,36 +298,6 @@ function
     _msg);
 }
 
-function
-  _msg_info_chunk_published_already(
-    _index,
-    _progress,
-    _total) {
-  const
-    _msg =
-      `Chunk '${_index}' published ` +
-      `already ('${_progress}' of ` +
-      `'${_total}').`;
-  _msg_info(
-    _msg);
-}
-
-function
-  _msg_info_chunk_published(
-    _tx,
-    _index,
-    _progress,
-    _total) {
-  const
-    _msg =
-      `Published chunk '${_index}' ` +
-      `('${_progress}'of '${_total}')` +
-      `at transaction with nonce '${_tx.nonce}' ` +
-      `and hash '${_tx.hash}'.`;
-  _msg_info(
-    _msg);
-}
-
 async function
   _chunk_publish(
     _contract_run_opts) {
@@ -327,7 +313,7 @@ async function
     _error_display(
       _error);
     const
-      _msg  =
+      _msg =
         "Error publishing the chunk.";
     _msg_error(
       _msg,
@@ -341,26 +327,26 @@ function
   _input_data_check(
     _index_start,
     _index_end,
-    _total_files) {
+    _total_chunks) {
   let
     _msg;
   const
     _total_indexes =
       _index_end - _index_start + 1;
-  if ( _total_files > _total_indexes ) {
+  if ( _total_chunks > _total_indexes ) {
     _msg =
-      `More files to upload ` +
-      `(${_total_files}) than indexes ` +
+      `More chunks files to upload ` +
+      `(${_total_chunks}) than indexes ` +
       `to upload (${_total_indexes}).`;
     _msg_error(
       _msg,
       1);
   }
-  if ( _total_files < _total_indexes ) {
+  if ( _total_chunks < _total_indexes ) {
     _msg =
       `More indexes' upload ` +
       `(${_total_indexes}) than ` +
-      `files to upload (${_total_files}).`;
+      `chunks files to upload (${_total_chunks}).`;
     _msg_error(
       _msg,
       1);
@@ -421,7 +407,7 @@ function
 }
 
 async function
-  _chunk_publish(
+  _chunks_publish(
     _retries_max,
     _call_timeout,
     _wallet_seed_path,
@@ -436,8 +422,7 @@ async function
     _index_start,
     _index_end,
     _checkpoint_file_path,
-    _chunks_files_paths
-  ) {
+    _chunks_files_paths) {
   let
     _check_call_base_opts,
     _check_call_opts,
@@ -448,6 +433,7 @@ async function
     _chunk_publish_args,
     _chunks_files_paths_prefix,
     _cursor,
+    _index,
     _method_object,
     _msg,
     _progress,
@@ -533,7 +519,7 @@ async function
     1;
   _cursor =
     0;
-  for ( var _index = _index_start;
+  for ( _index = _index_start;
         _index <= _index_end;
         _index++ ) {
     _msg_info_chunk_publish(
@@ -551,14 +537,16 @@ async function
       _file_read(
         _chunk_file_path);
     _chunk_check_args =
-      _method_base_args.concat(
-        [_index.toString()]);
+      _method_base_args.concat([
+        _index.toString()
+      ]);
     _check_call_opts =
-      _check_call_base_opts.concat(
-        [_chunk_check_args]);
+      _check_call_base_opts.concat([
+        _chunk_check_args
+      ]);
     try {
-      [_published,
-       _method_object] =
+      [ _published,
+        _method_object ] =
         await _chunk_check(
           _chunk,
           _check_call_opts);
@@ -590,7 +578,7 @@ async function
         _error) {
       _error_display(
         _error);
-      _msg  =
+      _msg =
         "Error checking publication status.";
       _msg_error(
         _msg,
@@ -641,13 +629,13 @@ async function
       ]);
     }
     else {
-      _msg_error(
-        "_published",
-        0);
-      console.error(
-        _published);
       _msg =
-        "Unexpected chunk publication status value.";
+        "Unexpected chunk publication status value:";
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _published);
       const
         _error = {
           "error": {
@@ -675,7 +663,7 @@ async function
           0]);
     }
   }
-  if ( _indexes_unverified.length != 0 ) {
+  if ( 0 < _indexes_unverified.length ) {
     _msg =
       "There is a total of " +
       `'${_indexes_unverified.length}' indexes ` +
@@ -777,7 +765,7 @@ function
       "Publishes chunks of an EVMFS file.",
       "",
       "Usage:",
-      `  ${app_name}`,
+      `  ${_program}`,
       "    <quiet>",
       "    <retries-max>",
       "    <call-timeout>",
@@ -894,11 +882,15 @@ function
           _value);
       }
       if ( _index == 8 ) {
-        contract_address =
+        _set(
+          "contract",
+          "address",
           _value;
       }
       if ( _index == 9 ) {
-        contract_abi_path =
+        _set(
+          "contract_abi",
+          "path",
           _value;
       }
       if ( _index == 10 ) {
@@ -950,7 +942,7 @@ function
           _value);
       }
       if ( 17 < _index ) {
-	_chunks_files_paths.push(
+        _chunks_files_paths.push(
           _value);
       }
       if ( _value == "-h" ||
@@ -962,11 +954,48 @@ function
           0);
       }
   });
-  if ( file_hash == "" ||
-       publication_namespace  == "" ||
-       chunks_files_paths == [] ) {
-    quiet =
+  const
+    _file_hash =
+      _get(
+        "file",
+        "hash");
+  if ( _file_hash == "" ) {
+    _global[
+      "quiet"] =
       "n";
+    _msg =
+      "No file hash given.";
+    _msg_error(
+      _msg,
+      0);
+    _usage(
+      1);
+  }
+  const
+    _publication_namespace =
+      _get(
+        "publication",
+        "namespace");
+  if ( _publication_namespace == "" ) {
+    _global[
+      "quiet"] =
+    _msg =
+      "No publication namespace given.";
+    _msg_error(
+      _msg,
+      0);
+    _usage(
+      1);
+  }
+  if ( chunks_files_paths == [] ) {
+    _global[
+      "quiet"] =
+      "n";
+    _msg =
+      "No chunks files paths given.";
+    _msg_error(
+      _msg,
+      0);
     _usage(
       1);
   }
@@ -1098,4 +1127,4 @@ export {
 //     _msg_info_chunk_published_already,
 //   _msg_info_chunk_unpublished:
 //     _msg_info_chunk_unpublished
-};
+// };

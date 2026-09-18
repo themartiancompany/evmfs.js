@@ -156,11 +156,43 @@ function
     _msg);
 }
 
+function
+  _msg_info_chunk_published(
+    _tx,
+    _index,
+    _progress,
+    _total) {
+  const
+    _msg =
+      `Published chunk '${_index}' ` +
+      `('${_progress}'of '${_total}')` +
+      `at transaction with nonce '${_tx.nonce}' ` +
+      `and hash '${_tx.hash}'.`;
+  _msg_info(
+    _msg);
+}
+
+function
+  _msg_info_chunk_published_already(
+    _index,
+    _progress,
+    _total) {
+  const
+    _msg =
+      `Chunk '${_index}' published ` +
+      `already ('${_progress}' of ` +
+      `'${_total}').`;
+  _msg_info(
+    _msg);
+}
+
 export {
   _chunk_file_path_check,
   _input_data_check,
   _msg_info_chunk_get,
-  _msg_info_chunk_got
+  _msg_info_chunk_got,
+  _msg_info_chunk_published,
+  _msg_info_chunk_published_already
 };
 
 // module.exports = {
@@ -171,5 +203,9 @@ export {
 //   _msg_info_chunk_get:
 //     _msg_info_chunk_get,
 //   _msg_info_chunk_got:
-//     _msg_info_chunk_got
+//     _msg_info_chunk_got,
+//   _msg_info_chunk_published:
+//     _msg_info_chunk_published
+//   _msg_info_chunk_published_already:
+//     _msg_info_chunk_published_already
 // };

@@ -642,7 +642,7 @@ function
       "                                   in case node was to crash.",
     ];
   for ( _line of _text ) {
-    _msg_info(
+    _echo(
       _line);
   }
   _exit(

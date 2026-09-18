@@ -93,12 +93,12 @@ const
   _chunk_get =
     _chunks_get_module._chunk_get;
 const
-  _commons_module =
+  _common_module =
     await import(
-      "./commons");
+      "./common");
 const
   _chunk_file_path_check =
-    _commons_module._chunk_file_path_check;
+    _common_module._chunk_file_path_check;
 
 function
   _global_variables() {

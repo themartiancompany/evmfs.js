@@ -183,14 +183,14 @@ function
   _set(
     "disk",
     "write",
-    "";
+    "");
   /* global
        checkpoint_file_path:
          writable */
   _set(
     "checkpoint_file",
     "path",
-    "";
+    "");
   /* global
        files_hashes:
          writable */
@@ -293,7 +293,8 @@ async function
   }
   return [
     _value,
-    _method_object];
+    _method_object
+  ];
 }
 
 async function
@@ -1076,16 +1077,38 @@ if ( await _cmdline_check(
 
 export {
   _length_input_data_check,
+  _length_get,
   _length_lock,
   _length_locked,
+  _lock_input_data_check,
+  _lock_get,
   _msg_info_length_get,
+  _msg_info_length_got,
+  _msg_info_lock_get,
+  _msg_info_lock_got,
 };
 
 // module.exports = {
 //   _length_input_data_check:
 //     _length_input_data_check,
+//   _length_get:
+//     _length_get,
+//   _length_ lock:
+//     _length_lock,
 //   _length_locked:
 //     _length_locked,
-//   _length_lock:
-//     _length_lock
+//   _lock_input_data_check:
+//     _lock_input_data_check,
+//  _lock_get:
+//    _lock_get,
+//  _lock_input_data_check:
+//    _lock_input_data_check,
+//   _msg_info_length_get:
+//     _msg_info_length_get,
+//   _msg_info_length_got:
+//     _msg_info_length_got,
+//   _msg_info_length_get:
+//     _msg_info_length_get,
+//   _msg_info_lock_got:
+//     _msg_info_lock_got,
 };
