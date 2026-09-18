@@ -699,12 +699,16 @@ function
           _value);
       }
       if ( _index == 8 ) {
-        contract_address =
-          _value;
+        _set(
+          "contract",
+          "address",
+          _value);
       }
       if ( _index == 9 ) {
-        contract_abi_path =
-          _value;
+        _set(
+          "contract_abi",
+          "path",
+          _value);
       }
       if ( _index == 10 ) {
         _set(
@@ -799,13 +803,14 @@ function
 
 if ( await _cmdline_check(
        "evmfs.js.lock") ) {
+  let
+    _msg;
   _global_variables();
   _cmdline_parse();
   _overrides_set();
   _config_show();
-  const
-    _msg =
-      "Running 'chunks_lock' from command-line.";
+  _msg =
+    "Running 'chunks_lock' from command-line.";
   _msg_info(
     _msg);
   app_opts = [
@@ -831,9 +836,8 @@ if ( await _cmdline_check(
   }
   catch(
     _error) {
-    const
-      _msg =
-        "Error running '_chunks_lock' with" +
+    _msg =
+      "Error running '_chunks_lock' with" +
         "arguments:";
     _msg_error(
       _msg,
