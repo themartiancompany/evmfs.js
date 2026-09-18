@@ -14,7 +14,7 @@
  * 
  *     This program is free software: you can redistribute it
  *     and/or modify it under the terms of the GNU General Public
-       License as published by the Free Software Foundation,
+ *     License as published by the Free Software Foundation,
  *     either version 3 of the License, or (at your option) any
  *     later version.
  * 
@@ -45,7 +45,7 @@ const
       "libcrash-js");
 const
   _argv =
-    _libcrash._cmdline_argv;
+    _libcrash._argv;
 const
   _basename =
     _libcrash._basename;
@@ -58,9 +58,6 @@ const
 const
   _echo2 =
     _libcrash._echo2;
-const
-  _exit =
-    _libcrash._exit;
 const
   _error_display =
     _libcrash._error_display;
@@ -835,12 +832,12 @@ function
     _global =
       _global_get();
   _global[
-    "quiet"] = 
+    "quiet"] =
     "y";
-  const =
+  const
     _chunks_files_paths =
       _get(
-        "_chunks_files",
+        "chunks_files",
         "paths");
   _argv.forEach(
     function (
@@ -885,13 +882,13 @@ function
         _set(
           "contract",
           "address",
-          _value;
+          _value);
       }
       if ( _index == 9 ) {
         _set(
           "contract_abi",
           "path",
-          _value;
+          _value);
       }
       if ( _index == 10 ) {
         _set(
@@ -1002,7 +999,7 @@ function
 }
 
 async function
-  _publish_cmdline(
+  _chunks_publish_cmdline(
     _app_opts) {
   let
     _msg;
@@ -1019,10 +1016,11 @@ async function
       _msg_info(
         _msg);
     }
-  } catch (
+  }
+  catch(
       _error) {
     _msg =
-      "Publication error.";
+      "Error running '_chunks_publish'.";
     _msg_error(
       _msg,
       0);
@@ -1084,15 +1082,15 @@ if ( await _cmdline_check(
     chunks_files_paths,
   ];
   try {
-    _publish_cmdline(
+    _chunks_publish_cmdline(
       app_opts);
   }
   catch(
     _error) {
     const
       _msg =
-        "Error running '_publish_cmdline' with" +
-        "arguments:";
+        "Error running '_chunks_publish_cmdline' " +
+        "with arguments:";
     _msg_error(
       _msg,
       0);
@@ -1100,7 +1098,7 @@ if ( await _cmdline_check(
       app_opts);
     _echo2(
       _error);
-    throw _msg;
+    throw _error;
   }
 }
 

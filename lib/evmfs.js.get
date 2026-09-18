@@ -2,24 +2,27 @@
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-/**    ---------------------------------------------------------------
+/**    -----------------------------------------------------------
  *     evmfs.js.get
- *     ---------------------------------------------------------------
+ *     -----------------------------------------------------------
  *     Copyright ©
  *       Pellegrino Prevete
  *         2024, 2025, 2026
  * 
  *     All rights reserved
- *     ---------------------------------------------------------------
+ *     -----------------------------------------------------------
  * 
- *     This program is free software: you can redistribute it and/or
- *     modify it under the terms of the GNU General Public License as
- *     published by the Free Software Foundation, either version 3 of
- *     the License, or (at your option) any later version.
+ *     This program is free software: you can redistribute it
+ *     and/or modify it under the terms of the GNU General Public
+ *     License as published by the Free Software Foundation,
+ *     either version 3 of the License, or (at your option) any
+ *     later version.
  * 
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     This program is distributed in the hope that it will be
+ *     useful, but WITHOUT ANY WARRANTY; without even the implied
+ *     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ *     PURPOSE.
+ *     See the
  *     GNU General Public License for more details.
  * 
  *     You should have received a copy of the GNU General Public
@@ -43,6 +46,9 @@ const
 const
   _argv =
     _libcrash._argv;
+const
+  _basename =
+    _libcrash._basename;
 const
   _cmdline_check =
     _libcrash._cmdline_check;
@@ -77,24 +83,27 @@ const
   _override_set =
     _libcrash._override_set;
 const
+  _require =
+    _libcrash._require;
+const
   _set =
     _libcrash._set;
 const
-  _evm_contracts_tools =
-    await import(
+  _evm_contracts_tools_module =
+    await _require(
       "evm-contracts-tools");
 /* global
      _contract_call_static */
 const
   _contract_call_static =
-    _evm_contracts_tools._contract_call_static;
+    _evm_contracts_tools_module._contract_call_static;
 const
-  _common =
+  _common_module =
     await import(
       "./common");
 const
   _chunk_file_path_check =
-    _common._chunk_file_path_check;
+    _common_module._chunk_file_path_check;
 const
   _input_data_check =
     _common._input_data_check;
@@ -437,11 +446,17 @@ function
   let
     _line;
   const
+    _program =
+      _basename(
+        _argv[
+          0];
+  const
     _text = [
+      "",
       "Downloads chunks of an EVMFS file.",
       "",
       "Usage:",
-      `  ${app_name}`,
+      `  ${_program}`,
       "    <quiet>",
       "    <retries-max>",
       "    <api-key-path>",
@@ -588,20 +603,28 @@ function
           _value);
       }
       if ( 14 < _index ) {
-	_chunks_files_paths.push(
+        _chunks_files_paths.push(
           _value);
       }
       if ( _value == "-h" ||
            _value == "--help" ) {
         _usage(
-	  0);
+          0);
       }
   });
   _set(
     "chunks_files",
     "paths",
     _chunks_files_paths);
-  if ( file_hash == "" ) {
+  const
+    _file_hash =
+      _get(
+        "file",
+        "hash");
+  if ( _file_hash == "" ) {
+    _global[
+      "quiet"] =
+      "n";
     _msg =
       "No file hash given.";
     _msg_error(
@@ -610,7 +633,14 @@ function
     _usage(
       1);
   }
-  else if (publication_namespace == "" ) {
+  const
+    _publication_namespace =
+      _get(
+        "publication",
+        "namespace");
+  if ( _publication_namespace == "" ) {
+    _global[
+      "quiet"] =
     _msg =
       "No publication namespace given.";
     _msg_error(
@@ -626,6 +656,11 @@ if ( await _cmdline_check(
   _global_variables();
   _cmdline_parse();
   _config_show();
+  const
+    _msg =
+      "Running 'chunks_get' from command-line.";
+  _msg_info(
+    _msg);
   app_opts = [
     retries_max,
     api_key_path,
@@ -662,12 +697,18 @@ if ( await _cmdline_check(
 
 export {
   _chunk_get,
-  _chunks_get
+  _chunks_get,
+  _msg_info_chunk_get,
+  _msg_info_chunk_got,
 };
 
 // module.exports = {
 //   _chunk_get:
 //     _chunk_get,
 //   _chunks_get:
-//     _chunks_get
+//     _chunks_get,
+//   _msg_info_chunk_get:
+//     _msg_info_chunk_get,
+//   _msg_info_chunk_got:
+//     _msg_info_chunk_got
 // };

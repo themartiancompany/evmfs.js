@@ -14,7 +14,7 @@
  * 
  *     This program is free software: you can redistribute it
  *     and/or modify it under the terms of the GNU General Public
-       License as published by the Free Software Foundation,
+ *     License as published by the Free Software Foundation,
  *     either version 3 of the License, or (at your option) any
  *     later version.
  * 
@@ -45,7 +45,7 @@ const
       "libcrash-js");
 const
   _argv =
-    _libcrash._cmdline_argv;
+    _libcrash._argv;
 const
   _basename =
     _libcrash._basename;
@@ -900,9 +900,9 @@ function
     _global =
       _global_get();
   _global[
-    "quiet"] = 
+    "quiet"] =
     "y";
-  const =
+  const
     _chunks_files_paths =
       _get(
         "_chunks_files",
@@ -947,12 +947,16 @@ function
           _value);
       }
       if ( _index == 8 ) {
-        contract_address =
-          _value;
+        _set(
+          "contract",
+          "address",
+          _value);
       }
       if ( _index == 9 ) {
-        contract_abi_path =
-          _value;
+        _set(
+          "contract_abi",
+          "path",
+          _value);
       }
       if ( _index == 10 ) {
         _set(
@@ -967,8 +971,10 @@ function
           _value);
       }
       if ( _index == 12 ) {
-        fs_address =
-          _value;
+        _set(
+          "fs",
+          "address",
+          _value);
       }
       if ( _index == 13 ) {
         _set(
@@ -993,7 +999,6 @@ function
           "index",
           "end",
           _value);
-      }
       }
       if ( _index == 17 ) {
         _set(
@@ -1026,13 +1031,65 @@ function
           0);
       }
   });
-  if ( file_hash == "" ||
-       fs_address == "" ||
-       publication_namespace  == "" ||
-       chunks_files_paths == [] ) {
+  const
+    _fs_address =
+      _get(
+        "fs",
+        "address");
+  if ( _fs_address == "" ) {
     _global[
       "quiet"] =
       "n";
+    _msg =
+      "No file system address given.";
+    _msg_error(
+      _msg,
+      0);
+    _usage(
+      1);
+  }
+  const
+    _file_hash =
+      _get(
+        "file",
+        "hash");
+  if ( _file_hash == "" ) {
+    _global[
+      "quiet"] =
+      "n";
+    _msg =
+      "No file hash given.";
+    _msg_error(
+      _msg,
+      0);
+    _usage(
+      1);
+  }
+  const
+    _publication_namespace =
+      _get(
+        "publication",
+        "namespace");
+  if ( _publication_namespace == "" ) {
+    _global[
+      "quiet"] =
+    _msg =
+      "No publication namespace given.";
+    _msg_error(
+      _msg,
+      0);
+    _usage(
+      1);
+  }
+  if ( chunks_files_paths == [] ) {
+    _global[
+      "quiet"] =
+      "n";
+    _msg =
+      "No chunks files paths given.";
+    _msg_error(
+      _msg,
+      0);
     _usage(
       1);
   }

@@ -2,34 +2,38 @@
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-/**    ----------------------------------------------------------------------
+/**    -----------------------------------------------------------
  *     evmfs.js.verify
- *     ----------------------------------------------------------------------
+ *     -----------------------------------------------------------
  *     Copyright ©
  *       Pellegrino Prevete
  *         2024, 2025, 2026
  * 
  *     All rights reserved
- *     ----------------------------------------------------------------------
+ *     -----------------------------------------------------------
  * 
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *     This program is free software: you can redistribute it
+ *     and/or modify it under the terms of the GNU General Public
+ *     License as published by the Free Software Foundation,
+ *     either version 3 of the License, or (at your option) any
+ *     later version.
  * 
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     This program is distributed in the hope that it will be
+ *     useful, but WITHOUT ANY WARRANTY; without even the implied
+ *     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ *     PURPOSE.
+ *     See the
  *     GNU General Public License for more details.
  * 
- *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     You should have received a copy of the GNU General Public
+ *     License along with this program.
+ *     If not, see <https://www.gnu.org/licenses/>.
  */
 
 /* eslint-disable
      no-unused-vars */
 
-/* Crash Javascript */
+/* Crash Javascript global variables */
 
 /* global
      quiet:
@@ -37,8 +41,14 @@
 
 const
   _libcrash =
-    require(
-      "crash-js");
+    await import(
+      "libcrash-js");
+const
+  _argv =
+    _libcrash._argv;
+const
+  _basename =
+    _libcrash._basename;
 const
   _cmdline_check =
     _libcrash._cmdline_check;
@@ -46,8 +56,14 @@ const
   _echo =
     _libcrash._echo;
 const
+  _echo2 =
+    _libcrash._echo2;
+const
   _error_display =
     _libcrash._error_display;
+const
+  _exit =
+    _libcrash._exit;
 const
   _file_write =
     _libcrash._file_write;
@@ -55,21 +71,30 @@ const
   _file_exists =
     _libcrash._file_exists;
 const
+  _get =
+    _libcrash._get;
+const
+  _global_get =
+    _libcrash._global_get;
+const
   _msg_info =
     _libcrash._msg_info;
 const
   _msg_error =
     _libcrash._msg_error;
 const
-  _process_exit =
-    _process_exit;
+  _override_set =
+    _libcrash._override_set;
 const
-  _check_module =
-    require(
+  _set =
+    _libcrash._set;
+const
+  _chunks_check_module =
+    await import(
       "./evmfs.js.check");
 const
-  _check =
-    _check_module._check;
+  _chunks_check =
+    _chunks_check_module._check;
 const
   _chunk_file_path_check =
     _file_exists;
@@ -79,48 +104,66 @@ function
   /* global
        app_name:
          writable */
-  app_name =
-    "evmfs.js.verify";
+  _set(
+    "app",
+    "name",
+    "evmfs.js.verify");
   /* global
        app_opts:
          writable */
-  app_opts =
-    [];
+  _set(
+    "app",
+    "opts",
+    []);
   /* global
        retries_max:
          writable */
-  retries_max =
-    "";
+  _set(
+    "retries",
+    "max",
+    "");
   /* global
        api_key_path:
          writable */
-  api_key_path =
-    "";
+  _set(
+    "api_key",
+    "path",
+    "");
   /* global
        target_network:
          writable */
-  target_network =
-    "";
+  _set(
+    "target",
+    "network",
+    "");
   /* global
        contract_address:
          writable */
-  contract_address =
-    "";
+  _set(
+    "contract",
+    "address",
+    "");
   /* global
        contract_abi_path:
          writable */
-  contract_abi_path =
-    "";
+  _set(
+    "contract_abi",
+    "path",
+    "");
   /* global
        contract_bytecode_path:
          writable */
-  contract_bytecode_path =
-    "";
+  _set(
+    "contract_bytecode",
+    "path",
+    "");
   /* global
        contract_compiler_output_path:
          writable */
-  contract_compiler_output_path =
-    "";
+  _set(
+    "contract_compiler_output",
+    "path",
+    "");
   /* global
        method_object:
          writable */
@@ -129,29 +172,43 @@ function
   /* global
        publication_namespace:
          writable */
-  publication_namespace =
-    "";
+  _set(
+    "publication",
+    "namespace",
+    "");
   /* global
        file_hash:
          writable */
-  file_hash =
-    "";
+  _set(
+    "file",
+    "hash",
+    "");
   /* global
        checkpoint_file_path:
          writable */
-  checkpoint_file_path =
-    "";
+  _set(
+    "checkpoint_file",
+    "path",
+    "");
   /* global
        chunks_files_paths_prefix:
          writable */
-  chunks_files_paths_prefix =
-    "";
+  _set(
+    "chunks_files_paths",
+    "prefix",
+    "");
   /* global
        chunks_indexes:
          writable */
-  chunks_indexes =
-    [];
-  quiet =
+  _set(
+    "chunks",
+    "indexes",
+    []);
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] =
     "";
 }
 
@@ -214,7 +271,7 @@ function
 }
 
 async function
-  _verify(
+  _chunks_verify(
     _retries_max,
     _api_key_path,
     _target_network,
@@ -293,7 +350,7 @@ async function
     try {
       [ _chunks_checked,
         _method_object ] =
-        await _check.apply(
+        await _chunks_check.apply(
 	  null,
           _check_opts);
           // _retries_max,
@@ -361,13 +418,13 @@ async function
       }
     }
     else if ( _chunks_checked_total == 0 ) {
-      // Temporary
+      // Temporary (ahah)
       _msg_error_chunk_corrupted(
         _index,
         _chunk_file_path,
         _progress,
         _chunks_total);
-      // Soon
+      // Soon (ahah)
       _chunks_corrupted.push(
         _index);
       _msg =
@@ -382,7 +439,8 @@ async function
     _msg);
   return [
     _chunks_corrupted,
-    _method_object ];
+    _method_object
+  ];
 }
 
 function
@@ -390,20 +448,28 @@ function
   let
     _line;
   const
+    _program =
+      _basename(
+        _argv[
+          0]);
+  const
     _chunks_indexes =
       chunks_indexes.join(
       " ");
   const
     _text = [
-      `          Maximum retries: ${retries_max}`,
-      `                  API Key: ${api_key_path}`,
+      ` ${_program} configuration:`,
+      `                File hash: ${file_hash}`,
+      `    Publication namespace: ${publication_namespace}`,
+      `       Network settings:`,
       `           Target network: ${target_network}`,
+      `                  API Key: ${api_key_path}`,
+      `          Maximum retries: ${retries_max}`,
       `         Contract address: ${contract_address}`,
       `             Contract ABI: ${contract_abi_path}`,
       `        Contract bytecode: ${contract_bytecode_path}`,
       ` Contract compiler output: ${contract_compiler_output_path}`,
-      `    Publication namespace: ${publication_namespace}`,
-      `                File hash: ${file_hash}`,
+      `       Session settings:`,
       `     Checkpoint file path: ${checkpoint_file_path}`,
       `Chunks files paths prefix: ${chunks_files_paths_prefix}`,
       `           Chunks indexes: ${_chunks_indexes}`,
@@ -416,15 +482,21 @@ function
 
 function
   _usage(
-    _exit) {
+    _exit_code) {
   let
     _line;
   const
+    _program =
+      _basename(
+        _argv[
+          0];
+  const
     _text = [
-      "Verify published chunks of an EVMFS file.",
+      "",
+      "Verifies published chunks of an EVMFS file.",
       "",
       "Usage:",
-      "  evmfs.js.verify",
+      `  ${_program}`,
       "    <quiet>",
       "    <retries-max>",
       "    <api-key-path>",
@@ -443,7 +515,7 @@ function
       "  <quiet>                          Can be 'y' or 'n'",
       "                                   Default: y",
       "  <retries-max>                    Maximum number of retries before",
-      "                                   failing (not implemented).",
+      "                                   failing.",
       "  <api-key-path>                   Path of the API key for the",
       "                                   contract ABI provider service.",
       "  <target-network>                 Network on which the contract",
@@ -466,106 +538,188 @@ function
     _msg_info(
       _line);
   }
-  _process_exit(
-    _exit);
+  _exit(
+    _exit_code);
 }
 
-function 
+function
   _cmdline_parse() {
-  quiet = 
+  let
+    _msg;
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] =
     "y";
-  process.argv.forEach(
+  const
+    _chunks_indexes =
+      _get(
+        "chunks",
+        "indexes");
+  _argv.forEach(
     function (
       _value,
-      _index,
-      _array) {
+      _index) {
       if ( _index == 2 ) {
-        quiet =
+        _global[
+          "quiet"] =
           _value;
       }
       if ( _index == 3 ) {
-        retries_max =
-          _value;
+        _set(
+          "retries",
+          "max",
+          _value);
       }
       if ( _index == 4 ) {
-        api_key_path =
-          _value;
+        _set(
+          "api_key",
+          "path",
+          _value);
       }
       if ( _index == 5 ) {
-        target_network =
-          _value;
+        _set(
+          "target",
+          "network",
+          _value);
       }
       if ( _index == 6 ) {
-        contract_address =
-          _value;
+        _set(
+          "contract",
+          "address",
+          _value);
       }
       if ( _index == 7 ) {
-        contract_abi_path =
-          _value;
+        _set(
+          "contract_abi",
+          "path",
+          _value);
       }
       if ( _index == 8 ) {
-        contract_bytecode_path =
-          _value;
+        _set(
+          "contract_bytecode",
+          "path",
+          _value);
       }
       if ( _index == 9 ) {
-        contract_compiler_output_path =
-          _value;
+        _set(
+          "contract_compiler_output",
+          "path",
+          _value);
       }
       if ( _index == 10 ) {
-        publication_namespace =
-          _value;
+        _set(
+          "publication",
+          "namespace",
+          _value);
       }
       if ( _index == 11 ) {
-        file_hash =
-          _value;
+        _set(
+          "file",
+          "hash",
+          _value);
       }
       if ( _index == 12 ) {
-        checkpoint_file_path =
-          _value;
+        _set(
+          "checkpoint_file",
+          "path",
+          _value);
       }
       if ( _index == 13 ) {
-        chunks_files_paths_prefix =
-          _value;
+        _set(
+          "chunks_files_paths",
+          "prefix",
+          _value);
       }
       if ( 13 < _index ) {
-	chunks_indexes.push(
+        _chunks_indexes.push(
           _value);
       }
       if ( _value == "-h" ||
            _value == "--help" ) {
+        _global[
+          "quiet"] =
+          "n";
         _usage(
           0);
       }
   });
-  if ( file_hash == "" ||
-       publication_namespace == "" ) {
+  const
+    _file_hash =
+      _get(
+        "file",
+        "hash");
+  if ( _file_hash == "" ) {
+    _global[
+      "quiet"] =
+      "n";
+    _msg =
+      "No file hash given.";
+    _msg_error(
+      _msg,
+      0);
+    _usage(
+      1);
+  }
+  const
+    _publication_namespace =
+      _get(
+        "publication",
+        "namespace");
+  if ( _publication_namespace == "" ) {
+    _global[
+      "quiet"] =
+    _msg =
+      "No publication namespace given.";
+    _msg_error(
+      _msg,
+      0);
     _usage(
       1);
   }
 }
 
 async function
-  _verify_cmdline(
+  _chunks_verify_cmdline(
     _app_opts) {
   let
+    _chunks_corrupted,
     _index;
-  const
-    [ _chunks_corrupted,
-      _method_object ] = 
-      await _verify.apply(
+  try {
+    [ _chunks_corrupted ] = 
+      await _chunks_verify.apply(
         null,
         _app_opts);
+  }
+  catch(
+      _error) {
+    _msg =
+      "Error running '_chunks_verify'.";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
   for ( _index of _chunks_corrupted ) {
     _echo(
       _index.toString());
   }
 }
 
-if ( _cmdline_check(
+if ( await _cmdline_check(
        "evmfs.js.verify") ) {
   _global_variables();
   _cmdline_parse();
+  _overrides_set();
   _config_show();
+  const
+    _msg =
+      "Running 'chunks_verify' from command-line.";
+  _msg_info(
+    _msg);
   app_opts = [
     retries_max,
     api_key_path,
@@ -581,11 +735,44 @@ if ( _cmdline_check(
     chunks_files_paths_prefix,
     chunks_indexes,
   ];
-  _verify_cmdline(
-    app_opts);
+  try {
+    _chunks_verify_cmdline(
+      app_opts);
+  }
+  catch(
+    _error) {
+    const
+      _msg =
+        "Error running '_chunks_verify_cmdline' " +
+        "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      app_opts);
+    _echo2(
+      _error);
+    throw _error;
+  }
 }
 
-module.exports = {
-  _verify:
-    _verify
+export {
+  _chunk_file_path_get,
+  _chunks_verify,
+  _msg_error_chunk_corrupted,
+  _msg_info_chunk_verify,
+  _msg_info_chunk_verified
 };
+
+// module.exports = {
+//   _chunk_file_path_get:
+//     _chunk_file_path_get,
+//   _chunks_verify:
+//     _chunks_verify,
+//   _msg_error_chunk_corrupted:
+//     _msg_error_chunk_corrupted,
+//   _msg_info_chunk_verify:
+//     _msg_info_chunks_verify,
+//   _msg_info_chunk_verified:
+//     _msg_info_chunks_verifie,
+// };
