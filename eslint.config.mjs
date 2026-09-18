@@ -30,25 +30,29 @@ import { defineConfig } from "eslint/config";
 const
   _project =
     "evmfs";
-
-export default defineConfig([
- {
-   ignores: [
+const
+  _ignores = [
      "build/**",
+     "dist/**",
      "node_modules/**",
      "eslint.config.js",
      "man/**"
-   ],
+  ];
+export default defineConfig([
+ {
+   ignores:
+     _ignores,
    rules:
      { semi:
          "error",
        "prefer-const":
          "error" },
-   files:
-     [ "**/*.{js,mjs,cjs}",
-       `**/${_project}*`,
-       `**/lib${_project}`
-     ],
+   files: [
+     "**/*.{js,mjs,cjs}",
+     `**/${_project}*`,
+     `**/lib/*`
+     `**/lib${_project}`
+   ],
    plugins:
      { js },
    extends:
@@ -58,22 +62,15 @@ export default defineConfig([
          {  ...globals.browser,
             ...globals.node } } },
  { 
-   ignores: [
-     "build/**",
-     "eslint.config.js",
-     "node_modules/**",
-     "man/**"
-   ],
+   ignores:
+     _ignores,
    rules:
      { semi:
          "error",
        "prefer-const":
          "error" },
    files:
-     [ "**/*.js",
-       `**/${_project}*`,
-       `**/lib${_project}`,
-     ],
+     [ "**/*.{cjs,js}" ],
    languageOptions:
      { sourceType:
          "commonjs" } },

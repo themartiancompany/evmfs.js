@@ -483,7 +483,7 @@ function
       "  <target-network>                 Network on which the contract",
       "                                   resides.",
       "  <contract-address>               Address of the contract.",
-      "  <contract-abi_path>              Contract ABI path.",
+      "  <contract-abi-path>              Contract ABI path.",
       "  <contract-bytecode-path>         Path for the contract bytecode.",
       "  <contract-compiler-output-path>  Path for the contract compiler",
       "                                   output path (the hardhat artifact).",
