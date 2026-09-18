@@ -108,7 +108,7 @@
   },
   "dependencies": {
     "libcrash-js":
-      "npm:crash-js:@^1000000000000012.1000000000000001.1000000000000001",
+      "npm:crash-js@^1000000000000012.1000000000000001.1000000000000001",
     "encoding-tools":
       "0.0.19",
     "evm-contracts-tools":
