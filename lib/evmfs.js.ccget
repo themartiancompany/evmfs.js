@@ -1095,9 +1095,9 @@ async function
   const
     _chunks_fs_addresses =
       [];
-  _rpc_selection =
-    _rpc_selection_check(
-      _rpc_selection);
+  // _rpc_selection =
+  //   _rpc_selection_check(
+  //     _rpc_selection);
   const
     _method_objects_empty =
       Object.keys(
