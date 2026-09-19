@@ -594,47 +594,32 @@ async function
       0);
   }
   _config_show();
-  // const
-  //   app_opts = [
-  //     retries_max,
-  //     api_key_path,
-  //     target_network,
-  //     deployments_dir,
-  //     fs_version,
-  //     rpc_selection,
-  //     contract_address,
-  //     contract_abi_path,
-  //     contract_bytecode_path,
-  //     contract_compiler_output_path,
-  //     method_objects,
-  //     publication_namespace,
-  //     file_hash,
-  //     index_start,
-  //     index_end,
-  //     checkpoint_file_path,
-  //     chunks_files_paths,
-  //   ];
   const
     app_opts = [
-      _wallet_name,
-      _wallet_path,
-      _wallet_password,
-      _wallet_seed,
-      _wallet_address,
-      _gnupg_home,
-      _gnupg_public,
-      _key_passphrase,
-      _key_comment,
-      _with_colons,
-      _input_type,
-      _output_type,
-      _key_type,
-      _key_publish,
-      _cache_dir,
-      _target_command,
-      _command_key,
-      _command_value,
-      _command_args
+      target_command,
+      fs_address,
+      ccfs_address,
+      fs_version
+      deployments_dir,
+      wallet_name,
+      wallet_path,
+      wallet_password,
+      wallet_seed,
+      target_network,
+      api_key,
+      call_method,
+      index_network,
+      retries_max,
+      call_timeout,
+      lock_only,
+      chunk_length,
+      encoding_skip,
+      tasks_parallel,
+      cache_dir,
+      user_level,
+      output_file,
+      target_key,
+      target_value
     ];
   try {
     _results =
@@ -962,11 +947,17 @@ function
       "cache_dir")[
         0];
   _libevm_url_parse();
-  quiet =
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] =
     _argv_url_get(
       "quiet");
-  if ( quiet.length === 0 ) {
-    quiet =
+  if ( _global[
+         "quiet"].length === 0 ) {
+    _global[
+      "quiet" =
       "n";
   }
 }
@@ -979,11 +970,13 @@ if ( _cmdline_check(
        "evmfs.js") == true ||
      _cmdline_check(
        "evmfs") == true ) {
-  console.log("hello");
+  _echo(
+    "Running 'evmfs' from the command line.");
   _cmdline_parse();
 }
 else {
-  console.log("hello");
+  _echo(
+    "Running 'evmfs' from a web browser.");
   _url_parse();
 }
 _main();

@@ -868,8 +868,10 @@ async function
       _msg_error(
         _msg,
         0);
-      echo2(
-        _
+      _echo2(
+        _read_references_no_get_args);
+      _echo2(
+        _error);
       throw _error;
     }
     // TODO:
