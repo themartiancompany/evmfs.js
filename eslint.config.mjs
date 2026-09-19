@@ -50,7 +50,7 @@ export default defineConfig([
    files: [
      "**/*.{js,mjs,cjs}",
      `**/${_project}*`,
-     `**/lib/*`
+     `**/lib/*`,
      `**/lib${_project}`
    ],
    plugins:

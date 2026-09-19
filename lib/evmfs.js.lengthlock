@@ -279,8 +279,9 @@ async function
       await _contract_call_static.apply(
         null,
         _lock_call_opts);
-  } catch (
-      _error) {
+  }
+  catch (
+    _error) {
     _error_display(
       _error);
     const
@@ -309,7 +310,8 @@ async function
       await _contract_call_static.apply(
         null,
         _length_call_opts);
-  } catch (
+  }
+  catch (
       _error) {
     _error_display(
       _error);
@@ -323,7 +325,8 @@ async function
   }
   return [
     _value,
-    _method_object];
+    _method_object
+  ];
 }
 
 function
@@ -415,7 +418,11 @@ async function
   const
     _locks =
       [];
-  if ( _method_object == undefined ) {
+  const
+    _method_object_type =
+      typeof(
+        _method_object);
+  if ( _method_object_type === "undefined" ) {
     _method_object =
       "";
   }
@@ -522,8 +529,10 @@ async function
     _cursor =
       _cursor + 1;
   }
-  return [ _locks,
-           _method_object ];
+  return [
+    _locks,
+    _method_object
+  ];
 }
 
 async function
@@ -556,9 +565,12 @@ async function
   const
     _files_lengths =
       [];
+  const
+    _method_object_type =
+      typeof(
+        _method_object);
   if ( _method_object === "" ||
-       typeof(
-         _method_object) === "undefined" ) {
+       _method_object_type === "undefined" ) {
     _method_object =
       {};
   }

@@ -529,12 +529,12 @@ function
       `    Publication namespace: ${publication_namespace}`,
       `              Index start: ${index_start}`,
       `                Index end: ${index_end}`,
-      `              File chunks: ${_chunks_files_paths}`
-      `        Network options:`,
+      `              File chunks: ${_chunks_files_paths}`,
+      "        Network options:",
       `           Target network: ${target_network}`,
       `                  API Key: ${api_key_path}`,
-      `          Maximum retries: ${retries_max}`
-      `       Contract options:`,
+      `          Maximum retries: ${retries_max}`,
+      "       Contract options:",
       `         Contract address: ${contract_address}`,
       `             Contract ABI: ${contract_abi_path}`,
       `        Contract bytecode: ${contract_bytecode_path}`,
@@ -555,7 +555,7 @@ function
     _program =
       _basename(
         _argv[
-          0];
+          0]);
   const
     _text = [
       "Checks published chunks of an EVMFS file.",
@@ -744,9 +744,10 @@ async function
   }
   catch(
     _error) {
-    _msg =
-      "Error running '_chunks_check' " +
-      "with arguments:";
+    const
+      _msg =
+        "Error running '_chunks_check' " +
+        "with arguments:";
     _msg_error(
       _msg,
       0);
@@ -789,7 +790,7 @@ if ( await _cmdline_check(
     chunks_files_paths,
   ];
   try {
-    _check_cmdline.apply(
+    _chunks_check_cmdline.apply(
       null,
       app_opts);
   }

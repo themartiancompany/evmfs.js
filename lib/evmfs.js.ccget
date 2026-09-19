@@ -298,7 +298,7 @@ async function
     _chain_id,
     _selection_method) {
   let
-    _evm_chains_rpc_backend_opts,
+    _evm_chains_rpc_backend_args,
     _rpc;
   _rpc =
     _rpcs[
@@ -308,7 +308,7 @@ async function
       typeof(
         _rpc);
   if ( _rpc_type === "undefined" ) {
-    _evm_chains_rpc_backend_opts = [
+    _evm_chains_rpc_backend_args = [
       _chain_id,
       _selection_method,
       // _evm_chains_db_path
@@ -318,7 +318,7 @@ async function
         _chain_id] =
         _evm_chains_rpc_backend_get.apply(
           null,
-          _evm_chains_rpc_backend_opts);
+          _evm_chains_rpc_backend_args);
     }
     catch(
       _error) {
@@ -355,7 +355,8 @@ async function
     _retry <= _retries_max &&
     _passed == false ) {
     try {
-      _value, _method_object = 
+      [ _value,
+        _method_object ] = 
         await _contract_call_static.apply(
           null,
           _read_chain_id_call_opts);
@@ -372,8 +373,9 @@ async function
         _passed =
           true;
       }
-    } catch (
-        _error) {
+    }
+    catch(
+      _error) {
       _error_display(
         _error);
       _msg_error(
@@ -400,7 +402,8 @@ async function
   }
   return [
     _value.toString(),
-    _method_object ];
+    _method_object
+  ];
 }
 
 async function
@@ -434,8 +437,9 @@ async function
       }
       _passed =
         true;
-    } catch (
-        _error) {
+    }
+    catch(
+      _error) {
       _error_display(
         _error);
       _msg =
@@ -463,7 +467,8 @@ async function
   }
   return [
     _value.toString(),
-    _method_object ];
+    _method_object
+  ];
 }
 
 async function
@@ -490,8 +495,9 @@ async function
           _read_fs_call_opts);
       _passed =
         true;
-    } catch (
-        _error) {
+    }
+    catch (
+      _error) {
       _error_display(
         _error);
       _msg =
@@ -996,7 +1002,7 @@ async function
       typeof(
         _rpc_selection);
   if ( _rpc_selection == "" ||
-       _rpc_selection_type ) === "undefined" ) {
+       _rpc_selection_type === "undefined" ) {
     _rpc_selection =
       "kirsh";
   }
