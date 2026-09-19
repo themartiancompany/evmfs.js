@@ -545,10 +545,10 @@ function
     _index_end,
     _total_files) {
   let
-    _msg,
-    _total_indexes;
-  _total_indexes =
-    _index_end - _index_start + 1;
+    _msg;
+  const
+    _total_indexes =
+      _index_end - _index_start + 1;
   if ( _total_files > _total_indexes ) {
     _msg =
       "More files to save into than indexes to download.";
@@ -573,13 +573,13 @@ async function
   _fs_version_check(
     _fs_version) {
   let
-    _default,
     _fs_version_get,
     _msg;
   // TODO:
   //   auto-detect and select highest version
-  _default =
-    "1.0";
+  const
+    _default =
+      "1.0";
   const
     _fs_version_type =
       typeof(
@@ -654,12 +654,12 @@ async function
   const
     _chunks_chain_ids =
       [];
-  _fs_version =
-    _fs_version_check(
-      _fs_version);
-  _rpc_selection =
-    _rpc_selection_check(
-      _rpc_selection);
+  // _fs_version =
+  //   _fs_version_check(
+  //     _fs_version);
+  // _rpc_selection =
+  //   _rpc_selection_check(
+  //     _rpc_selection);
   const
     _method_objects_type =
       typeof(
@@ -1071,7 +1071,6 @@ async function
   let
     _chunk_fs,
     _chunk_fs_get_args,
-    _chunks_fs_addresses,
     _cursor,
     _index,
     _msg,
@@ -1093,8 +1092,9 @@ async function
   _index_end =
     Number(
       _index_end);
-  _chunks_fs_addresses =
-    [];
+  const
+    _chunks_fs_addresses =
+      [];
   _rpc_selection =
     _rpc_selection_check(
       _rpc_selection);
@@ -1258,12 +1258,12 @@ async function
     _chunk_chain_id,
     _chunk_file_path,
     _chunk_fs,
+    _chunks_get_args,
     _chunks_references,
     _cursor,
     _fs_contract_abi_path,
     _fs_contract_bytecode_path,
     _fs_contract_compiler_output_path,
-    _chunks_get_args,
     _msg,
     _reference,
     _references_read_args,
@@ -1312,8 +1312,6 @@ async function
         {};
     }
   }
-  _chunks_get_args =
-    [];
   const
     _wallet_seed_path =
       "";

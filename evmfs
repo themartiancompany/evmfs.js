@@ -269,6 +269,13 @@ function
     "dir",
     "");
   /* global
+       fs_address:
+         writable */
+  _set(
+    "fs",
+    "address",
+    "");
+  /* global
        fs_version:
          writable */
   _set(
@@ -878,11 +885,13 @@ async function
          "v"] ||
        _argv[
          "verbose"]) {
-    verbose =
+    _global[
+      "verbose"] =
       true;
   }
   if ( verbose ) {
-    quiet =
+    _global[
+      "quiet"] =
       "n";
   }
 }
@@ -926,10 +935,12 @@ function
     _argv_url_get(
       "tasks_parallel")[
         0];
-  qr_support =
+  _set(
+    "qr",
+    "support",
     _argv_url_get(
       "qr_support")[
-        0];
+        0]);
   output_type =
     _argv_url_get(
       "output_type")[
