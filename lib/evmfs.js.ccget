@@ -297,8 +297,6 @@ async function
     _rpcs,
     _chain_id,
     _selection_method) {
-  let
-    _evm_chains_rpc_backend_args;
   const
   _rpc =
     _rpcs[
@@ -308,11 +306,12 @@ async function
       typeof(
         _rpc);
   if ( _rpc_type === "undefined" ) {
-    _evm_chains_rpc_backend_args = [
-      _chain_id,
-      _selection_method,
-      // _evm_chains_db_path
-    ];
+    const
+      _evm_chains_rpc_backend_args = [
+        _chain_id,
+        _selection_method,
+        // _evm_chains_db_path
+      ];
     try {
       _rpcs[
         _chain_id] =
@@ -340,7 +339,7 @@ async function
 async function
   _chunk_chain_id_get(
     _retries_max,
-    _read_chain_id_call_opts) {
+    _read_chain_id_call_args) {
   let
     _exception,
     _method_object,
@@ -360,7 +359,7 @@ async function
         _method_object ] = 
         await _contract_call_static.apply(
           null,
-          _read_chain_id_call_opts);
+          _read_chain_id_call_args);
       if ( _value == 0 ) {
         _msg =
           "Chunk not indexed.";
@@ -594,9 +593,8 @@ async function
     _msg,
     _progress,
     _read_chain_id_args,
-    _read_chain_id_base_args,
-    _read_chain_id_call_base_opts,
-    _read_chain_id_call_opts;
+    _read_chain_id_call_base_args,
+    _read_chain_id_call_args;
   const
     _wallet_seed_path =
       "";
@@ -620,22 +618,22 @@ async function
     _fs_version =
       "1.0"
   }
-  if ( _rpc_selection === "" ||
-       typeof(
-         _rpc_selection) === "undefined" ) {
-    _rpc_selection =
-      "kirsh"
-  }
+  _rpc_selection =
+    _rpc_selection_check(
+      _rpc_selection);
+  const
+    _method_objects_type =
+      typeof(
+        _method_objects);
   if ( _method_objects === "" ||
-       typeof(
-         _method_objects) === "undefined" ) {
+       _method_objects_type === "undefined" ) {
     _method_objects =
       {};
   }
   const
     _method_objects_empty =
       Object.keys(
-        _method_objects).length === 0
+        _method_objects).length === 0;
   if ( _method_objects_empty ) {
     _method_objects = {
       "ccfs": {
@@ -653,7 +651,7 @@ async function
     Number(
       _reference);
   }
-  _read_chain_id_call_base_opts = [
+  _read_chain_id_call_base_args = [
     _wallet_seed_path,
     _retries_max,
     _api_key_path,
@@ -667,10 +665,11 @@ async function
     _contract_address,
     "chunksChainId",
   ];
-  _read_chain_id_base_args = [
-    _publication_namespace,
-    _file_hash
-  ];
+  const
+    _read_chain_id_base_args = [
+      _publication_namespace,
+      _file_hash
+    ];
   _progress =
     1;
   _cursor =
@@ -687,29 +686,34 @@ async function
         [_index.toString(),
          _reference.toString()]
       );
-    _read_chain_id_call_opts =
-      _read_chain_id_call_base_opts.concat(
+    _read_chain_id_call_args =
+      _read_chain_id_call_base_args.concat(
         [_read_chain_id_args]);
+    _chunk_chain_id_get_args = [
+      _retries_max,
+      _read_chain_id_call_args
+    ];
     try {
       [ _chunk_chain_id,
         _method_objects[
           "ccfs"][
             "chunksChainId"] ] =
-         await _chunk_chain_id_get(
-          _retries_max,
-          _read_chain_id_call_opts);
+        await _chunk_chain_id_get.apply(
+          null,
+          _chunk_chain_id_get_args);
       // I have no idea if _check_call_base_opts
       // has its components passed by reference
       // or copied so I have no idea if
       // _method_object gets immediately updated
       // or I need to re-init the array so just
       // in case we re-init whole array.
-      if ( _read_chain_id_call_base_opts[7] == "" ) {
+      if ( _read_chain_id_call_base_args[
+             7] == "" ) {
         _msg =
           "Reusing contract method object.";
         _msg_info(
           _msg);
-        _read_chain_id_call_base_opts = [
+        _read_chain_id_call_base_args = [
           _wallet_seed_path,
           _retries_max,
           _api_key_path,
@@ -778,8 +782,6 @@ async function
     _msg,
     _progress,
     _read_references_no_args,
-    _read_references_no_base_args,
-    _read_references_no_call_base_args,
     _read_references_no_call_args,
     _read_references_no_get_args,
     _reference;
@@ -816,24 +818,26 @@ async function
         "chunksNo":
           "" } };
   }
-  _read_references_no_call_base_args = [
-    _wallet_seed_path,
-    _retries_max,
-    _api_key_path,
-    _target_network,
-    _contract_abi_path,
-    _contract_bytecode_path,
-    _contract_compiler_output_path,
-    _method_objects[
-      "ccfs"][
-        "chunksNo"],
-    _contract_address,
-    "chunksNo",
-  ];
-  _read_references_no_base_args = [
-    _publication_namespace,
-    _file_hash
-  ];
+  const
+    _read_references_no_call_base_args = [
+      _wallet_seed_path,
+      _retries_max,
+      _api_key_path,
+      _target_network,
+      _contract_abi_path,
+      _contract_bytecode_path,
+      _contract_compiler_output_path,
+      _method_objects[
+        "ccfs"][
+          "chunksNo"],
+      _contract_address,
+      "chunksNo",
+    ];
+  const
+    _read_references_no_base_args = [
+      _publication_namespace,
+      _file_hash
+    ];
   _progress =
     1;
   _cursor =
@@ -869,6 +873,9 @@ async function
           _read_references_no_get_args);
       if ( _read_references_no_call_base_args[
              7] == "" ) {
+        // TODO:
+        // re-use the method object
+        true;
       }
     } catch (
         _error) {
@@ -1029,6 +1036,7 @@ async function
     _chunk_fs_get_args,
     _chunks_fs_addresses,
     _cursor,
+    _index,
     _msg,
     _progress,
     _read_fs_args,
@@ -1102,7 +1110,7 @@ async function
     1;
   _cursor =
     0;
-  for ( var _index = _index_start;
+  for ( _index = _index_start;
         _index <= _index_end;
         _index++ ) {
     _msg =
@@ -1121,7 +1129,7 @@ async function
     _chunk_fs_get_args = [
       _retries_max,
       _read_fs_call_opts
-    ]
+    ];
     try {
       [ _chunk_fs,
         _method_objects[
@@ -1145,13 +1153,15 @@ async function
         _chunk_fs_get_args);
       throw _error;
     }
+    _chunks_fs_addresses.push(
+      _chunk_fs);
     _progress =
       _progress + 1;
     _cursor =
       _cursor + 1;
   }
   return [
-    _chunks_chain_ids,
+    _chunks_fs_addresses,
     _method_objects
   ];
 }

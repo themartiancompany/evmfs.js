@@ -957,15 +957,17 @@ function
   if ( _global[
          "quiet"].length === 0 ) {
     _global[
-      "quiet" =
+      "quiet"] =
       "n";
   }
 }
 
-console.log("hello");
+_echo(
+  "EVMFS Init.");
 _global_variables();
 _libevm_global_variables();
-console.log("hello");
+_echo(
+  "Finished setting EVMFS globals.");
 if ( _cmdline_check(
        "evmfs.js") == true ||
      _cmdline_check(
