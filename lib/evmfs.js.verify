@@ -694,11 +694,15 @@ async function
   }
   catch(
       _error) {
-    _msg =
-      "Error running '_chunks_verify'.";
+    const
+      _msg =
+        "Error running '_chunks_verify' " +
+        "with arguments:";
     _msg_error(
       _msg,
       0);
+    _echo2(
+      _app_opts);
     _echo2(
       _error);
     throw _error;
@@ -707,6 +711,14 @@ async function
     _echo(
       _index.toString());
   }
+}
+
+function
+  overrides_set() {
+  _override_set(
+    "retries",
+    "max",
+    3);
 }
 
 if ( await _cmdline_check(
