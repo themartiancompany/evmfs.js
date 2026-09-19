@@ -1446,7 +1446,7 @@ function
     _program =
       _basename(
         _argv[
-          0];
+          0]);
   const
     _text = [
       "",

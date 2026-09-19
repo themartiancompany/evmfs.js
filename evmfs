@@ -144,22 +144,22 @@ const
 /* exported
      _check */
 const
-  _check =
-    _libevmfs_module._check;
+  _chunks_check =
+    _libevmfs_module._chunks_check;
 /* global
      _get */
 /* exported
      _get */
 const
-  _get =
-    _libevmfs_module._get;
+  _chunks_get =
+    _libevmfs_module._chunks_get;
 /* global
      _index */
 /* exported
      _index */
 const
-  _index =
-    _libevmfs_module._index;
+  _chunks_index =
+    _libevmfs_module._chunks_index;
 /* global
      _lock */
 /* exported
