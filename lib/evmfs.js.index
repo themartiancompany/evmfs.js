@@ -445,7 +445,7 @@ async function
     catch(
       _error) {
       _msg =
-        "Error running '_references_read' with"
+        "Error running '_references_read' with" +
         "arguments:";
       _msg_error(
         _msg,
@@ -493,7 +493,7 @@ async function
     catch(
       _error) {
       _msg =
-        "Error running '_chunk_index' with"
+        "Error running '_chunk_index' with" +
         "arguments:";
       _msg_error(
         _msg,

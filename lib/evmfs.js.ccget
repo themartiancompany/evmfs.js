@@ -729,8 +729,10 @@ async function
     _cursor =
       _cursor + 1;
   }
-  return [ _chunks_chain_ids,
-	   _method_objects ];
+  return [
+    _chunks_chain_ids,
+    _method_objects
+  ];
 }
 
 async function
@@ -751,24 +753,23 @@ async function
     _index_start,
     _index_end) {
   let
-    _chain_id_read_opts,
+    _chain_id_read_args,
     _chunks_no,
     _chunks_fs_addresses,
     _chunk_fs_address,
     _chunks_chain_ids,
     _chunk_chain_id,
     _cursor,
-    _fs_address_read_opts,
+    _fs_address_read_args,
+    _index,
     _msg,
     _progress,
-    _read_references_args,
-    _read_references_base_args,
-    _read_references_call_base_opts,
-    _read_references_call_opts,
     _read_references_no_args,
     _read_references_no_base_args,
-    _read_references_no_call_base_opts,
-    _read_references_no_call_opts;
+    _read_references_no_call_base_args,
+    _read_references_no_call_args,
+    _read_references_no_get_args,
+    _reference;
   const
     _wallet_seed_path =
       "";
@@ -785,11 +786,9 @@ async function
   const
     _chunks_references =
       [];
-  if ( _rpc_selection == "" ||
-       _rpc_selection == undefined ) {
-    _rpc_selection =
-      "kirsh"
-  }
+  _rpc_selection =
+    _rpc_selection_check(
+      _rpc_selection);
   const
     _method_objects_empty =
       Object.keys(
@@ -804,14 +803,7 @@ async function
         "chunksNo":
           "" } };
   }
-  if ( _reference == undefined ) {
-    _reference =
-      0;
-  }
-  _reference =
-    Number(
-      _reference);
-  _read_references_no_call_base_opts = [
+  _read_references_no_call_base_args = [
     _wallet_seed_path,
     _retries_max,
     _api_key_path,
@@ -833,39 +825,51 @@ async function
     1;
   _cursor =
     0;
-  for ( var _index = _index_start;
+  for ( _index = _index_start;
         _index <= _index_end;
         _index++ ) {
+    _reference =
+      0;
     _msg =
       `Reading references for index ${_index}.`;
     _msg_info(
       _msg);
     _read_references_no_args =
-      _read_references_no_base_args.concat(
-        [ _index.toString() ]
-      );
-    _read_references_no_call_opts =
-      _read_references_no_call_base_opts.concat(
-        [ _read_references_no_args ]);
+      _read_references_no_base_args.concat([
+        _index.toString()
+      ]);
+    _read_references_no_call_args =
+      _read_references_no_call_base_args.concat([
+        _read_references_no_args
+      ]);
+    _read_references_no_get_args = [
+      _retries_max,
+      _read_references_no_call_args
+    ];
     try {
       [ _chunks_no,
         _method_objects[
           "ccfs"][
             "chunksNo"] ] =
-        await _chunk_references_no_get(
-          _retries_max,
-          _read_references_no_call_opts);
-      if ( _read_references_no_call_base_opts[7] == "" ) {
+        await _chunk_references_no_get.apply(
+          null,
+          _read_references_no_get_args);
+      if ( _read_references_no_call_base_args[
+             7] == "" ) {
       }
     } catch (
         _error) {
       _error_display(
         _error);
       _msg =
-        "Error retrieving chunk's references amount.";
+        "Error running '_chunk_references_no_get' " +
+        "(retrieving chunk's references amount) " +
+        "with arguments:";
       _msg_error(
         _msg,
         0);
+      echo2(
+        _
       throw _error;
     }
     // TODO:
@@ -877,7 +881,7 @@ async function
     _chunks_no =
       Number(
         _chunks_no);
-    for ( var _reference = 0;
+    for ( _reference = 0;
           _reference <= _chunks_no;
           _reference++ ) {
       _msg =
@@ -885,7 +889,7 @@ async function
         `for index ${_index}.`;
       _msg_info(
         _msg);
-      _chain_id_read_opts = [
+      _chain_id_read_args = [
         _retries_max,
         _api_key_path,
         _target_network,
@@ -903,15 +907,31 @@ async function
         _index,
         _reference
       ];
-      [ _chunks_chain_ids,
-        _method_objects ] =
-        await _chain_id_read.apply(
-          null,
-          _chain_id_read_opts);
+      try {
+        [ _chunks_chain_ids,
+          _method_objects ] =
+          await _chain_id_read.apply(
+            null,
+            _chain_id_read_args);
+      }
+      catch(
+        _error) {
+        _msg =
+          "Error running '_chain_id_read' " +
+          "with arguments:";
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _chain_id_read_args);
+        _echo2(
+          _error);
+        throw _error;
+      }
       _chunk_chain_id =
         _chunks_chain_ids[
           0];
-      _fs_address_read_opts = [
+      _fs_address_read_args = [
         _retries_max,
         _api_key_path,
         _target_network,
@@ -930,16 +950,34 @@ async function
         _chunk_chain_id,
         _reference
       ];
-      [ _chunks_fs_addresses,
-        _method_objects ] =
-        await _fs_address_read.apply(
-          null,
-          _fs_address_read_opts);
+      try {
+        [ _chunks_fs_addresses,
+          _method_objects ] =
+          await _fs_address_read.apply(
+            null,
+            _fs_address_read_args);
+      }
+      catch(
+        _error) {
+        _msg =
+          "Error running '_fs_address_read' " +
+          "with arguments:";
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _fs_address_read_args);
+        _echo2(
+          _error);
+        throw _error;
+      }
       _chunk_fs_address =
-        _chunks_fs_addresses[0];
-      _chunks_references.push(
-        [ _chunk_chain_id,
-          _chunk_fs_address ] );
+        _chunks_fs_addresses[
+          0];
+      _chunks_references.push([
+        _chunk_chain_id,
+        _chunk_fs_address
+      ]);
     }
     _progress =
       _progress + 1;
@@ -997,15 +1035,9 @@ async function
       _index_end);
   _chunks_chain_ids =
     [];
-  const
-    _rpc_selection_type =
-      typeof(
-        _rpc_selection);
-  if ( _rpc_selection == "" ||
-       _rpc_selection_type === "undefined" ) {
-    _rpc_selection =
-      "kirsh";
-  }
+  _rpc_selection =
+    _rpc_selection_check(
+      _rpc_selection);
   const
     _method_objects_empty =
       Object.keys(
@@ -1109,6 +1141,37 @@ async function
   ];
 }
 
+function
+  _rpc_selection_check(
+    _rpc_selection) {
+  let
+    _rpc_selection_get;
+  const
+    _default =
+      "kirsh";
+  const
+    _rpc_selection_type =
+      typeof(
+        _rpc_selection);
+  _rpc_selection =
+    false;
+  if ( _rpc_selection_type === "undefined" ) {
+    _rpc_selection_get =
+      true;
+  }
+  if ( _rpc_selection_type === "string" ) {
+    if ( _rpc_selection.length < 1 ) {
+      _rpc_selection_get =
+        true;
+    }
+  }
+  if ( _rpc_selection_get ) {
+    _rpc_selection =
+      _default;
+  }
+  return _rpc_selection;
+}
+
 async function
   _chunks_ccget(
     _retries_max,
@@ -1165,11 +1228,9 @@ async function
   _index_end =
     Number(
       _index_end);
-  if ( _rpc_selection == "" ||
-       _rpc_selection == undefined ) {
-    _rpc_selection =
-      "kirsh"
-  }
+  _rpc_selection =
+    _rpc_selection_check(
+      _rpc_selection);
   const
     _rpcs_type =
       typeof(
@@ -1177,6 +1238,16 @@ async function
   if ( _rpcs_type === "undefined" ) {
     _rpcs =
       {};
+  }
+  else if ( _rpcs_type === "object" ) {
+    const
+      _rpcs_keys =
+        Object.keys(
+          _rpcs);
+    if ( _rpcs_keys.length < 1 ) {
+      _rpcs =
+        {};
+    }
   }
   _chunks_get_args =
     [];
@@ -1733,7 +1804,8 @@ module.exports = {
   _msg_info_chunk_dereference,
   _msg_info_chunk_dereferenced,
   _references_read,
-  _rpc_backend_get
+  _rpc_backend_get,
+  _rpc_selection_check
 };
 
 // module.exports = {
@@ -1757,4 +1829,6 @@ module.exports = {
 //     _references_read,
 //   _rpc_backend_get:
 //     _rpc_backend_get,
+//   _rpc_selection_check:
+//     _rpc_selection_check,
 // };

@@ -891,22 +891,39 @@ function
     const
       _hashes_length =
         _list_args_total / 3;
-    files_hashes =
-      _list_args.slice(
-        0,
-        _hashes_length);
-    files_locks_paths =
-      _list_args.slice(
-        _hashes_length,
-        _hashes_length * 2);
-    files_lengths_paths =
-      _list_args.slice(
-        _hashes_length * 2,
-        _hashes_length * 3);
+    const
+      _files_hashes =
+        _list_args.slice(
+          0,
+          _hashes_length);
+    _set(
+      "files",
+      "hashes",
+      _files_hashes);
+    const
+      _files_locks_paths =
+        _list_args.slice(
+          _hashes_length,
+          _hashes_length * 2);
+    _set(
+      "files_locks",
+      "paths",
+      _files_locks_paths);
+    const
+      _files_lengths_paths =
+        _list_args.slice(
+          _hashes_length * 2,
+          _hashes_length * 3);
+    _set(
+      "files_lengths",
+      "paths",
+      _files_lengths_paths);
   }
   else if ( _disk_write == "n" ) {
-    _files_hashes =
-      _list_args;
+    _set(
+      "files",
+      "hashes",
+      _list_args);
   }
   else {
     _msg =

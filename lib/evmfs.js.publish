@@ -1011,7 +1011,7 @@ async function
   try {
     const
       _chunks_unverified =
-        await _publish.apply(
+        await _chunks_publish.apply(
           null,
           _app_opts);
     if ( 0 < _chunks_unverified.length ) {
@@ -1025,10 +1025,13 @@ async function
   catch(
       _error) {
     _msg =
-      "Error running '_chunks_publish'.";
+      "Error running '_chunks_publish' with" +
+      "arguments:";
     _msg_error(
       _msg,
       0);
+    _echo2(
+      _app_opts);
     _echo2(
       _error);
     throw _error;

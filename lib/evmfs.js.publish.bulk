@@ -129,6 +129,11 @@ const
 const
   _msg_info_chunk_published =
     _common_module._msg_info_chunk_published;
+/* global
+     _msg_info_chunk_published_already */
+const
+  _msg_info_chunk_published_already =
+    _common_module._msg_info_chunk_published_already;
 
 function
   _global_variables() {
