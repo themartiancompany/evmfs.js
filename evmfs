@@ -124,6 +124,11 @@ const
   _libevm_global_variables =
     _libevm_module._libevm_global_variables;
 /* global
+     _libevm_app_global_variables */
+const
+  _libevm_app_global_variables =
+    _libevm_module._libevm_app_global_variables;
+/* global
      _libevm_url_parse */
 const
   _libevm_url_parse =
@@ -988,13 +993,13 @@ _echo(
   "EVMFS Init.");
 _global_variables();
 _libevm_global_variables();
-// _libevm_app_global_variables();
+_libevm_app_global_variables();
 _echo(
   "Finished setting EVMFS globals.");
-if ( _cmdline_check(
-       "evmfs.js") == true ||
-     _cmdline_check(
-       "evmfs") == true ) {
+if ( await _cmdline_check(
+       "evmfs.js") ||
+     await _cmdline_check(
+       "evmfs") ) {
   _echo(
     "Running 'evmfs' from the command line.");
   _cmdline_parse();
