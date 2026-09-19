@@ -714,7 +714,7 @@ async function
 }
 
 function
-  overrides_set() {
+  _overrides_set() {
   _override_set(
     "retries",
     "max",

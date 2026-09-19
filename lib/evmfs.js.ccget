@@ -1083,7 +1083,8 @@ async function
         await _chunk_fs_get.apply(
           null,
           _chunk_fs_get_args);
-    } catch (
+    }
+    catch (
         _error) {
       _error_display(
         _error);
@@ -1094,7 +1095,7 @@ async function
         _msg,
         0);
       _echo2(
-        _
+        _chunk_fs_get_args);
       throw _error;
     }
     _progress =

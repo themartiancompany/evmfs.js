@@ -74,11 +74,11 @@ const
   _file_write =
     _libcrash._file_write;
 const
-  _msg_info =
-    _libcrash._msg_info;
-const
   _msg_error =
     _libcrash._msg_error;
+const
+  _msg_info =
+    _libcrash._msg_info;
 const
   _override_set =
     _libcrash._override_set;
@@ -106,13 +106,13 @@ const
     _common_module._chunk_file_path_check;
 const
   _input_data_check =
-    _common._input_data_check;
+    _common_module._input_data_check;
 const
   _msg_info_chunk_get =
-    _common._msg_info_chunk_get;
+    _common_module._msg_info_chunk_get;
 const
   _msg_info_chunk_got =
-    _common._msg_info_chunk_got;
+    _common_module._msg_info_chunk_got;
 
 function
   _global_variables() {
@@ -230,7 +230,7 @@ function
     []);
   const
     _global =
-      global_get();
+      _global_get();
   global[
     "quiet"] =
     "";
