@@ -501,7 +501,8 @@ async function
     _retry <= _retries_max &&
     _passed == false ) {
     try {
-      _value, _method_object = 
+      [ _value,
+        _method_object ] = 
         await _contract_call_static.apply(
           null,
           _read_fs_call_opts);
@@ -572,7 +573,9 @@ async function
   _fs_version_check(
     _fs_version) {
   let
-    _default;
+    _default,
+    _fs_version_get,
+    _msg;
   // TODO:
   //   auto-detect and select highest version
   _default =
@@ -605,7 +608,7 @@ async function
     _fs_version =
       _default;
   }
-  return _default;
+  return _fs_version;
 }
 
 async function
@@ -629,7 +632,6 @@ async function
   let
     _chunk_chain_id,
     _chunk_chain_id_get_args,
-    _chunks_chain_ids,
     _cursor,
     _msg,
     _progress,
@@ -649,8 +651,9 @@ async function
   _index_end =
     Number(
       _index_end);
-  _chunks_chain_ids =
-    [];
+  const
+    _chunks_chain_ids =
+      [];
   _fs_version =
     _fs_version_check(
       _fs_version);
@@ -881,8 +884,6 @@ async function
   for ( _index = _index_start;
         _index <= _index_end;
         _index++ ) {
-    _reference =
-      0;
     _msg =
       `Reading references for index ${_index}.`;
     _msg_info(
@@ -1092,7 +1093,7 @@ async function
   _index_end =
     Number(
       _index_end);
-  _chunks_chain_ids =
+  _chunks_fs_addresses =
     [];
   _rpc_selection =
     _rpc_selection_check(
@@ -1257,7 +1258,7 @@ async function
     _chunk_chain_id,
     _chunk_file_path,
     _chunk_fs,
-    _chunks_reference,
+    _chunks_references,
     _cursor,
     _fs_contract_abi_path,
     _fs_contract_bytecode_path,
