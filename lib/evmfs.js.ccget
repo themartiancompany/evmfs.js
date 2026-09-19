@@ -256,7 +256,7 @@ function
     []);
   const
     _global =
-      global_get();
+      _global_get();
   global[
     "quiet"] =
     "";
@@ -283,7 +283,7 @@ function
     _progress,
     _total) {
   const
-    _template =
+    _msg =
       `Derefereced chunk '${_index}' ` +
       `with Chain ID '${_chain_id}'` +
       `and fs address '${_fs_address}' ` +
@@ -298,8 +298,8 @@ async function
     _chain_id,
     _selection_method) {
   let
-    _evm_chains_rpc_backend_args,
-    _rpc;
+    _evm_chains_rpc_backend_args;
+  const
   _rpc =
     _rpcs[
       _chain_id];
@@ -342,6 +342,7 @@ async function
     _retries_max,
     _read_chain_id_call_opts) {
   let
+    _exception,
     _method_object,
     _msg,
     _passed,
@@ -363,11 +364,11 @@ async function
       if ( _value == 0 ) {
         _msg =
           "Chunk not indexed.";
-        _error = {
+        _exception = {
           "error": {
             "message":
               "Chunk not indexed." } };
-        throw _error;
+        throw _exception;
       }
       else {
         _passed =
@@ -395,10 +396,11 @@ async function
   if ( _retry > _retries_max ) {
     _msg =
       "Maximum number of retries reached.";
-    _error = {
+    _exception = {
       "error": {
         "message":
           _msg } };
+    throw _exception;
   }
   return [
     _value.toString(),
@@ -411,11 +413,13 @@ async function
     _retries_max,
     _read_references_no_call_opts) {
   let
+    _exception,
     _method_object,
     _msg,
     _passed,
     _retry,
-    _value;
+    _value,
+    _value_type;
   _passed =
     false;
   _retry =
@@ -424,16 +428,20 @@ async function
     _retry <= _retries_max &&
     _passed == false ) {
     try {
-      _value, _method_object = 
+      [ _value,
+        _method_object ] = 
         await _contract_call_static.apply(
           null,
           _read_references_no_call_opts);
-      if ( _value == undefined ) {
-        _error = {
+      _value_type =
+        typeof(
+          _value);
+      if ( _value_type === "undefined" ) {
+        _exception = {
           "error": {
             "message":
               "Chunk not indexed." } };
-        throw _error;
+        throw _exception;
       }
       _passed =
         true;
@@ -459,11 +467,16 @@ async function
     }
   }
   if ( _retry > _retries_max ) {
-    _msg = {
+    _msg =
+      "Maximum number of retries reached.";
+    _msg_error(
+      _msg,
+      0);
+    _exception = {
       "error": {
         "message":
           "Maximum number of retries reached." } };
-    throw _error;
+    throw _exception;
   }
   return [
     _value.toString(),

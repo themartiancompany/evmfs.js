@@ -599,7 +599,7 @@ async function
       target_command,
       fs_address,
       ccfs_address,
-      fs_version
+      fs_version,
       deployments_dir,
       wallet_name,
       wallet_path,
