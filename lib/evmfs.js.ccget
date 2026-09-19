@@ -569,6 +569,46 @@ function
 }
 
 async function
+  _fs_version_check(
+    _fs_version) {
+  let
+    _default;
+  // TODO:
+  //   auto-detect and select highest version
+  _default =
+    "1.0";
+  const
+    _fs_version_type =
+      typeof(
+        _fs_version);
+  if ( _fs_version_type === "undefined" ) {
+    _msg =
+      "Variable '_fs_version' undefined, " +
+      `setting default '${_default}'.`;
+    _msg_info(
+      _msg);
+    _fs_version_get =
+      true;
+  }
+  else if ( _fs_version_type === "string" ) {
+    if ( _fs_version.length < 1 ) {
+      _msg =
+        "Variable '_fs_version' not specified, " +
+        `setting default '${_default}'.`;
+      _msg_info(
+        _msg);
+      _fs_version_get =
+        true;
+    }
+  }
+  if ( _fs_version_get ) {
+    _fs_version =
+      _default;
+  }
+  return _default;
+}
+
+async function
   _chain_id_read(
     _retries_max,
     _api_key_path,
@@ -588,6 +628,7 @@ async function
     _reference) {
   let
     _chunk_chain_id,
+    _chunk_chain_id_get_args,
     _chunks_chain_ids,
     _cursor,
     _msg,
@@ -610,14 +651,9 @@ async function
       _index_end);
   _chunks_chain_ids =
     [];
-  if ( _fs_version === "" ||
-       typeof(
-         _fs_version) === "undefined" ) {
-    // TODO:
-    //   auto-detect and select highest version
-    _fs_version =
-      "1.0"
-  }
+  _fs_version =
+    _fs_version_check(
+      _fs_version);
   _rpc_selection =
     _rpc_selection_check(
       _rpc_selection);
@@ -1221,7 +1257,7 @@ async function
     _chunk_chain_id,
     _chunk_file_path,
     _chunk_fs,
-    _chunk_reference,
+    _chunks_reference,
     _cursor,
     _fs_contract_abi_path,
     _fs_contract_bytecode_path,
@@ -1229,6 +1265,7 @@ async function
     _chunks_get_args,
     _msg,
     _reference,
+    _references_read_args,
     _rpcs,
     _rpc_backend,
     _rpc_backend_get_args,
@@ -1315,7 +1352,7 @@ async function
     // one. This capability will be
     // needed when implementing
     // the crowd-sourced upload
-    _references_read_opts = [
+    _references_read_args = [
       _retries_max,
       _api_key_path,
       _target_network,
@@ -1333,10 +1370,10 @@ async function
       _index
     ];
     try {
-      _chunk_references =
+      _chunks_references =
         await _references_read.apply(
           null,
-          _references_read_opts);
+          _references_read_args);
     }
     catch(
       _error) {
@@ -1347,7 +1384,7 @@ async function
         _msg,
         0);
       _echo2(
-        _references_read_opts);
+        _references_read_args);
       _echo2(
         _error);
       throw _error;
@@ -1826,6 +1863,7 @@ module.exports = {
   _chunk_references_no_get,
   _chunks_ccget,
   _fs_address_read,
+  _fs_version_check,
   _msg_info_chunk_dereference,
   _msg_info_chunk_dereferenced,
   _references_read,
@@ -1846,6 +1884,8 @@ module.exports = {
 //     _chunks_ccget,
 //   _fs_address_read:
 //     _fs_address_read,
+//   _fs_version_check:
+//     _fs_version_check,
 //   _msg_info_chunk_dereference:
 //     _msg_info_chunk_dereference,
 //   _msg_info_chunk_dereferenced:
