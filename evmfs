@@ -756,6 +756,14 @@ async function
     with_colons =
       "y";
   }
+
+  if ( _argv[
+         "Q"] ||
+       _argv[
+         "with-colons"] ) {
+    with_colons =
+      "y";
+  }
   else {
     with_colons =
       "n";
@@ -787,103 +795,129 @@ async function
         "_"][
           2];
   }
-  if ( "R" in _argv ) {
-    rpc_selection =
+  if ( "m" in _argv ) {
+    _set(
+      "call",
+      "method"
       _argv[
-        "R"];
+        "m"]);
   }
-  if ( "rpc-selection" in _argv ) {
-    rpc_selection =
+  if ( "call-method" in _argv ) {
+    _set(
+      "call",
+      "method"
       _argv[
-        "rpc-selection"];
-  }
-  if ( "S" in _argv ) {
-    explorer_selection =
-      _argv[
-        "S"];
-  }
-  if ( "explorer-selection" in _argv ) {
-    explorer_selection =
-      _argv[
-        "explorer-selection"];
+        "call-method"]);
   }
   if ( "r" in _argv ) {
-    retries_max =
+    _set(
+      "retries",
+      "max"
       _argv[
-        "r"];
+        "r"]);
   }
   if ( "retries-max" in _argv ) {
-    retries_max =
+    _set(
+      "retries",
+      "max"
       _argv[
-        "retries-max"];
+        "retries-max"]);
   }
-  if ( "u" in _argv ) {
-    measure_unit =
+  if ( "T" in _argv ) {
+    _set(
+      "call",
+      "timeout"
       _argv[
-        "u"];
+        "T"]);
   }
-  if ( "measure-unit" in _argv ) {
-    measure_unit =
+  if ( "call-timeout" in _argv ) {
+    _set(
+      "call",
+      "timeout"
       _argv[
-        "measure-unit"];
+        "call-timeout"]);
   }
   if ( "l" in _argv ) {
-    balance_lifespan =
+    _set(
+      "chunk",
+      "length"
       _argv[
-        "l"];
+        "l"]);
   }
-  if ( "balance-lifespan" in _argv ) {
-    balance_lifespan =
+  if ( "chunk-length" in _argv ) {
+    _set(
+      "chunk",
+      "length"
       _argv[
-        "balance-lifespan"];
+        "chunk-length"]);
   }
-  if ( "a" in _argv ) {
-    networks_all =
-      "y";
+  if ( "L" in _argv ) {
+    _set(
+      "lock",
+      "only"
+      "y");
   }
-  if ( "networks-all" in _argv ) {
-    networks_all =
-      "y";
+  if ( "lock-only" in _argv ) {
+    _set(
+      "lock",
+      "only"
+      "y");
   }
   if ( "P" in _argv ) {
-    tasks_parallel =
+    _set(
+      "tasks",
+      "parallel",
       _argv[
-        "P"];
+        "P"]);
   }
   if ( "tasks-parallel" in _argv ) {
-    tasks_parallel =
+    _set(
+      "tasks",
+      "parallel",
       _argv[
-        "tasks-parallel"];
+        "P"]);
   }
-  if ( "Q" in _argv ) {
-    qr_support =
+  if ( "i" in _argv ) {
+    _set(
+      "index",
+      "network",
       _argv[
-        "Q"];
+        "i"]);
   }
   if ( "qr-support" in _argv ) {
-    qr_support =
+    _set(
+      "index",
+      "network",
       _argv[
-        "qr-support"];
+        "index-network"]);
   }
   if ( "o" in _argv ) {
-    output_type =
+    _set(
+      "output",
+      "file",
       _argv[
-        "o"];
+        "o"]);
   }
-  if ( "output-type" in _argv ) {
-    output_type =
+  if ( "output-file" in _argv ) {
+    _set(
+      "output",
+      "file",
       _argv[
-        "output-type"];
+        "output-file"]);
   }
-  if ( "t" in _argv ) {
-    currency_type =
+  if ( "W" in _argv ) {
+    _set(
+      "cache",
+      "dir",
       _argv[
-        "t"];
+        "W"]);
   }
-  if ( "currency-type" in _argv ) {
-    currency_type =
+  if ( "cache-dir" in _argv ) {
+    _set(
+      "cache",
+      "dir",
       _argv[
-        "currency-type"];
+        "cache-dir"]);
   }
   if ( "C" in _argv ) {
     currency_address =
