@@ -44,6 +44,12 @@ DOC_FILES=\
   $(wildcard \
       docs/*.md)
 
+_PROGRAMS=\
+  "evmfs"
+  # "evmfs-get" \
+  # "evmfs-publish" \
+  # "evmfs-status"
+
 _NODE_FILES:=\
   ccget \
   check \
@@ -444,6 +450,11 @@ uninstall-node-scripts:
 	#   -a \
 	#   _files; \
 	_files=(); \
+	for _program in $(_PROGRAMS); do \
+	  _files+=( \
+	    "$(BIN_DIR)/$${_program}" \
+	  ); \
+	done; \
 	for _file in $(_NODE_FILES); do \
 	  _files+=( \
 	    "$(LIB_DIR)/$${_file}" \
@@ -452,6 +463,8 @@ uninstall-node-scripts:
 	_files+=( \
 	  "$(LIB_DIR)/nodejs" \
 	  "$(DESTDIR)/$(PREFIX)/lib/$(_PROJECT)" \
+	  "$(NODE_DIR)" \
+	  "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT)"
 	); \
 	rm \
 	  -vrf \
