@@ -440,10 +440,20 @@ publish-npm:
 
 uninstall-node-scripts:
 
+	declare \
+	  -a \
+	  _files; \
 	for _file in $(_NODE_FILES); do \
-	  rm \
-	    -r \
-	    "$(LIB_DIR)/$${_file}"; \
-	done
+	  _files+=(
+	    "$(LIB_DIR)/$${_file}"
+	  ); \
+	done; \
+	_files+=(
+	  "$(LIB_DIR)/nodejs"
+	  "$(DESTDIR)/$(PREFIX)/lib/$(_PROJECT)"
+	)
+	rm \
+	  -vrf \
+	  "${_files[@]}";
 
 .PHONY: $(_PHONY_TARGETS)
