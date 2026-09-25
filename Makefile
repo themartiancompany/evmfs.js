@@ -444,14 +444,14 @@ uninstall-node-scripts:
 	  -a \
 	  _files; \
 	for _file in $(_NODE_FILES); do \
-	  _files+=(
-	    "$(LIB_DIR)/$${_file}"
+	  _files+=( \
+	    "$(LIB_DIR)/$${_file}" \
 	  ); \
 	done; \
-	_files+=(
-	  "$(LIB_DIR)/nodejs"
-	  "$(DESTDIR)/$(PREFIX)/lib/$(_PROJECT)"
-	)
+	_files+=( \
+	  "$(LIB_DIR)/nodejs" \
+	  "$(DESTDIR)/$(PREFIX)/lib/$(_PROJECT)" \
+	); \
 	rm \
 	  -vrf \
 	  "${_files[@]}";
