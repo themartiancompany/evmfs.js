@@ -616,7 +616,7 @@ async function
     throw _error;
   }
   try {
-    _contracts_auto_detect();
+    await _contracts_auto_detect();
   }
   catch(
     _error) {

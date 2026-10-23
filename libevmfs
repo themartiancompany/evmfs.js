@@ -688,6 +688,8 @@ async function
       _error);
     throw _error;
   }
+  for ( _contract of _contract_addresses ) {
+  }
   _echo(
     _contract_addresses);
 }
@@ -730,11 +732,14 @@ async function
   }
   if ( _contract_address_get ) {
     const
+      _target_app =
+        "evmfs";
+    const
       _evm_contract_deployment_address_args = [
         _target_networks,
         _target_networks,
         "n",                 // all networks
-        "evmfs",
+        _target_app,
         "FileSystem",
         _fs_version,
         _user_level,
@@ -742,6 +747,16 @@ async function
         _deployments_dir
       ];
     try {
+      _quiet =
+        _global[
+          "quiet"];
+      _msg =
+        "Running '_evm_contract_deployment_address' " +
+        "with arguments:";
+      if ( _quiet == "n" ) {
+        _echo(
+          _evm_contract_deployment_address_args);
+      }
       _contract_address =
         await _evm_contract_deployment_address.apply(
           null,
@@ -897,11 +912,13 @@ async function
     catch(
       _error) {
       _msg =
-        "Error running '_contract_setup' for " +
-        `uri '${_uri}'.`;
+        "Error running '_contract_setup' with " +
+        `arguments:`;
       _msg_error(
         _msg,
         0);
+      _echo2(
+        _error);
       throw _error;
     }
     try {
