@@ -879,10 +879,20 @@ async function
         0);
       throw _error;
     }
+    const
+      _contract_setup_args = [
+        _uri_contract,
+        _target_networks,
+        _fs_version,
+        _user_level,
+        _configuration_format,
+        _deployments_dir
+      ];
     try {
       _uri_contract =
-        await _contract_setup(
-          _uri_contract);
+        await _contract_setup.apply(
+          null,
+          _contract_setup_args);
     }
     catch(
       _error) {
