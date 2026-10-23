@@ -882,10 +882,10 @@ async function
     const
       _contract_setup_args = [
         _uri_contract,
-        _target_networks,
+        [ _uri_network_id ],    // target networks
         _fs_version,
         _user_level,
-        "json",             // configuration format
+        "json",                 // configuration format
         _deployments_dir
       ];
     try {
