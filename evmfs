@@ -920,6 +920,7 @@ function
     `           Publication options:`,
     `                       Lock only:   ${lock_only}`,
     `                   Skip encoding:   ${encoding_skip}`,
+    `                   Encoding type:   ${encoding_type}`,
     `                     Input files:`,
   ];
   for ( _item of input_files ) {
@@ -1410,5 +1411,6 @@ catch(
       "Error running '_main'.";
   _echo2(
     _error);
-  throw _error;
+  _exit(
+    1);
 }

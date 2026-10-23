@@ -112,7 +112,7 @@
     "encoding-tools":
       "0.0.19",
     "evm-contracts-tools":
-      "0.0.74",
+      "0.0.76",
     "evm-wallet":
       "npm:evm-wallet.js@^0.0.103",
     "libevm":
@@ -124,7 +124,7 @@
   },
   "overrides": {
     "evm-contracts-tools":
-      "0.0.74",
+      "0.0.76",
     "evm-wallet":
       "npm:evm-wallet.js@^0.0.103",
     "libevm":

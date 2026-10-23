@@ -148,7 +148,7 @@ const
     await _require(
       "evm-contracts-tools");
 const
-  _evm_deployment_contract_address =
+  _evm_contract_deployment_address =
     _evm_contracts_tools_module._evm_contract_deployment_address;
 
 function
@@ -678,9 +678,10 @@ async function
   }
   catch(
     _error) {
-    _msg =
-      "Error locally retrieving " +
-      "contract address.";
+    const
+      _msg =
+        "Error locally retrieving " +
+        "contract address.";
     _msg_error(
       _msg);
     _echo2(
@@ -840,7 +841,7 @@ async function
   _cursor =
     0;
   _echo2(
-    _input_uris);
+    _output_files);
   for ( _uri of _input_uris ) {
     _msg =
       "Downloading URI " +
@@ -992,6 +993,8 @@ async function
     _input_uris,
     _target_key,
     _target_value) {
+  _echo2(
+    _output_files);
   let
     _msg,
     _return;
@@ -1020,7 +1023,8 @@ async function
         _call_method,
         _retries_max,
         _tasks_parallel,
-        _input_uris
+        _input_uris,
+        _output_files
       ];
     try {
       _return =
