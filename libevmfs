@@ -657,7 +657,8 @@ async function
     _configuration_format,
     _deployments_dir) {
   let
-    _contract_addresses;
+    _contract_addresses,
+    _network;
   const
     _evm_contract_deployment_address_args = [
       [],                  // target networks
@@ -668,7 +669,8 @@ async function
       _fs_version,
       _user_level,
       _configuration_format,
-      _deployments_dir
+      _deployments_dir,
+      "object"
     ];
   try {
     _contract_addresses =
@@ -688,7 +690,9 @@ async function
       _error);
     throw _error;
   }
-  for ( _contract of _contract_addresses ) {
+  for ( _network in _contract_addresses ) {
+    _echo(
+      _network);
   }
   _echo(
     _contract_addresses);
