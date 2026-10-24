@@ -741,7 +741,7 @@ async function
         _target_networks,    // networks ids
         "n",                 // all networks
         "evmfs",
-        "FileSystem",
+        _type,
         _fs_version,
         _user_level,
         _configuration_format,
