@@ -53,6 +53,11 @@ const
   _echo2 =
     _libcrash._echo2;
 /* global
+     _exit */
+const
+  _exit =
+    _libcrash._exit;
+/* global
      _get */
 const
   _get =
@@ -653,49 +658,135 @@ async function
   _contract_type_get(
     _contract_address,
     _fs_version,
+    _target_networks,
     _user_level,
     _configuration_format,
     _deployments_dir) {
   let
+    _address,
     _contract_addresses,
-    _network;
+    _evm_contract_deployment_address_args,
+    _type;
   const
-    _evm_contract_deployment_address_args = [
-      [],                  // target networks
-      [],                  // networks ids
-      "y",                 // all networks
-      "evmfs",
+    _results =
+      [];
+  const
+    _contracts_types = [
       "FileSystem",
-      _fs_version,
-      _user_level,
-      _configuration_format,
-      _deployments_dir,
-      "object"
+      "CrossChainFileSystem"
     ];
-  try {
-    _contract_addresses =
-      await _evm_contract_deployment_address.apply(
-        null,
-        _evm_contract_deployment_address_args);
+  const
+    _network =
+      _target_networks[
+        0];
+  const
+    _network_type =
+      typeof(
+        _network);
+  if ( _network_type === "undefined" ) {
+    for ( _type of _contracts_types ) {
+      _evm_contract_deployment_address_args = [
+        [],                  // target networks
+        [],                  // networks ids
+        "n",                 // all networks
+        "evmfs",
+        _type,
+        _fs_version,
+        _user_level,
+        _configuration_format,
+        _deployments_dir,
+        "object"
+      ];
+      try {
+        _contract_addresses =
+          await _evm_contract_deployment_address.apply(
+            null,
+            _evm_contract_deployment_address_args);
+      }
+      catch(
+        _error) {
+        const
+          _msg =
+            "Error locally retrieving " +
+            "contract address.";
+        _msg_error(
+          _msg);
+        _echo2(
+          _error);
+        throw _error;
+      }
+      for ( _network in _contract_addresses ) {
+        _address =
+          _contract_addresses[
+            _network];
+        if ( _address === _contract_address ) {
+          _results.push([
+            _type,
+            _network, 
+            _address
+          ]);
+        }
+      }
+    }
   }
-  catch(
-    _error) {
-    const
-      _msg =
-        "Error locally retrieving " +
-        "contract address.";
-    _msg_error(
+  else {
+    for ( _type of _contracts_types ) {
+      _evm_contract_deployment_address_args = [
+        _target_networks,    // target networks
+        _target_networks,    // networks ids
+        "n",                 // all networks
+        "evmfs",
+        "FileSystem",
+        _fs_version,
+        _user_level,
+        _configuration_format,
+        _deployments_dir,
+        "object"
+      ];
+      try {
+        _contract_addresses =
+          await _evm_contract_deployment_address.apply(
+            null,
+            _evm_contract_deployment_address_args);
+      }
+      catch(
+        _error) {
+        const
+          _msg =
+            "Error locally retrieving " +
+            "contract address.";
+        _msg_error(
+          _msg);
+        _echo2(
+          _error);
+        throw _error;
+      }
+      _address =
+        _contract_addresses[
+          _network];
+      _results.push([
+        _type,
+        _network,
+        _address
+      ]);
+    }
+  }
+  if ( 1 < _results.length ) {
+    _msg =
+      "More than a file system type corresponding " +
+      "found for the given contract:";
+    _msg_info(
       _msg);
-    _echo2(
-      _error);
-    throw _error;
+    const
+      _quiet =
+        _global[
+          "quiet"];
+    if ( _quiet == "n" ) {
+      _echo(
+        _results);
+    }
   }
-  for ( _network in _contract_addresses ) {
-    _echo(
-      _network);
-  }
-  _echo(
-    _contract_addresses);
+  return _results;
 }
 
 async function
@@ -708,7 +799,7 @@ async function
     _deployments_dir) {
   let
     _contract_address_get,
-    _contract_type,
+    _contracts_candidates,
     _msg;
   _contract_address_get =
     false;
@@ -783,12 +874,13 @@ async function
       _contract_type_get_args = [
         _contract_address,
         _fs_version,
+        _target_networks,
         _user_level,
         _configuration_format,
         _deployments_dir
       ];
     try {
-      _contract_type =
+      _contracts_candidates =
         await _contract_type_get.apply(
           null,
           _contract_type_get_args);
@@ -812,6 +904,17 @@ async function
       `'${_contract_type}'.`;
     _msg_info(
       _msg);
+  }
+  if ( 1 == _contracts_candidates.length ) {
+    [ _contract_type ] =
+      _contracts_candidates[0]
+  }
+  else if ( 1 < _contracts_candidates.length ) {
+    _msg =
+      "TODO";
+    _msg_error(
+      _msg,
+      1);
   }
   return [
     _contract_address,
@@ -882,7 +985,7 @@ async function
       _msg_error(
         _msg,
         0);
-      throw _error;
+      // throw _error;
     }
     try {
       _uri_contract =
@@ -912,6 +1015,8 @@ async function
         await _contract_setup.apply(
           null,
           _contract_setup_args);
+      _exit(
+        0);
     }
     catch(
       _error) {
@@ -953,7 +1058,6 @@ async function
         0);
       throw _error;
     }
-    
     _cursor =
       _cursor + 1;
     true;
