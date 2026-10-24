@@ -962,7 +962,7 @@ async function
   true;
 }
 
-function
+async function
   _namespace_setup(
     _namespace) {
   let
