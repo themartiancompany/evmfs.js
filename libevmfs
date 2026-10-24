@@ -906,11 +906,6 @@ async function
         _error);
       throw _error;
     }
-    _msg =
-      "Contract type is " +
-      `'${_contract_type}'.`;
-    _msg_info(
-      _msg);
   }
   if ( 1 == _contracts_candidates.length ) {
     [ _contract_type ] =
@@ -918,7 +913,11 @@ async function
   }
   else if ( 1 < _contracts_candidates.length ) {
     _msg =
-      "TODO";
+      "Found more than a contract type:";
+    _msg_info(
+      _msg);
+    _echo(
+      _contracts_candidates);
     _msg_error(
       _msg,
       1);
