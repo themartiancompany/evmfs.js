@@ -689,6 +689,11 @@ async function
     _network_type =
       typeof(
         _network);
+  _msg =
+    "Looking for contract types " +
+    `having address '${_contract_address}'.`;
+  _msg_info(
+    _msg);
   if ( _network_type === "undefined" ) {
     for ( _type of _contracts_types ) {
       _evm_contract_deployment_address_args = [
@@ -909,7 +914,8 @@ async function
   }
   if ( 1 == _contracts_candidates.length ) {
     [ _contract_type ] =
-      _contracts_candidates[0]
+      _contracts_candidates[
+        0]
   }
   else if ( 1 < _contracts_candidates.length ) {
     _msg =
