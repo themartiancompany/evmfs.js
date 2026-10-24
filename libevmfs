@@ -63,6 +63,11 @@ const
   _get =
     _libcrash._get;
 /* global
+     _global_get */
+const
+  _global_get =
+    _libcrash._global_get;
+/* global
      _msg_error */
 const
   _msg_error =
@@ -666,6 +671,7 @@ async function
     _address,
     _contract_addresses,
     _evm_contract_deployment_address_args,
+    _msg,
     _type;
   const
     _results =
@@ -705,10 +711,9 @@ async function
       }
       catch(
         _error) {
-        const
-          _msg =
-            "Error locally retrieving " +
-            "contract address.";
+        _msg =
+          "Error locally retrieving " +
+          "contract address.";
         _msg_error(
           _msg);
         _echo2(
@@ -751,10 +756,9 @@ async function
       }
       catch(
         _error) {
-        const
-          _msg =
-            "Error locally retrieving " +
-            "contract address.";
+        _msg =
+          "Error locally retrieving " +
+          "contract address.";
         _msg_error(
           _msg);
         _echo2(
@@ -777,6 +781,9 @@ async function
       "found for the given contract:";
     _msg_info(
       _msg);
+    const
+      _global =
+        _global_get();
     const
       _quiet =
         _global[
