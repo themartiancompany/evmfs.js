@@ -160,6 +160,13 @@ const
 const
   _evm_contract_deployment_address =
     _evm_contracts_tools_module._evm_contract_deployment_address;
+const
+  _evm_wallet_module =
+    await _require(
+      "evm-wallet");
+const
+  _address_get =
+    _evm_wallet_module._address_get;
 
 function
   _call_timeout_auto_detect() {
@@ -956,8 +963,81 @@ async function
 }
 
 function
-  _namespace_setup() {
-  true;
+  _namespace_setup(
+    _namespace) {
+  let
+    _msg,
+    _namespace_get;
+  _namespace_get =
+    false;
+  const
+    _namespace_type =
+      typeof(
+        _namespace);
+  if ( _namespace_type === "undefined"  ) {
+    _msg =
+      "Namespace is undefined, setting " +
+      "own.";
+    _msg_info(
+      _msg);
+    _namespace_get =
+      true;
+  }
+  if ( _namespace_type === "string"  ) {
+    if ( _namespace.length < 1 ) {
+      _msg =
+        "Namespace is an empty string, " +
+        "setting own.";
+      _msg_info(
+        _msg);
+      _namespace_get =
+        true;
+    }
+  }
+  else if ( _namespace_type === "object"  ) {
+    _msg =
+      "Seed system support is for a later version.";
+    _msg_info(
+      _msg);
+    _namespace_get =
+      true;
+  }
+  else {
+    _msg =
+      `Unknown type '${_namespace_type}' for ` +
+      "namespace variable.";
+    _msg_error(
+      _msg,
+      0);
+  }
+  if ( _namespace_get ) {
+    const
+      _address_get_args = [
+        _wallet_seed,
+        "",                  // network
+        "",                  // api key
+        "",                  // chain id
+        "",                  // chain name
+        ""                   // output file
+      ];
+    try {
+      _namespace =
+        await _address_get.apply(
+          null,
+          _address_get_args);
+    }
+    catch(
+      _error) {
+      _msg =
+        "Error getting address for " +
+        "own address.";
+      _msg_error(
+        _msg,
+        0);
+      throw _error;
+    }
+  }
+  return _namespace;
 }
 
 async function
@@ -1065,6 +1145,20 @@ async function
       _error) {
       _msg =
         "Error extracting URI namespace.";
+      _msg_error(
+        _msg,
+        0);
+      throw _error;
+    }
+    try {
+      _uri_namespace =
+        await _namespace_setup(
+          _uri_namespace);
+    }
+    catch(
+      _error) {
+      _msg =
+        "Error during namespace setup.";
       _msg_error(
         _msg,
         0);
