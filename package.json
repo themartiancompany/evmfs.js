@@ -115,6 +115,8 @@
       "0.0.81",
     "evm-wallet":
       "npm:evm-wallet.js@^0.0.103",
+    "js-sha256":
+      "1.0.0",
     "libevm":
       "0.0.50",
     "evmfs-contracts":

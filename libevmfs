@@ -53,10 +53,10 @@ const
   _echo2 =
     _libcrash._echo2;
 /* global
-     _exit */
-// const
-//   _exit =
-//     _libcrash._exit;
+     _file_exists */
+const
+  _file_exists =
+    _libcrash._file_exists;
 /* global
      _get */
 const
@@ -1063,6 +1063,7 @@ async function
     _cursor,
     _msg,
     _output_file,
+    _output_file_exists_already,
     _uri,
     _uri_network_id,
     _uri_contract,
@@ -1177,6 +1178,27 @@ async function
         _msg,
         0);
       throw _error;
+    }
+    try {
+      _hash_check(
+        _uri_hash);
+    }
+    catch(
+      _error) {
+      _msg =
+        "Error checking URI hash.";
+      _msg_error(
+        _msg,
+        0);
+      throw _error;
+    }
+    _output_file_exists_already =
+      _file_exists(
+        _output_file);
+    if ( _output_file_exists_already ) {
+      _output_file_hash =
+        _file_hash(
+          _output_file);
     }
     _cursor =
       _cursor + 1;
