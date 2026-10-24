@@ -770,14 +770,18 @@ async function
           _error);
         throw _error;
       }
-      _address =
-        _contract_addresses[
-          _network];
-      _results.push([
-        _type,
-        _network,
-        _address
-      ]);
+      for ( _network in _contract_addresses ) {
+        _address =
+          _contract_addresses[
+            _network];
+        if ( _address === _contract_address ) {
+          _results.push([
+            _type,
+            _network, 
+            _address
+          ]);
+        }
+      }
     }
   }
   if ( 1 < _results.length ) {
