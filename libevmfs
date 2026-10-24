@@ -672,6 +672,7 @@ async function
     _contract_addresses,
     _evm_contract_deployment_address_args,
     _msg,
+    _network,
     _type;
   const
     _results =
@@ -681,10 +682,9 @@ async function
       "FileSystem",
       "CrossChainFileSystem"
     ];
-  const
-    _network =
-      _target_networks[
-        0];
+  _network =
+    _target_networks[
+      0];
   const
     _network_type =
       typeof(
@@ -729,7 +729,7 @@ async function
         _address =
           _contract_addresses[
             _network];
-        if ( _address === _contract_address ) {
+        if ( _address == _contract_address ) {
           _results.push([
             _type,
             _network, 
