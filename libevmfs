@@ -73,6 +73,11 @@ const
   _global_get =
     _libcrash._global_get;
 /* global
+     _mkdir */
+const
+  _mkdir =
+    _libcrash._mkdir;
+/* global
      _msg_error */
 const
   _msg_error =
@@ -1238,14 +1243,17 @@ async function
     if ( _download ) {
       const
         _resource_get_args = [
+          _ll_address,
           _uri_network_id,
           _uri_contract,
           _uri_namespace,
           _uri_hash,
           _fs_version,
+          _user_level,
           _call_method,
           _tasks_parallel,
-          _retries_max
+          _retries_max,
+          _cache_dir
 	];
       try {
         await _resource_get.apply(
@@ -1493,18 +1501,41 @@ async function
     _uri_namespace,
     _uri_hash,
     _fs_version,
+    _user_level,
     _call_method,
     _tasks_parallel,
-    _retries_max) {
+    _retries_max,
+    _cache_dir) {
   const
     _path =
       _path_join([
         _cache_dir,
-        uri_hash,
+        _uri_hash,
         "get"
       ]);
-  _mkdir(
-    _path);
+  try {
+    _mkdir(
+      _path);
+  }
+  catch(
+    _error) {
+    const
+      _code =
+        _error[
+          'code'];
+    if ( _code === "EEXIST" ) {
+      true;
+    }
+    else {
+      _msg =
+        "Error creating cache directory " +
+        `'${_path}'.`;
+      _msg_error(
+        _msg,
+        0);
+      throw _error;
+    }
+  }
   if ( _fs_version === "1.0" ) {
     const
       _chunks_total_get_args = [
