@@ -1609,8 +1609,6 @@ async function
     _msg;
   _echo(
    _fs_version);
-  _exit(
-    1);
   const
     _libevm_contract_setup_args = [
       "evmfs",                  // application name
