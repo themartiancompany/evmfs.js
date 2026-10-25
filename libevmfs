@@ -1068,8 +1068,17 @@ async function
 async function
   _evmfs_get(
     _fs_address,
+    _fs_abi,
+    _fs_bytecode,
+    _fs_compiler_output,
     _ll_address,
+    _ll_abi,
+    _ll_bytecode,
+    _ll_compiler_output,
     _ccfs_address,
+    _ccfs_abi,
+    _ccfs_bytecode,
+    _ccfs_compiler_output,
     _fs_version,
     _deployments_dir,
     _user_level,
@@ -1250,6 +1259,7 @@ async function
           _uri_hash,
           _fs_version,
           _user_level,
+          _deployments_dir,
           _call_method,
           _tasks_parallel,
           _retries_max,
@@ -1285,8 +1295,17 @@ async function
 async function
   _evmfs_publish(
     _fs_address,
+    _fs_abi,
+    _fs_bytecode,
+    _fs_compiler_output,
     _ll_address,
+    _ll_abi,
+    _ll_bytecode,
+    _ll_compiler_output,
     _ccfs_address,
+    _ccfs_abi,
+    _ccfs_bytecode,
+    _ccfs_compiler_output,
     _fs_version,
     _deployments_dir,
     _user_level,
@@ -1316,8 +1335,17 @@ async function
   _evmfs(
     _target_command,
     _fs_address,
+    _fs_abi,
+    _fs_bytecode,
+    _fs_compiler_output,
     _ccfs_address,
+    _ccfs_abi,
+    _ccfs_bytecode,
+    _ccfs_compiler_output,
     _ll_address,
+    _ll_abi,
+    _ll_bytecode,
+    _ll_compiler_output,
     _fs_version,
     _deployments_dir,
     _wallet_name,
@@ -1359,8 +1387,17 @@ async function
     const
       _evmfs_get_args = [
         _fs_address,
+        _fs_abi,
+        _fs_bytecode,
+        _fs_compiler_output,
         _ll_address,
+        _ll_abi,
+        _ll_bytecode,
+        _ll_compiler_output,
         _ccfs_address,
+        _ccfs_abi,
+        _ccfs_bytecode,
+        _ccfs_compiler_output,
         _fs_version,
         _deployments_dir,
         _user_level,
@@ -1400,8 +1437,17 @@ async function
     const
       _evmfs_publish_args = [
         _fs_address,
+        _fs_abi,
+        _fs_bytecode,
+        _fs_compiler_output,
         _ll_address,
+        _ll_abi,
+        _ll_bytecode,
+        _ll_compiler_output,
         _ccfs_address,
+        _ccfs_abi,
+        _ccfs_bytecode,
+        _ccfs_compiler_output,
         _fs_version,
         _deployments_dir,
         _user_level,
@@ -1502,6 +1548,7 @@ async function
     _uri_hash,
     _fs_version,
     _user_level,
+    _deployments_dir,
     _call_method,
     _tasks_parallel,
     _retries_max,
@@ -1600,6 +1647,40 @@ async function
     _fs_version,
     _user_level,
     _deployments_dir) {
+  // This call already get executed
+  // during application override,
+  // so actually it should be passed
+  // though '_main' and get auto-generated
+  // only if undefined, but I'm not sure
+  // I shou-ok ill do
+  _contract_setup_auto_detect_args = [
+    "evmfs",                  // application name
+    "LengthLock",             // contract name
+    "_ll",                    // contract short name
+    _contract_version,
+    _target_network,
+    _user_level,
+    _deployments_dir,
+    _contracts_package,
+    _configuration_format
+  ];
+  try {
+    await _contract_setup_auto_detect.apply(
+      null,
+      _contract_setup_auto_detect_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_contract_setup_auto_detect' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
   _echo2(
     ll_bytecode);
   _exit(
