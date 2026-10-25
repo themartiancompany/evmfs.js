@@ -1257,7 +1257,8 @@ async function
           _call_method,
           _tasks_parallel,
           _retries_max,
-          _cache_dir
+          _cache_dir,
+          _api_key_path
 	];
       try {
         await _resource_get.apply(
@@ -1510,7 +1511,8 @@ async function
     _call_method,
     _tasks_parallel,
     _retries_max,
-    _cache_dir) {
+    _cache_dir,
+    _api_key_path) {
   const
     _path =
       _path_join([
@@ -1552,7 +1554,8 @@ async function
         _fs_version,
         _user_level,
         _deployments_dir,
-        _retries_max
+        _retries_max,
+        _api_key_path
       ];
     try {
       _chunks_total_get.apply(
@@ -1606,7 +1609,8 @@ async function
     _fs_version,
     _user_level,
     _deployments_dir,
-    _retries_max) {
+    _retries_max,
+    _api_key_path) {
   let
     _msg;
   const
