@@ -1602,17 +1602,18 @@ async function
     _fs_version,
     _user_level,
     _deployments_dir) {
-  _contract_setup_auto_detect_args = [
-    "evmfs",                  // application name
-    "LengthLock",             // contract name
-    "_ll",                    // contract short name
-    _contract_version,
-    _target_network,
-    _user_level,
-    _deployments_dir,
-    _contracts_package,
-    _configuration_format
-  ];
+  const
+    _contract_setup_auto_detect_args = [
+      "evmfs",                  // application name
+      "LengthLock",             // contract name
+      "_ll",                    // contract short name
+      _fs_version,
+      _uri_network_id,
+      _user_level,
+      _deployments_dir,
+      "evmfs-contracts",
+      "json"                    // configuration format
+    ];
   try {
     await _contract_setup_auto_detect.apply(
       null,
