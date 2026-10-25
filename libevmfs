@@ -1551,7 +1551,8 @@ async function
         _uri_hash,
         _fs_version,
         _user_level,
-        _deployments_dir
+        _deployments_dir,
+        _retries_max
       ];
     try {
       _chunks_total_get.apply(
@@ -1604,7 +1605,8 @@ async function
     _uri_hash,
     _fs_version,
     _user_level,
-    _deployments_dir) {
+    _deployments_dir,
+    _retries_max) {
   let
     _msg;
   const
@@ -1638,7 +1640,7 @@ async function
   }
   const
     _resource_length_get_args = [
-      _wallet_seed,
+      "",                       // wallet seed
       _retries_max,
       _api_key_path,
       _target_network,
