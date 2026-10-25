@@ -1577,23 +1577,33 @@ async function
 
 async function
   _resource_length_get(
-    _wallet_seed,
-    _retries_max,
-    _api_key_path,
     _target_network,
-    _contract_abi_path) {
+    _uri_contract,
+    _uri_namespace,
+    _uri_hash,
+    _ll_abi_path,
+    _ll_bytecode_path,
+    _ll_compiler_output_path,
+    _retries_max,
+    _api_key_path) {
+  const
+    _method_args = [
+      _uri_contract,
+      _uri_namespace,
+      _uri_hash
+    ];
   const
     _contract_call_static_args = [
-      _wallet_seed,
+      "",                       // wallet seed,
       _retries_max,
       _api_key_path,
       _target_network,
-      _contract_abi_path,
-      _contract_bytecode_path,
-      _contract_compiler_output_path,
-      _method_object,
-      _contract_address,
-      _contract_method,
+      _ll_abi_path,
+      _ll_bytecode_path,
+      _ll_compiler_output_path,
+      {},                       // method object
+      _ll_address,
+      "lock",
       _method_args,
       _contract_object
     ];
@@ -1612,6 +1622,9 @@ async function
     _retries_max,
     _api_key_path) {
   let
+    _ll_abi,
+    _ll_bytecode,
+    _ll_compiler_output,
     _msg;
   const
     _libevm_app_contract_setup_args = [
@@ -1644,11 +1657,15 @@ async function
   }
   const
     _resource_length_get_args = [
-      "",                       // wallet seed
-      _retries_max,
-      _api_key_path,
       _uri_network_id,
-      _contract_abi_path
+      _uri_contract,
+      _uri_namespace,
+      _uri_hash,
+      _ll_abi,
+      _ll_bytecode,
+      _ll_compiler_output,
+      _retries_max,
+      _api_key_path
     ];
   try {
     _resource_length =
