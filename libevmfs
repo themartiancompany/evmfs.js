@@ -1607,8 +1607,6 @@ async function
     _deployments_dir) {
   let
     _msg;
-  _echo(
-   _fs_version);
   const
     _libevm_app_contract_setup_args = [
       "evmfs",                  // application name
@@ -1638,8 +1636,34 @@ async function
       _error);
     throw _error;
   }
+  const
+    _resource_length_get_args = [
+      _wallet_seed,
+      _retries_max,
+      _api_key_path,
+      _target_network,
+      _contract_abi_path
+    ];
+  try {
+    _resource_length =
+      await _resource_length_get.apply(
+        null,
+        _resource_length_get_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_resource_length_get' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _resource_length_get_args);
+    throw _error;
+  }
   _echo2(
-    ll_bytecode);
+    _ll_bytecode);
   _exit(
     0);
 }
@@ -1854,6 +1878,7 @@ export {
   _publish_module,
   _publish_bulk_module,
   _resource_get,
+  _resource_length_get,
   _tasks_parallel_auto_detect,
   _verify_module,
 };
@@ -1891,6 +1916,8 @@ export {
 //     _publish_bulk_module,
 //   _resource_get:
 //     _resource_get,
+//   _resource_length_get:
+//     _resource_length_get,
 //   _tasks_parallel_auto_detect:
 //     _tasks_parallel_auto_detect,
 //   _verify_module:
