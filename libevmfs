@@ -1647,7 +1647,7 @@ async function
       "",                       // wallet seed
       _retries_max,
       _api_key_path,
-      _target_network,
+      _uri_network_id,
       _contract_abi_path
     ];
   try {
