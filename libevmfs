@@ -1698,6 +1698,7 @@ async function
       _deployments_dir,
       "evmfs-contracts",
       "json"                    // configuration format
+      ""                        // configuration file path
     ];
   try {
     [ _ll_abi,
