@@ -1605,7 +1605,7 @@ async function
       _uri_contract,
       "lock",
       _method_args,
-      _contract_object
+      {}                        // _contract_object
     ];
 }
 
@@ -1625,7 +1625,8 @@ async function
     _ll_abi,
     _ll_bytecode,
     _ll_compiler_output,
-    _msg;
+    _msg,
+    _resource_length;
   const
     _libevm_app_contract_setup_args = [
       "evmfs",                  // application name
