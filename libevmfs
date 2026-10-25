@@ -53,6 +53,11 @@ const
   _echo2 =
     _libcrash._echo2;
 /* global
+     _exit */
+const
+  _exit =
+    _libcrash._exit;
+/* global
      _file_exists */
 const
   _file_exists =
@@ -157,6 +162,9 @@ const
   _evm_contracts_tools_module =
     await _require(
       "evm-contracts-tools");
+const
+  _contract_call_static =
+    _evm_contracts_tools_module._contract_call_static;
 const
   _evm_contract_deployment_address =
     _evm_contracts_tools_module._evm_contract_deployment_address;
@@ -1070,7 +1078,8 @@ async function
     _retries_max,
     _tasks_parallel,
     _input_uris,
-    _output_files) {
+    _output_files,
+    _cache_dir) {
   let
     _cursor,
     _download,
@@ -1357,7 +1366,8 @@ async function
         _retries_max,
         _tasks_parallel,
         _input_uris,
-        _output_files
+        _output_files,
+        _cache_dir
       ];
     try {
       _return =
@@ -1498,12 +1508,71 @@ async function
   if ( _fs_version === "1.0" ) {
     const
       _chunks_total_get_args = [
+        _ll_address,
         _uri_network_id,
-        _fs_
+        _uri_contract,
+        _uri_namespace,
+        _uri_hash,
+        _fs_version,
+        _user_level,
+        _deployments_dir
       ];
-    _chunks_total_get(
-    
+    try {
+      _chunks_total_get.apply(
+        null,
+        _chunks_total_get_args);
+    }
+    catch(
+      _error) {
+      _msg =
+        "Error running '_chunks_total_get' " +
+        "with arguments:";
+      _msg_error(
+        _msg,
+        0);
+      throw _error;
+    }
   }
+}
+
+async function
+  _resource_length_get(
+    _wallet_seed,
+    _retries_max,
+    _api_key_path,
+    _target_network,
+    _contract_abi_path) {
+  const
+    _contract_call_static_args = [
+      _wallet_seed,
+      _retries_max,
+      _api_key_path,
+      _target_network,
+      _contract_abi_path,
+      _contract_bytecode_path,
+      _contract_compiler_output_path,
+      _method_object,
+      _contract_address,
+      _contract_method,
+      _method_args,
+      _contract_object
+    ];
+}
+
+async function
+  _chunks_total_get(
+    _ll_address,
+    _uri_network_id,
+    _uri_contract,
+    _uri_namespace,
+    _uri_hash,
+    _fs_version,
+    _user_level,
+    _deployments_dir) {
+  _echo2(
+    ll_bytecode);
+  _exit(
+    0);
 }
 
 function
