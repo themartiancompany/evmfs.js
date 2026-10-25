@@ -1602,7 +1602,7 @@ async function
       _ll_bytecode_path,
       _ll_compiler_output_path,
       {},                       // method object
-      _ll_address,
+      _uri_contract,
       "lock",
       _method_args,
       _contract_object
