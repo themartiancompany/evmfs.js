@@ -1610,7 +1610,7 @@ async function
   _echo(
    _fs_version);
   const
-    _libevm_contract_setup_args = [
+    _libevm_app_contract_setup_args = [
       "evmfs",                  // application name
       "LengthLock",             // contract name
       "_ll",                    // contract short name
@@ -1622,9 +1622,9 @@ async function
       "json"                    // configuration format
     ];
   try {
-    await _libevm_contract_setup.apply(
+    await _libevm_app_contract_setup.apply(
       null,
-      _libevm_contract_setup_args);
+      _libevm_app_contract_setup_args);
   }
   catch(
     _error) {
