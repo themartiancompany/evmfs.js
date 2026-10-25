@@ -1640,6 +1640,9 @@ async function
       "json"                    // configuration format
     ];
   try {
+    [ _ll_abi,
+      _ll_bytecode,
+      _ll_compiler_output ] =
     await _libevm_app_contract_setup.apply(
       null,
       _libevm_app_contract_setup_args);
@@ -1686,10 +1689,6 @@ async function
       _resource_length_get_args);
     throw _error;
   }
-  _echo2(
-    _ll_bytecode);
-  _echo2(
-    _resource_length);
   _exit(
     0);
 }
