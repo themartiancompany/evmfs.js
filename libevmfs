@@ -1253,6 +1253,9 @@ async function
       const
         _resource_get_args = [
           _ll_address,
+          _ll_abi,
+          _ll_bytecode,
+          _ll_compiler_output,
           _uri_network_id,
           _uri_contract,
           _uri_namespace,
@@ -1542,6 +1545,9 @@ async function
 async function
   _resource_get(
     _ll_address,
+    _ll_abi,
+    _ll_bytecode,
+    _ll_compiler_output,
     _uri_network_id,
     _uri_contract,
     _uri_namespace,
@@ -1587,6 +1593,9 @@ async function
     const
       _chunks_total_get_args = [
         _ll_address,
+        _ll_abi,
+        _ll_bytecode,
+        _ll_compiler_output,
         _uri_network_id,
         _uri_contract,
         _uri_namespace,
