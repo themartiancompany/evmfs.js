@@ -1697,7 +1697,7 @@ async function
       _user_level,
       _deployments_dir,
       "evmfs-contracts",
-      "json"                    // configuration format
+      "json",                   // configuration format
       ""                        // configuration file path
     ];
   try {
