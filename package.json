@@ -118,7 +118,7 @@
     "js-sha256":
       "1.0.0",
     "libevm":
-      "0.0.52",
+      "0.0.53",
     "evmfs-contracts":
       "0.0.9",
     "yargs":
@@ -130,7 +130,7 @@
     "evm-wallet":
       "npm:evm-wallet.js@^0.0.103",
     "libevm":
-      "0.0.52"
+      "0.0.53"
   },
   "type":
     "module",
