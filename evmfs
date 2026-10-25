@@ -30,14 +30,36 @@
  *     If not, see <https://www.gnu.org/licenses/>.
  */
 
-/* LibEVM writable globals */
+/* Crash Javascript global variables */
+
+  /* global
+       runtime_environment:
+         writable */
+
+/* LibEVM writable global variables */
+
+  /* global
+       api_key_path:
+         writable */
 
   /* global
        call_timeout:
          writable */
 
   /* global
+       measure_unit:
+         writable */
+
+  /* global
        price_gas:
+         writable */
+
+  /* global
+       retries_max:
+         writable */
+
+  /* global
+       rpc_selection:
          writable */
 
   /* global
@@ -53,24 +75,20 @@
          writable */
 
 
-/* LibEVM application globals */
+/* LibEVM application global variables */
+
+  /* global
+       deployments_dir:
+         writable */
 
   /* global
        user_level:
          writable */
 
-/* EVMFS common globals */
-
-  /* global
-       runtime_environment:
-         writable */
+/* EVMFS common global variables */
 
   /* global
        app_opts:
-         writable */
-
-  /* global
-       retries_max:
          writable */
 
   /* global
@@ -78,19 +96,15 @@
          writable */
 
   /* global
+       encoding_type:
+         writable */
+
+  /* global
        tasks_parallel:
          writable */
 
   /* global
-       api_key_path:
-         writable */
-
-  /* global
        lock_only:
-         writable */
-
-  /* global
-       deployments_dir:
          writable */
 
   /* global
@@ -100,7 +114,6 @@
   /* global
        fs_address:
          writable */
-
 
   /* global
        fs_version:
@@ -112,10 +125,6 @@
 
   /* global
        ll_address:
-         writable */
-
-  /* global
-       rpc_selection:
          writable */
 
   /* global
@@ -160,6 +169,7 @@
 /* eslint
      no-undef:
        "error" */
+
 /* eslint
      no-unused-vars: [
        "error",

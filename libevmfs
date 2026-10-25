@@ -167,6 +167,13 @@ const
 const
   _address_get =
     _evm_wallet_module._address_get;
+const
+  _sha256sum_module =
+    await _require(
+      "js-sha256");
+const
+  _sha256sum =
+    _sha256sum_module.sha256.sha256;
 
 function
   _call_timeout_auto_detect() {
@@ -868,9 +875,13 @@ async function
         _deployments_dir
       ];
     try {
-      _quiet =
-        _global[
-          "quiet"];
+      const
+        _global =
+          _global_get();
+      const
+        _quiet =
+          _global[
+            "quiet"];
       _msg =
         "Running '_evm_contract_deployment_address' " +
         "with arguments:";
@@ -915,7 +926,7 @@ async function
       _error) {
       _msg =
         "Error running '_contract_type_get' " +
-        "with arguments:"
+        "with arguments:";
       _msg_error(
         _msg,
         0);
@@ -929,7 +940,7 @@ async function
   if ( 1 === _contracts_candidates.length ) {
     [ _contract_type ] =
       _contracts_candidates[
-        0]
+        0];
   }
   else if ( 1 < _contracts_candidates.length ) {
     _msg =
@@ -964,7 +975,8 @@ async function
 
 async function
   _namespace_setup(
-    _namespace) {
+    _namespace,
+    _wallet_seed) {
   let
     _msg,
     _namespace_get;
@@ -1061,9 +1073,11 @@ async function
     _output_files) {
   let
     _cursor,
+    _download,
     _msg,
     _output_file,
     _output_file_exists_already,
+    _output_file_hash,
     _uri,
     _uri_network_id,
     _uri_contract,
@@ -1154,7 +1168,8 @@ async function
     try {
       _uri_namespace =
         await _namespace_setup(
-          _uri_namespace);
+          _uri_namespace,
+          _wallet_seed);
     }
     catch(
       _error) {
@@ -1192,6 +1207,8 @@ async function
         0);
       throw _error;
     }
+    _download =
+      true;
     _output_file_exists_already =
       _file_exists(
         _output_file);
@@ -1199,6 +1216,45 @@ async function
       _output_file_hash =
         _file_hash(
           _output_file);
+      if ( _output_file_hash === _uri_hash ) {
+        _msg =
+          `File '${_uri}' already downloaded ` +
+          `at '${_output_file}'.`;
+        _msg_info(
+          _msg);
+        _download =
+          false;
+      }
+    }
+    if ( _download ) {
+      const
+        _resource_get_args = [
+          _uri_network_id,
+          _uri_contract,
+          _uri_namespace,
+          _uri_hash,
+          _fs_version,
+          _call_method,
+          _tasks_parallel,
+          _retries_max
+	];
+      try {
+        await _resource_get.apply(
+          null,
+          _resource_get_args);
+      }
+      catch(
+        _error) {
+        _msg =
+          "Error running _resource_get_args " +
+          "with arguments:";
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _resource_get_args);
+        throw _error;
+      }
     }
     _cursor =
       _cursor + 1;
@@ -1403,6 +1459,51 @@ async function
     throw _msg;
   }
   return _return;
+}
+
+async function
+  _file_hash(
+    _path) {
+  const
+    _file =
+      _file_read(
+        _path);
+  const
+    _sum =
+      await _sha256sum(
+        _file);
+  return _sum; 
+}
+
+async function
+  _resource_get(
+    _ll_address,
+    _uri_network_id,
+    _uri_contract,
+    _uri_namespace,
+    _uri_hash,
+    _fs_version,
+    _call_method,
+    _tasks_parallel,
+    _retries_max) {
+  const
+    _path =
+      _path_join([
+        _cache_dir,
+        uri_hash,
+        "get"
+      ]);
+  _mkdir(
+    _path);
+  if ( _fs_version === "1.0" ) {
+    const
+      _chunks_total_get_args = [
+        _uri_network_id,
+        _fs_
+      ];
+    _chunks_total_get(
+    
+  }
 }
 
 function
@@ -1614,6 +1715,7 @@ export {
   _network_id_get,
   _publish_module,
   _publish_bulk_module,
+  _resource_get,
   _tasks_parallel_auto_detect,
   _verify_module,
 };
@@ -1649,6 +1751,8 @@ export {
 //     _publish_module,
 //   _publish_bulk_module:
 //     _publish_bulk_module,
+//   _resource_get:
+//     _resource_get,
 //   _tasks_parallel_auto_detect:
 //     _tasks_parallel_auto_detect,
 //   _verify_module:
