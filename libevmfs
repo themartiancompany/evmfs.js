@@ -1689,6 +1689,8 @@ async function
       _resource_length_get_args);
     throw _error;
   }
+  _echo(
+    _resource_length);
   _exit(
     0);
 }
