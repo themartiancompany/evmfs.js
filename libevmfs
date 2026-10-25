@@ -1628,37 +1628,36 @@ async function
     throw _error;
   }
   if ( _locked ) {
+    _contract_call_static_args = [
+      "",                       // wallet seed,
+      _retries_max,
+      _api_key_path,
+      _target_network,
+      _ll_abi_path,
+      _ll_bytecode_path,
+      _ll_compiler_output_path,
+      {},                       // method object
+      _uri_contract,
+      "getLength",
+      _method_args,
+      {}                        // _contract_object
+    ];
     try {
-      _contract_call_static_args = [
-        "",                       // wallet seed,
-        _retries_max,
-        _api_key_path,
-        _target_network,
-        _ll_abi_path,
-        _ll_bytecode_path,
-        _ll_compiler_output_path,
-        {},                       // method object
-        _uri_contract,
-        "getLength",
-        _method_args,
-        {}                        // _contract_object
-      ];
-      try {
-        _length =
-          await _contract_call_static.apply(
-            null,
-            _contract_call_static_args);
-      }
-      catch(
-        _error) {
-        _msg =
-          "Error running '_contract_call_static' " +
-          "with arguments:";
-        _msg_error(
-          _msg,
-          0);
-        throw _error;
-      }
+      _length =
+        await _contract_call_static.apply(
+          null,
+          _contract_call_static_args);
+    }
+    catch(
+      _error) {
+      _msg =
+        "Error running '_contract_call_static' " +
+        "with arguments:";
+      _msg_error(
+        _msg,
+        0);
+      throw _error;
+    }
   }
   else {
     _msg =
