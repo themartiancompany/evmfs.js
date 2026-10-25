@@ -1688,6 +1688,8 @@ async function
   }
   _echo2(
     _ll_bytecode);
+  _echo2(
+    _resource_length);
   _exit(
     0);
 }
