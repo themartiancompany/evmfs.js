@@ -1283,6 +1283,8 @@ async function
       _msg =
         "Running '_resource_get' " +
         "with arguments:";
+      _msg_info(
+        _msg);
       const
         _global =
           _global_get();
