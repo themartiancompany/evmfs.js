@@ -108,6 +108,11 @@ const
   _require =
     _libcrash._require;
 /* global
+     _seq */
+const
+  _seq =
+    _libcrash._seq;
+/* global
      _set */
 const
   _set =
@@ -1516,6 +1521,8 @@ async function
     _cache_dir,
     _api_key_path) {
   let
+    _attempt,
+    _chunks_total,
     _msg;
   const
     _path =
@@ -1523,6 +1530,13 @@ async function
         _cache_dir,
         _uri_hash,
         "get"
+      ]);
+  const
+    _check_file_path =
+      _path_join([
+        _cache_dir,
+        _uri_hash,
+        "check"
       ]);
   try {
     const
@@ -1568,9 +1582,10 @@ async function
         _api_key_path
       ];
     try {
-      _chunks_total_get.apply(
-        null,
-        _chunks_total_get_args);
+      _chunks_total =
+        await _chunks_total_get.apply(
+          null,
+          _chunks_total_get_args);
     }
     catch(
       _error) {
@@ -1582,6 +1597,68 @@ async function
         0);
       throw _error;
     }
+  }
+  _attempt =
+    1;
+  while ( _attempt < _retries_max ) {
+    try {
+      if ( 1 < _tasks_parallel ) {
+        const
+          _chunks_get_async_args = [
+            _chunks_total,
+            _tasks_parallel
+          ];
+        await _chunks_get_async.apply(
+          null,
+          _chunks_get_async_args);
+      }
+      else if ( 1 == _tasks_parallel ) {
+        const
+          _chunks_get_sync_args = [
+            _chunks_total,
+            _tasks_parallel
+          ];
+        await _chunks_get_sync(
+          null,
+          _chunks_get_sync_args);
+      }
+    }
+    catch(
+      _error) {
+      _msg =
+        "Invalid value for parallel tasks " +
+        `('${_tasks_parallel}').`;
+      _msg_error(
+        _msg,
+        0);
+      throw _msg;
+    }
+  }
+}
+
+async function
+  _chunks_get_async(
+    _chunks_total,
+    _tasks_parallel) {
+}
+
+async function
+  _chunks_get_sync(
+    _length,
+    _tasks_parallel) {
+  let
+    _chunk,
+    _index,
+    _msg;
+  _index =
+    0;
+  for ( _chunk of _seq(
+                    _length) {
+    _msg =
+      "Downloading chunk " +
+      `'${_chunk}' of '${_length}'.`;
+    _msg_info(
+      _msg);
   }
 }
 
@@ -1642,7 +1719,7 @@ async function
   }
   _echo(
     _locked);
-  if ( _locked ) {
+  if ( _locked === true ) {
     _contract_call_static_args = [
       "",                       // wallet seed,
       _retries_max,
@@ -1674,14 +1751,45 @@ async function
       throw _error;
     }
   }
-  else {
+  else if ( _locked === false ) {
     _msg =
       "File with hash " +
       `'${_uri_hash}' is unlocked.`;
     _msg_info(
       _msg);
   }
-  return _length;
+  else {
+    _msg =
+      "The lock boolean should be a boolean, " +
+      `not '${_locked}'.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  const
+    _resource_length_type =
+      typeof(
+        _resource_length);
+  if ( _resource_length_type === "undefined" ) {
+    _msg =
+      "The file length is not locked, " +
+      "the uploader could break " +
+      "the file at a later time, lock " +
+      "the length in your namespace to " +
+      "avoid making harder for yourself " +
+      "accessing the file."
+    _msg_warning(
+      _msg);
+    _length =
+      0;
+  }
+  const
+    _output = [
+      _length,
+      _locked
+    ];
+  return _output;
 }
 
 async function
@@ -1749,7 +1857,8 @@ async function
       _api_key_path
     ];
   try {
-    _resource_length =
+    [ _resource_length,
+      _resource_locked ] =
       await _resource_length_get.apply(
         null,
         _resource_length_get_args);
@@ -1766,10 +1875,10 @@ async function
       _resource_length_get_args);
     throw _error;
   }
-  _echo(
-    _resource_length);
-  _exit(
-    0);
+  const
+    _chunks_total =
+      _resource_length + 1;
+  return _chunks_total;
 }
 
 function
