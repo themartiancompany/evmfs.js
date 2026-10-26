@@ -1807,6 +1807,22 @@ async function
       "json",                   // configuration format
       ""                        // configuration file path
     ];
+  const
+    _global =
+      _global_get();
+  const
+    _quiet =
+      _global[
+        "quiet"];
+  _msg =
+    "Running '_libevm_app_contract_setup' " +
+    "with arguments:";
+  _msg_info(
+    _msg);
+  if ( _quiet == "n" ) {
+    _echo(
+      _libevm_app_contract_setup_args);
+  }
   try {
     [ _fs_abi,
       _fs_bytecode,
@@ -1974,8 +1990,6 @@ async function
       _uri_namespace,
       _uri_hash
     ];
-  _echo(
-    _uri_contract);
   _contract_call_static_args = [
     "",                       // wallet seed,
     _retries_max,
@@ -2006,8 +2020,6 @@ async function
       0);
     throw _error;
   }
-  _echo(
-    _locked);
   if ( _locked === true ) {
     _contract_call_static_args = [
       "",                       // wallet seed,
