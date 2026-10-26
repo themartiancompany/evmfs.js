@@ -1803,7 +1803,7 @@ async function
   _index =
     0;
   for ( _chunk of _seq(
-                    _length) {
+                    _length) ) {
     _msg =
       "Downloading chunk " +
       `'${_chunk}' of '${_length}'.`;
