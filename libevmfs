@@ -1985,7 +1985,8 @@ async function
     {}                        // _contract_object
   ];
   try {
-    _chunk =
+    [ _chunk,
+      _method_object ] =
       await _contract_call_static.apply(
         null,
         _contract_call_static_args);
@@ -2000,7 +2001,7 @@ async function
       0);
     throw _error;
   }
-  echo(
+  _echo(
     _output);
   try {
     _file_write(
