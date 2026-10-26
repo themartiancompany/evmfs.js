@@ -1788,16 +1788,46 @@ async function
   }
   catch(
     _error) {
-    _msg =
-      "Error moving " +
-      `'${_check_file_path} ` +
-      `to '${_output_file}.`;
-    _msg_error(
-      _msg,
-      0);
-    _echo2(
-      _resource_validate_args);
-    throw _error;
+    const
+      _code =
+        _error[
+          "code"];
+    if ( _code === "EXDEV" ) {
+      try {
+        _cp(
+          _check_file_path,
+          _output_file); 
+        _rm(
+          _check_file_path);
+      }
+      catch(
+        _error) {
+        _msg =
+          "Error moving " +
+          `'${_check_file_path} ` +
+          `to '${_output_file}.`;
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _error);
+        throw _error;
+      }
+    }
+    else {
+      _msg =
+        "Error moving " +
+        `'${_check_file_path} ` +
+        `to '${_output_file}.`;
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _resource_validate_args);
+      _echo2(
+        _error);
+      throw _error;
+    }
   }
   _msg =
     "Output correctly moved onto " +
