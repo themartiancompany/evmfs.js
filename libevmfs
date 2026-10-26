@@ -1651,13 +1651,15 @@ async function
               _uri_contract,
               _fs_version,
               _user_level,
+              _api_key_path,
               _deployments_dir,
               _uri_network_id,
               _uri_namespace,
               _uri_hash,
               _tmp_dir,
               _chunks_total,
-              _tasks_parallel
+              _tasks_parallel,
+              _retries_max
             ];
           _msg =
             "Running '_chunks_get_sync' " +
@@ -1804,13 +1806,15 @@ async function
     _fs_address,
     _fs_version,
     _user_level,
+    _api_key_path,
     _deployments_dir,
     _uri_network_id,
     _uri_namespace,
     _uri_hash,
     _chunks_dir,
     _length,
-    _tasks_parallel) {
+    _tasks_parallel,
+    _retries_max) {
   let
     _chunk,
     _chunk_get_args,
@@ -1902,7 +1906,7 @@ async function
       _index,
       _piece,
       _api_key_path,
-      _retry_max,
+      _retries_max,
       _method_object,
       _piece
     ];
@@ -1914,7 +1918,7 @@ async function
     catch(
       _error) {
       _msg =
-        `Getting '${_chunks_total_run}' ` +
+        `Getting '${_length}' ` +
         `chunks from '${_index_start}' ` +
         `to '${_index_end}'.`;
       _msg_error(
