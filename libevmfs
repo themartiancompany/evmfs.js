@@ -63,6 +63,11 @@ const
   _file_exists =
     _libcrash._file_exists;
 /* global
+     _file_write */
+const
+  _file_write =
+    _libcrash._file_write;
+/* global
      _get */
 const
   _get =
