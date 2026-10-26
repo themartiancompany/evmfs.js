@@ -1897,9 +1897,9 @@ async function
       ]);
     _chunk_get_args = [
       _fs_address,
-      _fs_abi_path,
-      _fs_bytecode_path,
-      _fs_compiler_output_path,
+      _fs_abi,
+      _fs_bytecode,
+      _fs_compiler_output,
       _uri_network_id,
       _uri_namespace,
       _uri_hash,
@@ -1910,6 +1910,14 @@ async function
       _method_object,
       _piece
     ];
+    _msg =
+      "Running '_chunk_get' with arguments:";
+    _msg_info(
+      _msg);
+    if ( _quiet == "n" ) {
+      _echo(
+        _chunk_get_args);
+    }
     try {
       await _chunk_get.apply(
         null,
