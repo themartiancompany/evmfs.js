@@ -68,6 +68,11 @@ const
   _file_exists =
     _libcrash._file_exists;
 /* global
+     _file_read */
+const
+  _file_read =
+    _libcrash._file_read;
+/* global
      _file_write */
 const
   _file_write =
@@ -1353,7 +1358,7 @@ async function
     _target_networks,
     _index_network,
     _api_key_path,
-    _upload_method,
+    _call_method,
     _retries_max,
     _call_timeout,
     _price_gas,
@@ -1391,6 +1396,7 @@ async function
     _encoding_skip,
     _encoding_type,
     _tasks_parallel,
+    _buffer_length,
     _price_gas,
     _cache_dir,
     _user_level,
@@ -1468,7 +1474,7 @@ async function
         _target_networks,
         _index_network,
         _api_key,
-        _upload_method,
+        _call_method,
         _retries_max,
         _call_timeout,
         _price_gas,
@@ -1479,7 +1485,7 @@ async function
         _buffer_length,
         _tasks_parallel,
         _cache_dir,
-        _target_files
+        _input_files
       ];
     try {
       _return =
@@ -1503,12 +1509,13 @@ async function
   else if ( _target_command === "status" ) {
     const
       _evmfs_status_args = [
+        "tomorrow"
       ];
     try {
       _return =
         await _evmfs_status.apply(
           null,
-          _evmfs_publish_args);
+          _evmfs_status_args);
     }
     catch(
       _error) {
@@ -1519,7 +1526,7 @@ async function
         _msg,
         0);
       _echo2(
-        _evmfs_publish_args);
+        _evmfs_status_args);
       throw _error;
     }
   }
@@ -1691,7 +1698,7 @@ async function
           if ( _quiet == "n" ) {
             _echo(
               _chunks_get_sync_args);
-	  }
+          }
           _chunks =
             await _chunks_get_sync.apply(
               null,
@@ -1726,9 +1733,19 @@ async function
       _msg_error(
         _msg,
         0);
-      throw _error;
+      _attempt =
+        _attempt + 1;
     }
     break;
+  }
+  if ( _attempt == _retries_max ) {
+    _msg =
+      "Maximum amount of retries " +
+      "reached.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
   }
   _msg =
     `Got '${_chunks_total}' chunks. ` +
@@ -1863,9 +1880,9 @@ async function
   let
     _chunk,
     _chunk_get_args,
-    _fs_abi_path,
-    _fs_bytecode_path,
-    _fs_compiler_output_path,
+    _fs_abi,
+    _fs_bytecode,
+    _fs_compiler_output,
     _index,
     _method_object,
     _msg,
@@ -1924,8 +1941,6 @@ async function
       _error);
     throw _error;
   }
-  _index =
-    0;
   for ( _chunk of _seq(
                     _length) ) {
     _msg =
@@ -1964,9 +1979,10 @@ async function
         _chunk_get_args);
     }
     try {
-      await _chunk_get.apply(
-        null,
-        _chunk_get_args);
+      _method_object =
+        await _chunk_get.apply(
+          null,
+          _chunk_get_args);
     }
     catch(
       _error) {
@@ -2001,7 +2017,6 @@ async function
     _output) {
   let
     _chunk,
-    _contract_call_static_args,
     _msg;
   const
     _method_args = [
@@ -2010,20 +2025,21 @@ async function
       _uri_hash,
       _index
     ];
-  _contract_call_static_args = [
-    "",                       // wallet seed,
-    _retries_max,
-    _api_key_path,
-    _uri_network_id,
-    _fs_abi_path,
-    _fs_bytecode_path,
-    _fs_compiler_output_path,
-    _method_object,           // method object
-    _fs_address,
-    "readChunk",
-    _method_args,
-    {}                        // _contract_object
-  ];
+  const
+    _contract_call_static_args = [
+      "",                       // wallet seed,
+      _retries_max,
+      _api_key_path,
+      _uri_network_id,
+      _fs_abi_path,
+      _fs_bytecode_path,
+      _fs_compiler_output_path,
+      _method_object,           // method object
+      _fs_address,
+      "readChunk",
+      _method_args,
+      {}                        // _contract_object
+    ];
   try {
     [ _chunk,
       _method_object ] =
@@ -2041,8 +2057,6 @@ async function
       0);
     throw _error;
   }
-  _echo(
-    _output);
   try {
     _file_write(
       _output,
@@ -2060,6 +2074,7 @@ async function
       _error);
     throw _error;
   }
+  return _method_object;
 }
 
 async function
@@ -2077,9 +2092,9 @@ async function
     "of merged file.";
   _msg_info(
     _msg);
-  if ( _hash_sum !== _sum ) {
+  if ( _file_sum !== _sum ) {
     _msg =
-      `Expected: '${_reference}'.`;
+      `Expected: '${_sum}'.`;
     _msg_error(
       _msg,
       0);
