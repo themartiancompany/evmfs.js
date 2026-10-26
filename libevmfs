@@ -1270,7 +1270,7 @@ async function
       catch(
         _error) {
         _msg =
-          "Error running _resource_get_args " +
+          "Error running '_resource_get' " +
           "with arguments:";
         _msg_error(
           _msg,
@@ -1515,6 +1515,8 @@ async function
     _retries_max,
     _cache_dir,
     _api_key_path) {
+  let
+    _msg;
   const
     _path =
       _path_join([
@@ -1523,8 +1525,14 @@ async function
         "get"
       ]);
   try {
+    const
+      _mkdir_opts = {
+        "recursive":
+          true
+      };
     _mkdir(
-      _path);
+      _path,
+      _mkdir_opts);
   }
   catch(
     _error) {
@@ -1579,6 +1587,7 @@ async function
 
 async function
   _resource_length_get(
+    _ll_address,
     _target_network,
     _uri_contract,
     _uri_namespace,
@@ -1610,8 +1619,8 @@ async function
     _ll_bytecode_path,
     _ll_compiler_output_path,
     {},                       // method object
-    _uri_contract,
-    "locked",
+    _ll_address,
+    "lock",
     _method_args,
     {}                        // _contract_object
   ];
@@ -1633,46 +1642,46 @@ async function
   }
   _echo(
     _locked);
-  // if ( _locked ) {
-  //   _contract_call_static_args = [
-  //     "",                       // wallet seed,
-  //     _retries_max,
-  //     _api_key_path,
-  //     _target_network,
-  //     _ll_abi_path,
-  //     _ll_bytecode_path,
-  //     _ll_compiler_output_path,
-  //     {},                       // method object
-  //     _uri_contract,
-  //     "getLength",
-  //     _method_args,
-  //     {}                        // _contract_object
-  //   ];
-  //   try {
-  //     _length =
-  //       await _contract_call_static.apply(
-  //         null,
-  //         _contract_call_static_args);
-  //   }
-  //   catch(
-  //     _error) {
-  //     _msg =
-  //       "Error running '_contract_call_static' " +
-  //       "with arguments:";
-  //     _msg_error(
-  //       _msg,
-  //       0);
-  //     throw _error;
-  //   }
-  // }
-  // else {
-  //   _msg =
-  //     "File with hash " +
-  //     `'${_uri_hash}' is unlocked.`;
-  //   _msg_info(
-  //     _msg);
-  // }
-  // return _length;
+  if ( _locked ) {
+    _contract_call_static_args = [
+      "",                       // wallet seed,
+      _retries_max,
+      _api_key_path,
+      _target_network,
+      _ll_abi_path,
+      _ll_bytecode_path,
+      _ll_compiler_output_path,
+      {},                       // method object
+      _ll_address,
+      "getLength",
+      _method_args,
+      {}                        // _contract_object
+    ];
+    try {
+      _length =
+        await _contract_call_static.apply(
+          null,
+          _contract_call_static_args);
+    }
+    catch(
+      _error) {
+      _msg =
+        "Error running '_contract_call_static' " +
+        "with arguments:";
+      _msg_error(
+        _msg,
+        0);
+      throw _error;
+    }
+  }
+  else {
+    _msg =
+      "File with hash " +
+      `'${_uri_hash}' is unlocked.`;
+    _msg_info(
+      _msg);
+  }
+  return _length;
 }
 
 async function
@@ -1728,6 +1737,7 @@ async function
   }
   const
     _resource_length_get_args = [
+      _ll_address,
       _uri_network_id,
       _uri_contract,
       _uri_namespace,
