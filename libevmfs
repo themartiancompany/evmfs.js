@@ -1611,7 +1611,7 @@ async function
     _ll_compiler_output_path,
     {},                       // method object
     _uri_contract,
-    "lock",
+    "locked",
     _method_args,
     {}                        // _contract_object
   ];
