@@ -112,13 +112,13 @@
     "encoding-tools":
       "0.0.20",
     "evm-contracts-tools":
-      "0.0.81",
+      "0.0.83",
     "evm-wallet":
       "npm:evm-wallet.js@^0.0.103",
     "js-sha256":
       "1.0.0",
     "libevm":
-      "0.0.53",
+      "0.0.55",
     "evmfs-contracts":
       "0.0.9",
     "yargs":
@@ -126,11 +126,11 @@
   },
   "overrides": {
     "evm-contracts-tools":
-      "0.0.81",
+      "0.0.83",
     "evm-wallet":
       "npm:evm-wallet.js@^0.0.103",
     "libevm":
-      "0.0.53"
+      "0.0.55"
   },
   "type":
     "module",

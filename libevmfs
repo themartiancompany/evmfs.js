@@ -1279,7 +1279,21 @@ async function
           _cache_dir,
           _api_key_path,
           _output_file
-	];
+        ];
+      _msg =
+        "Running '_resource_get' " +
+        "with arguments:";
+      const
+        _global =
+          _global_get();
+      const
+        _quiet =
+          _global[
+            "quiet"];
+      if ( _quiet === "n" ) {
+        _echo(
+          _resource_get_args);
+      }
       try {
         await _resource_get.apply(
           null,
