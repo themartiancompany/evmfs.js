@@ -1955,6 +1955,7 @@ async function
     _method_object,
     _output) {
   let
+    _chunk,
     _contract_call_static_args,
     _msg;
   const
