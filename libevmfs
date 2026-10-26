@@ -1334,7 +1334,7 @@ async function
     true;
   }
   return [
-    "ciao"
+    "All OK."
   ];
 }
 
@@ -2064,9 +2064,34 @@ async function
 
 async function
   _resource_validate(
-   _path,
+   _file,
    _sum) {
-
+  let
+    _msg;
+  const
+    _file_sum =
+      await _sha256sum(
+        _file);
+  _msg =
+    "Validating integrity " +
+    "of merged file.";
+  _msg_info(
+    _msg);
+  if ( _hash_sum !== _sum ) {
+    _msg =
+      `Expected: '${_reference}'.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  else {
+    _msg =
+      "File correctly downloaded " +
+      "and merged.";
+    _msg_info(
+      _msg);
+  }
 }
 
 async function
