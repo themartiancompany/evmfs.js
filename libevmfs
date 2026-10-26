@@ -1947,7 +1947,8 @@ async function
     _method_object,
     _output) {
   let
-    _contract_call_static_args;
+    _contract_call_static_args,
+    _msg;
   const
     _method_args = [
       _fs_address,
