@@ -1631,7 +1631,7 @@ async function
       else if ( 1 == _tasks_parallel ) {
         const
           _chunks_get_sync_args = [
-            _fs_address,
+            _uri_contract,
             _uri_network_id,
             _uri_namespace,
             _uri_hash,
@@ -1746,6 +1746,7 @@ async function
 async function
   _chunks_get_sync(
     _fs_address,
+    _fs_version,
     _uri_network_id,
     _uri_namespace,
     _uri_hash,
