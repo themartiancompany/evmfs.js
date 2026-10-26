@@ -2071,7 +2071,8 @@ async function
     _ll_bytecode,
     _ll_compiler_output,
     _msg,
-    _resource_length;
+    _resource_length,
+    _resource_locked;
   const
     _libevm_app_contract_setup_args = [
       "evmfs",                  // application name
