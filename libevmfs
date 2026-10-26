@@ -1748,7 +1748,7 @@ async function
     _fs_address,
     _uri_network_id,
     _uri_namespace,
-    _uri_hash
+    _uri_hash,
     _chunks_dir,
     _length,
     _tasks_parallel) {
