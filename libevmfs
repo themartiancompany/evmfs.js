@@ -1918,9 +1918,8 @@ async function
     catch(
       _error) {
       _msg =
-        `Getting '${_length}' ` +
-        `chunks from '${_index_start}' ` +
-        `to '${_index_end}'.`;
+        `Error retrieving chunk ` +
+        `with index '${_index}'`;
       _msg_error(
         _msg,
         0);
