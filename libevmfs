@@ -1525,7 +1525,7 @@ async function
     _chunks_total,
     _msg;
   const
-    _path =
+    _tmp_dir =
       _path_join([
         _cache_dir,
         _uri_hash,
@@ -1545,7 +1545,7 @@ async function
           true
       };
     _mkdir(
-      _path,
+      _tmp_dir,
       _mkdir_opts);
   }
   catch(
@@ -1560,7 +1560,7 @@ async function
     else {
       _msg =
         "Error creating cache directory " +
-        `'${_path}'.`;
+        `'${_tmp_dir}'.`;
       _msg_error(
         _msg,
         0);
@@ -1605,6 +1605,7 @@ async function
       if ( 1 < _tasks_parallel ) {
         const
           _chunks_get_async_args = [
+            _tmp_dir,
             _chunks_total,
             _tasks_parallel
           ];
@@ -1615,6 +1616,7 @@ async function
       else if ( 1 == _tasks_parallel ) {
         const
           _chunks_get_sync_args = [
+            _tmp_dir,
             _chunks_total,
             _tasks_parallel
           ];
@@ -1638,18 +1640,28 @@ async function
 
 async function
   _chunks_get_async(
-    _chunks_total,
+    _uri_network_id,
+    _uri_namespace,
+    _uri_hash,
+    _chunks_dir,
+    _length,
     _tasks_parallel) {
 }
 
 async function
   _chunks_get_sync(
+    _uri_network_id,
+    _uri_namespace,
+    _uri_hash
+    _chunks_dir,
     _length,
     _tasks_parallel) {
   let
     _chunk,
+    _chunk_get_args,
     _index,
-    _msg;
+    _msg,
+    _piece;
   _index =
     0;
   for ( _chunk of _seq(
@@ -1659,6 +1671,75 @@ async function
       `'${_chunk}' of '${_length}'.`;
     _msg_info(
       _msg);
+    _index =
+      _chunk - 1;
+    _piece =
+      _path_join([
+        _chunks_dir,
+        `${_uri_hash}.${_chunk}`
+      ]);
+    _chunk_get_args = [
+      _uri_network_id,
+      _uri_namespace,
+      _uri_hash
+      _index,
+      _piece
+    ];
+    try {
+      _chunk =
+        await _chunk_get.apply(
+          null,
+          _chunk_get_args);
+    }
+    catch(
+      _error) {
+      _msg =
+        `Getting '${_chunks_total_run}' ` +
+        `chunks from '${_index_start}' ` +
+        `to '${_index_end}'.`;
+    }
+  }
+}
+
+async function
+  _chunk_get(
+    _uri_network_id,
+    _uri_namespace,
+    _uri_hash
+    _index,
+    _piece) {
+  const
+    _libevm_app_contract_setup_args = [
+      "evmfs",                  // application name
+      "FileSystem",             // contract name
+      "_fs",                    // contract short name
+      _fs_version,
+      _uri_network_id,
+      _user_level,
+      _deployments_dir,
+      "evmfs-contracts",
+      "json",                   // configuration format
+      ""                        // configuration file path
+    ];
+  try {
+    [ _fs_abi,
+      _fs_bytecode,
+      _fs_compiler_output ] =
+    await _libevm_app_contract_setup.apply(
+      null,
+      _libevm_app_contract_setup_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_libevm_contract_setup' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
   }
 }
 
