@@ -1659,11 +1659,27 @@ async function
               _chunks_total,
               _tasks_parallel
             ];
+          _msg =
+            "Running '_chunks_get_sync' " +
+            "with arguments:";
+          _msg_info(
+            _msg);
+          const
+            _global =
+              _global_get();
+          const
+            _quiet =
+              _global[
+                "quiet"];
+          if ( _quiet == "n" ) {
+            _echo(
+              _chunks_get_sync_args);
+	  }
           _chunks =
-            await _chunks_get_sync(
+            await _chunks_get_sync.apply(
               null,
               _chunks_get_sync_args);
-	}
+        }
         else if ( _call_method === "bulk" ||
                   _call_method === "library" ) {
           _msg =
