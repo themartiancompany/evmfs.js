@@ -1366,7 +1366,6 @@ async function
     _encoding_type,
     _lock_only,
     _chunk_length,
-    _buffer_length,
     _tasks_parallel,
     _cache_dir,
     _target_files) {
@@ -1396,7 +1395,6 @@ async function
     _encoding_skip,
     _encoding_type,
     _tasks_parallel,
-    _buffer_length,
     _price_gas,
     _cache_dir,
     _user_level,
@@ -1482,7 +1480,6 @@ async function
         _encoding_type,
         _lock_only,
         _chunk_length,
-        _buffer_length,
         _tasks_parallel,
         _cache_dir,
         _input_files
@@ -2221,7 +2218,7 @@ async function
       "the file at a later time, lock " +
       "the length in your namespace to " +
       "avoid making harder for yourself " +
-      "accessing the file."
+      "accessing the file.";
     _msg_warning(
       _msg);
     _length =
@@ -2487,7 +2484,7 @@ function
             "uris");
       if ( _input_uris.length < _output_files.length ) {
         _msg =
-          "More output files than input URIs."
+          "More output files than input URIs.";
         _msg_error(
           _msg,
           0);
@@ -2495,7 +2492,7 @@ function
       }
       else if ( _output_files.length < _input_uris.length ) {
         _msg =
-          "More output files than input URIs."
+          "More output files than input URIs.";
         _msg_error(
           _msg,
           0);

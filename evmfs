@@ -1026,7 +1026,6 @@ async function
       encoding_skip,
       encoding_type,
       tasks_parallel,
-      buffer_length,
       price_gas,
       cache_dir,
       user_level,
