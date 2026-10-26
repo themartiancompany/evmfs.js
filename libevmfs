@@ -1662,6 +1662,39 @@ async function
     _index,
     _msg,
     _piece;
+  const
+    _libevm_app_contract_setup_args = [
+      "evmfs",                  // application name
+      "FileSystem",             // contract name
+      "_fs",                    // contract short name
+      _fs_version,
+      _uri_network_id,
+      _user_level,
+      _deployments_dir,
+      "evmfs-contracts",
+      "json",                   // configuration format
+      ""                        // configuration file path
+    ];
+  try {
+    [ _fs_abi,
+      _fs_bytecode,
+      _fs_compiler_output ] =
+    await _libevm_app_contract_setup.apply(
+      null,
+      _libevm_app_contract_setup_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_libevm_contract_setup' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
   _index =
     0;
   for ( _chunk of _seq(
@@ -1708,39 +1741,6 @@ async function
     _uri_hash
     _index,
     _piece) {
-  const
-    _libevm_app_contract_setup_args = [
-      "evmfs",                  // application name
-      "FileSystem",             // contract name
-      "_fs",                    // contract short name
-      _fs_version,
-      _uri_network_id,
-      _user_level,
-      _deployments_dir,
-      "evmfs-contracts",
-      "json",                   // configuration format
-      ""                        // configuration file path
-    ];
-  try {
-    [ _fs_abi,
-      _fs_bytecode,
-      _fs_compiler_output ] =
-    await _libevm_app_contract_setup.apply(
-      null,
-      _libevm_app_contract_setup_args);
-  }
-  catch(
-    _error) {
-    _msg =
-      "Error running '_libevm_contract_setup' " +
-      "with arguments:";
-    _msg_error(
-      _msg,
-      0);
-    _echo2(
-      _error);
-    throw _error;
-  }
 }
 
 async function
