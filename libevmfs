@@ -93,6 +93,11 @@ const
   _msg_warning =
     _libcrash._msg_warning;
 /* global
+     _mv */
+const
+  _mv =
+    _libcrash._mv;
+/* global
      _override_set */
 const
   _override_set =
@@ -195,6 +200,13 @@ const
 const
   _sha256sum =
     _sha256sum_module.sha256.sha256;
+const
+  _encoding_tools_module =
+    await _require(
+      "encoding-tools");
+const
+  _txt2bin =
+    _encoding_tools_module._txt2bin;
 
 function
   _call_timeout_auto_detect() {
@@ -1265,7 +1277,8 @@ async function
           _tasks_parallel,
           _retries_max,
           _cache_dir,
-          _api_key_path
+          _api_key_path,
+          _output_file
 	];
       try {
         await _resource_get.apply(
@@ -1519,14 +1532,13 @@ async function
     _tasks_parallel,
     _retries_max,
     _cache_dir,
-    _api_key_path) {
+    _api_key_path,
+    _output_file) {
   let
     _attempt,
     _chunks,
     _chunks_total,
     _msg;
-  _chunks =
-    [];
   const
     _tmp_dir =
       _path_join([
@@ -1627,9 +1639,10 @@ async function
             _chunks_total,
             _tasks_parallel
           ];
-        await _chunks_get_sync(
-          null,
-          _chunks_get_sync_args);
+        chunks =
+          await _chunks_get_sync(
+            null,
+            _chunks_get_sync_args);
       }
     }
     catch(
@@ -1642,6 +1655,7 @@ async function
         0);
       throw _error;
     }
+    break;
   }
   _msg =
     `Got '${_chunks_total}' chunks. ` +
@@ -1651,7 +1665,11 @@ async function
   const
     _txt2bin_args = [
       _check_file_path,
-      _chunks
+      "base64",          // encoding format
+      "file",            // argument type
+      "",                // unused argument
+      _chunks,           // input files
+      true               // input files sanity check
     ];
   try {
     await _txt2bin.apply(
@@ -1671,10 +1689,11 @@ async function
   }
   const
     _resource_validate_args = [
-
+      _check_file_path,
+      _uri_hash
     ];
   try {
-    _resource_validate(
+    await _resource_validate(
       null,
       _resource_validate_args);
   }
@@ -1689,7 +1708,29 @@ async function
       _resource_validate_args);
     throw _error;
   }
-
+  try {
+    _mv(
+      _check_file_path,
+      _output_file);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error moving " +
+      `'${_check_file_path} ` +
+      `to '${_output_file}.`;
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _resource_validate_args);
+    throw _error;
+  }
+  _msg =
+    "Output correctly moved onto " +
+    `'${_output_file}'.`;
+  _msg_info(
+    _msg);
 }
 
 async function
@@ -1721,6 +1762,9 @@ async function
     _method_object,
     _msg,
     _piece;
+  const
+    _chunks =
+      [];
   _method_object =
     {};
   const
@@ -1798,8 +1842,15 @@ async function
         `Getting '${_chunks_total_run}' ` +
         `chunks from '${_index_start}' ` +
         `to '${_index_end}'.`;
+      _msg_error(
+        _msg,
+        0);
+      throw _error;
     }
+    _chunks.push(
+      _piece);
   }
+  return _chunks;
 }
 
 async function
