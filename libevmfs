@@ -1633,6 +1633,9 @@ async function
           const
             _chunks_get_sync_args = [
               _uri_contract,
+              _fs_version,
+              _user_level,
+              _deployments_dir,
               _uri_network_id,
               _uri_namespace,
               _uri_hash,
@@ -1640,7 +1643,7 @@ async function
               _chunks_total,
               _tasks_parallel
             ];
-          chunks =
+          _chunks =
             await _chunks_get_sync(
               null,
               _chunks_get_sync_args);
@@ -1768,6 +1771,8 @@ async function
   _chunks_get_sync(
     _fs_address,
     _fs_version,
+    _user_level,
+    _deployments_dir,
     _uri_network_id,
     _uri_namespace,
     _uri_hash,
