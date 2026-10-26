@@ -2000,6 +2000,8 @@ async function
       0);
     throw _error;
   }
+  echo(
+    _output);
   try {
     _file_write(
       _output,
