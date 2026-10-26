@@ -2013,6 +2013,8 @@ async function
     _msg_error(
       _msg,
       0);
+    _echo2(
+      _error);
     throw _error;
   }
 }
