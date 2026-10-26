@@ -43,6 +43,11 @@ const
     await import(
       "libcrash-js");
 /* global
+     _cp */
+const
+  _cp =
+    _libcrash._cp;
+/* global
      _echo */
 const
   _echo =
@@ -117,6 +122,11 @@ const
 const
   _require =
     _libcrash._require;
+/* global
+     _rm */
+const
+  _rm =
+    _libcrash._rm;
 /* global
      _seq */
 const
@@ -2020,6 +2030,13 @@ async function
       _error);
     throw _error;
   }
+}
+
+async function
+  _resource_validate(
+   _path,
+   _sum) {
+
 }
 
 async function
