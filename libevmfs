@@ -1522,8 +1522,11 @@ async function
     _api_key_path) {
   let
     _attempt,
+    _chunks,
     _chunks_total,
     _msg;
+  _chunks =
+    [];
   const
     _tmp_dir =
       _path_join([
@@ -1616,6 +1619,10 @@ async function
       else if ( 1 == _tasks_parallel ) {
         const
           _chunks_get_sync_args = [
+            _fs_address,
+            _uri_network_id,
+            _uri_namespace,
+            _uri_hash,
             _tmp_dir,
             _chunks_total,
             _tasks_parallel
@@ -1633,9 +1640,56 @@ async function
       _msg_error(
         _msg,
         0);
-      throw _msg;
+      throw _error;
     }
   }
+  _msg =
+    `Got '${_chunks_total}' chunks. ` +
+    `Merging.`;
+  _msg_info(
+    _msg);
+  const
+    _txt2bin_args = [
+      _check_file_path,
+      _chunks
+    ];
+  try {
+    await _txt2bin.apply(
+      null,
+      _txt2bin_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_txt2bin' with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _txt2bin_args);
+    throw _error;
+  }
+  const
+    _resource_validate_args = [
+
+    ];
+  try {
+    _resource_validate(
+      null,
+      _resource_validate_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_resource_validate' with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _resource_validate_args);
+    throw _error;
+  }
+
 }
 
 async function
@@ -1650,6 +1704,7 @@ async function
 
 async function
   _chunks_get_sync(
+    _fs_address,
     _uri_network_id,
     _uri_namespace,
     _uri_hash
@@ -1659,9 +1714,15 @@ async function
   let
     _chunk,
     _chunk_get_args,
+    _fs_abi_path,
+    _fs_bytecode_path,
+    _fs_compiler_output_path,
     _index,
+    _method_object,
     _msg,
     _piece;
+  _method_object =
+    {};
   const
     _libevm_app_contract_setup_args = [
       "evmfs",                  // application name
@@ -1712,17 +1773,24 @@ async function
         `${_uri_hash}.${_chunk}`
       ]);
     _chunk_get_args = [
+      _fs_address,
+      _fs_abi_path,
+      _fs_bytecode_path,
+      _fs_compiler_output_path,
       _uri_network_id,
       _uri_namespace,
       _uri_hash
       _index,
+      _piece,
+      _api_key_path,
+      _retry_max,
+      _method_object,
       _piece
     ];
     try {
-      _chunk =
-        await _chunk_get.apply(
-          null,
-          _chunk_get_args);
+      await _chunk_get.apply(
+        null,
+        _chunk_get_args);
     }
     catch(
       _error) {
@@ -1736,11 +1804,73 @@ async function
 
 async function
   _chunk_get(
+    _fs_address,
+    _fs_abi_path,
+    _fs_bytecode_path,
+    _fs_compiler_output_path,
     _uri_network_id,
     _uri_namespace,
-    _uri_hash
+    _uri_hash,
     _index,
-    _piece) {
+    _piece,
+    _api_key_path,
+    _retry_max,
+    _method_object,
+    _output) {
+  let
+    _contract_call_static_args;
+  const
+    _method_args = [
+      _uri_contract,
+      _uri_namespace,
+      _uri_hash,
+      _index
+    ];
+  _contract_call_static_args = [
+    "",                       // wallet seed,
+    _retries_max,
+    _api_key_path,
+    _uri_network_id,
+    _fs_abi_path,
+    _fs_bytecode_path,
+    _fs_compiler_output_path,
+    _method_object,           // method object
+    _fs_address,
+    "readChunk",
+    _method_args,
+    {}                        // _contract_object
+  ];
+  try {
+    _chunk =
+      await _contract_call_static.apply(
+        null,
+        _contract_call_static_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_contract_call_static' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    throw _error;
+  }
+  try {
+    _file_write(
+      _output,
+      _chunk);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error writing chunk onto " +
+      `file at path '${_output}'.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _error;
+  }
 }
 
 async function
@@ -1783,7 +1913,7 @@ async function
     {}                        // _contract_object
   ];
   try {
-    _locked =
+    [ _locked ] =
       await _contract_call_static.apply(
         null,
         _contract_call_static_args);
@@ -1816,7 +1946,7 @@ async function
       {}                        // _contract_object
     ];
     try {
-      _length =
+      [ _length ] =
         await _contract_call_static.apply(
           null,
           _contract_call_static_args);
