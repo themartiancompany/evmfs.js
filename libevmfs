@@ -2381,11 +2381,12 @@ function
 
 function
   _input_files_auto_detect() {
-  const
-    _input_files =
-      _get(
-        "input",
-        "files");
+  let
+    _input_files;
+  _input_files =
+    _get(
+      "input",
+      "files");
   const
     _target_command =
       _get(
