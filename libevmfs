@@ -1943,14 +1943,14 @@ async function
     _index,
     _piece,
     _api_key_path,
-    _retry_max,
+    _retries_max,
     _method_object,
     _output) {
   let
     _contract_call_static_args;
   const
     _method_args = [
-      _uri_contract,
+      _fs_address,
       _uri_namespace,
       _uri_hash,
       _index
