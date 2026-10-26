@@ -1629,20 +1629,41 @@ async function
           _chunks_get_async_args);
       }
       else if ( 1 == _tasks_parallel ) {
-        const
-          _chunks_get_sync_args = [
-            _uri_contract,
-            _uri_network_id,
-            _uri_namespace,
-            _uri_hash,
-            _tmp_dir,
-            _chunks_total,
-            _tasks_parallel
-          ];
-        chunks =
-          await _chunks_get_sync(
-            null,
-            _chunks_get_sync_args);
+        if ( _call_method === "standalone" ) {
+          const
+            _chunks_get_sync_args = [
+              _uri_contract,
+              _uri_network_id,
+              _uri_namespace,
+              _uri_hash,
+              _tmp_dir,
+              _chunks_total,
+              _tasks_parallel
+            ];
+          chunks =
+            await _chunks_get_sync(
+              null,
+              _chunks_get_sync_args);
+	}
+        else if ( _call_method === "bulk" ||
+                  _call_method === "library" ) {
+          _msg =
+            "I'll connect tomorrow the 'library'/'bulk' " +
+            "get method.";
+          _msg_error(
+            _msg,
+            0);
+          throw _msg;
+        }
+        else {
+          _msg =
+            "Unknown call method " +
+            `'${_call_method}'.`;
+          _msg_error(
+            _msg,
+            0);
+          throw _msg;
+        }
       }
     }
     catch(

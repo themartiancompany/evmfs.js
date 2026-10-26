@@ -557,7 +557,7 @@ async function
   _override_set(
     "call",
     "method",
-    "boh");
+    "standalone");
   _override_set(
     "encoding",
     "skip",
@@ -732,7 +732,7 @@ function
       "",
       "    -m <call-method>, --call-method <method>",
       "",
-      "      It can be 'standalone', 'bulk' or",
+      "      It can be 'standalone', 'library' or",
       "      'simulate'.",
       `      Default: ${call_method}`,
       "",
