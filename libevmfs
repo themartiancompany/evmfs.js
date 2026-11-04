@@ -1387,6 +1387,8 @@ async function
       [];
   _cursor =
     0;
+  [ _target_network ] =
+    _target_networks;
   const
     _namespace_setup_args = [
       _namespace,
@@ -1459,8 +1461,6 @@ async function
       _input_files[
         _cursor];
     if ( _upload_method === "library" ) {
-      [ _target_network ] =
-        _target_networks;
       _chunks_publish_args = [
         _retries_max,
         _call_timeout,
