@@ -1339,7 +1339,6 @@ async function
     }
     _cursor =
       _cursor + 1;
-    true;
   }
   return [
     "All OK."
@@ -1378,6 +1377,8 @@ async function
     _file,
     _input_file,
     _msg;
+  const
+    _uploaded_files;
   _cursor =
     0;
   for ( _file of _input_files ) {
@@ -1422,8 +1423,13 @@ async function
           0);
         throw _error;
       }
+      _uploaded_files.push(
+        _file);
     }
+    _cursor =
+      _cursor + 1;
   }
+  return _uploaded_files;
 }
 
 async function
