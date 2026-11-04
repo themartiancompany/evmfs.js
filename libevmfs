@@ -176,6 +176,9 @@ const
     await import(
       "./lib/publish");
 const
+  _chunks_publish =
+    _publish_module._chunks_publish;
+const
   _publish_bulk_module =
     await import(
       "./lib/publish_bulk");
@@ -1358,7 +1361,7 @@ async function
     _target_networks,
     _index_network,
     _api_key_path,
-    _call_method,
+    _upload_method,
     _retries_max,
     _call_timeout,
     _price_gas,
@@ -1368,8 +1371,59 @@ async function
     _chunk_length,
     _tasks_parallel,
     _cache_dir,
-    _target_files) {
-  true;
+    _input_files) {
+  let
+    _chunks_publish_args,
+    _cursor,
+    _file,
+    _input_file,
+    _msg;
+  _cursor =
+    0;
+  for ( _file of _input_files ) {
+    _msg =
+      "Uploading file " +
+      `'${_file}'.`;
+    _msg_info(
+      _msg);
+    _input_file =
+      _input_files[
+        _cursor];
+    if ( _upload_method === "library" ) {
+      _chunks_publish_args = [
+        _retries_max,
+        _call_timeout,
+        _wallet_seed_path,
+        _api_key_path,
+        _target_network,
+        _contract_address,
+        _contract_abi_path,
+        _contract_bytecode_path,
+        _contract_compiler_output_path,
+        _publication_namespace,
+        _file_hash,
+        _index_start,
+        _index_end,
+        _checkpoint_file_path,
+        _chunks_files_paths
+      ];
+      try {
+        _chunks_publish.apply(
+          null,
+          _chunks_publish_args);
+      }
+      catch(
+        _error) {
+        _msg =
+          "Error running '_chunks_publish' " +
+          "with arguments:";
+        _msg_error(
+          _msg,
+          0);
+        throw _error;
+      }
+    }
+  }
 }
 
 async function
