@@ -153,6 +153,9 @@ const
     await import(
       "./lib/common");
 const
+  _encoding_type_check =
+    _common_module._encoding_type_check;
+const
   _check_module =
     await import(
       "./lib/check");
@@ -1348,6 +1351,59 @@ async function
   return [
     "All OK."
   ];
+}
+
+async function
+_work_dir_setup(
+  _cache_dir,
+  _sum,
+  _encoding_type,
+  _chunk_length) {
+  const
+    _publish_dir =
+      _path_join([
+        _cache_dir,
+        _sum,
+        "publish"]);
+  const
+    _encoding_type_check_args = [
+      _encoding_type,
+      _cache_dir,
+      _sum
+    ];
+  try {
+    _encoding_type =
+      await _encoding_type_check.apply(
+        null,
+        _encoding_type_check_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_encoding_type_check' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _encoding_type_check_args);
+    _echo2(
+      _error);
+    throw _error;
+  }
+  const
+    _encodings =
+      await _ls(
+        _publish_dir);
+  const
+    _tmp_dir =
+      _path_join([
+        _cache_dir,
+        _sum,
+        "publish",
+	_encoding_type,
+        _chunk_length
+      ]);
 }
 
 async function

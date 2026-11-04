@@ -94,7 +94,7 @@
   },
   "devDependencies": {
     "crash-js-webpack":
-      "^0.0.81",
+      "^0.0.82",
     "eslint":
       "^10.10.14",
     "@eslint/js":
@@ -108,7 +108,7 @@
   },
   "dependencies": {
     "libcrash-js":
-      "npm:crash-js@^1000000000000015.1000000000000001.1000000000000001",
+      "npm:crash-js@^1000000000000018.1000000000000001.1000000000000001",
     "encoding-tools":
       "0.0.20",
     "evm-contracts-tools":
@@ -130,7 +130,7 @@
     "evm-wallet":
       "npm:evm-wallet.js@^0.0.103",
     "libcrash-js":
-      "npm:crash-js@^1000000000000015.1000000000000001.1000000000000001",
+      "npm:crash-js@^1000000000000018.1000000000000001.1000000000000001",
     "libevm":
       "0.0.55"
   },

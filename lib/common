@@ -228,6 +228,66 @@ function
 }
 
 function
+  _cache_dir_check(
+    _cache_dir) {
+  let
+    _cache_dir_get;
+  const
+    _cache_dir_type =
+      typeof(
+        _cache_dir);
+  if ( _cache_dir_type === "undefined" ) {
+    _msg =
+      "Cache directory undefined, " +
+      "setting default.";
+    _msg_info(
+      _msg);
+    _cache_dir_get =
+      true;
+  }
+  else if ( _cache_dir_type === "string" ) {
+    if ( _cache_dir.length < 1 ) {
+      _msg =
+        "Cache directory is an empty string, " +
+        "setting default.";
+      _msg_info(
+        _msg);
+      _cache_dir_get =
+        true;
+    }
+  }
+  else {
+    _msg =
+      `Unknown type '${_cache_dir_type}' ` +
+      "for variable 'cache_directory'. " +
+      "Allowed type is string with value " +
+      "an existing directory, except if value " +
+      "corresponds to the XDG directory.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  if ( _cache_dir_get ) {
+    const
+      _home =
+        _homedir_get();
+    _cache_user_init(
+      _evmfs)
+    _cache_dir =
+      _path_join([
+        _home,
+        ".cache",
+        "evmfs"]);
+    _mkdir(
+      _cache_dir);
+    _chmod(
+    
+  }
+  return _cache_dir;
+}
+
+function
   _chunk_file_path_check(
     _path,
     _index,
@@ -272,6 +332,60 @@ function
     throw _msg;
   }
   return _path;
+}
+
+async function
+  _encoding_type_check(
+    _encoding_type,
+    _cache_dir,
+    _sum) {
+  let
+    _encoding_type_get,
+    _msg;
+  const
+    _default =
+      "base64";
+  const
+    _encoding_type_type =
+      typeof(
+        _encoding_type);
+  _encoding_type_get =
+    false;
+  if ( _encoding_type_type === "undefined" ) {
+    _msg =
+      "Encoding type undefined, " +
+      `setting default '${_default}'.`;
+    _encoding_type_get =
+      true;
+  }
+  else if ( _encoding_type_type === "string" ) {
+    if ( _encoding_type.length < 1 ) {
+      _msg =
+        "Encoding type is an empty string, " +
+        `setting default '${_default}'.`;
+      _encoding_type_get =
+        true;
+    }
+  }
+  else {
+    _msg =
+      "Unknown type " +
+       `'${_encoding_type_type}' for ` +
+      "variable 'encoding type'. " +
+      "Admissable values are of type string " +
+      "with value 'base64'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  if ( _encoding_type_get ) {
+    const
+      _publish_dir
+    _encoding_type =
+      _default;
+  }
+  return _encoding_type;
 }
 
 function
@@ -468,10 +582,9 @@ function
         0]);
 }
 
-
-
 export {
   _chunk_file_path_check,
+  _encoding_type_check,
   _global_variables_common,
   _global_variables_evmfs_get,
   _global_variables_evmfs_publish,
@@ -488,6 +601,8 @@ export {
 // module.exports = {
 //   _chunk_file_path_check:
 //     _chunk_file_path_check,
+//   _encoding_type_check:
+//     _encoding_type_check,
 //   _global_variables_common:
 //     _global_variables_common,
 //   _global_variables_evmfs_get:
