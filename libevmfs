@@ -1623,7 +1623,7 @@ async function
       try {
         _index_end =
           _index_end_check.apply(
-            null
+            null,
             _index_end_check_args);
       }
       catch(
