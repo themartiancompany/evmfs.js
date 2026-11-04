@@ -243,6 +243,13 @@ const
   _sha256sum =
     _sha256sum_module.sha256.sha256;
 const
+  _sha256sum_large_module =
+    await _require(
+      "sha256-file");
+const
+  _sha256sum_large =
+    _sha256sum_large_module._sha256sum;
+const
   _encoding_tools_module =
     await _require(
       "encoding-tools");
@@ -1859,12 +1866,16 @@ async function
     _du(
       _path);
   if ( 100000000 < _size ) {
-    _msg =
-      `File '${_file}' ` +
-      "is over 100MB in size, " +
-      `it may take a while hashing it.`;
-    _msg_info(
-      _msg);
+    const
+      _msg =
+        `File '${_path}' ` +
+        "is over 100MB in size, " +
+        `it may take a while hashing it.`;
+      _msg_info(
+        _msg);
+    _sum =
+      await _sha256sum_large(
+        _path);
   }
   else {
     const
