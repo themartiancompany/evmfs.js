@@ -1584,12 +1584,6 @@ async function
       _index_start =
         0;
       // TODO:
-      //   to be determined from existing
-      //   chunks
-      _index_end =
-        _index_end_get(
-          _file_sum);
-      // TODO:
       _work_dir_setup_args = [
         _cache_dir,
         _sum,
@@ -1597,21 +1591,55 @@ async function
         _chunk_length
       ];
       try {
-        _work_dir_setup();
+        _work_dir =
+          _work_dir_setup.apply(
+            null,
+            _work_dir_setup_args);
       }
       catch(
         _error) {
         _msg =
-          "Error running '_work_dir_setup'.";
+          "Error running '_work_dir_setup' with " +
+          "arguments:";
         _msg_error(
           _msg,
           0);
+        _echo2(
+          _work_dir_setup_args);
         _echo2(
           _error);
         throw _error;
       }
       _checkpoint_file_path =
         "";
+      // TODO:
+      //   to be determined from existing
+      //   chunks
+      const
+        _index_end_check_args = [
+          _index_end,
+          _chunks_dir
+        ];
+      try {
+        _index_end =
+          _index_end_check.apply(
+            null
+            _index_end_check_args);
+      }
+      catch(
+        _error) {
+        _msg =
+          "Error running '_index_end_check' " +
+          "with arguments:";
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _index_end_check_args);
+        _echo2(
+          _error);
+        throw _error;
+      }
       _chunks_publish_args = [
         _retries_max,
         _call_timeout,
