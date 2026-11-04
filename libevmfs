@@ -1377,6 +1377,8 @@ async function
     _cache_dir,
     _input_files) {
   let
+    _checkpoint_file_path,
+    _chunks_files_paths,
     _chunks_publish_args,
     _cursor,
     _file,
@@ -1385,12 +1387,16 @@ async function
     _fs_abi,
     _fs_bytecode,
     _fs_compiler_output,
+    _index_end,
+    _index_start,
     _input_file,
     _msg,
     _namespace;
   const
     _uploaded_files =
       [];
+  _chunks_files_paths =
+    [];
   _cursor =
     0;
   const
@@ -1479,6 +1485,16 @@ async function
       _input_files[
         _cursor];
     if ( _upload_method === "library" ) {
+      // TODO:
+      //   to be read from checkpoint file
+      _index_start =
+        0;
+      // TODO:
+      //   to be determined from existing
+      //   chunks
+      // _index_end =
+      //   _index_end_get(
+      //     _file_sum);
       _chunks_publish_args = [
         _retries_max,
         _call_timeout,
