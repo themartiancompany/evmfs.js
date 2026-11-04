@@ -1852,15 +1852,29 @@ async function
 async function
   _file_hash(
     _path) {
-
+  let
+    _sum;
   const
-    _file =
-      _file_read(
-        _path);
-  const
+  [ _size ] =
+    _du(
+      _path);
+  if ( 100000000 < _size ) {
+    _msg =
+      `File '${_file}' ` +
+      "is over 100MB in size, " +
+      `it may take a while hashing it.`;
+    _msg_info(
+      _msg);
+  }
+  else {
+    const
+      _file =
+        _file_read(
+          _path);
     _sum =
       await _sha256sum(
         _file);
+  }
   return _sum; 
 }
 
