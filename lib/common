@@ -47,6 +47,9 @@ const
   _cache_user_init =
     _libcrash._cache_user_init;
 const
+  _ls =
+    _libcrash._ls;
+const
   _set =
     _libcrash._set;
 
@@ -387,9 +390,23 @@ async function
   }
   if ( _encoding_type_get ) {
     const
-      _publish_dir
-    _encoding_type =
-      _default;
+      _encodings_dir =
+        _path_join([
+          _cache_dir,
+          _file_hash,
+          "publish"
+	]);
+    _encodings_available =
+      await _ls(
+        _encodings_dir);
+    if ( 0 < _encodings_available.length ) {
+      [ _encoding_type ] =
+        _encodings_available;
+    }
+    else {
+      _encoding_type =
+        _default;
+    }
   }
   return _encoding_type;
 }
