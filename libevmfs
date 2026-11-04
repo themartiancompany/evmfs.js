@@ -1672,6 +1672,7 @@ async function
 async function
   _file_hash(
     _path) {
+
   const
     _file =
       _file_read(
