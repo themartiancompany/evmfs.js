@@ -1566,14 +1566,6 @@ async function
     [ _file_size ] =
       _du(
         _file);
-    if ( 100000000 < _file_size ) {
-      _msg =
-        `File '${_file}' ` +
-        "is over 100MB in size, " +
-        `it may take a while hashing it.`;
-      _msg_info(
-        _msg);
-    }
     _file_sum =
       await _file_hash(
         _file);
@@ -2721,6 +2713,9 @@ function
   let
     _exists,
     _file;
+  const
+    _input_files_dict =
+      {};
   for ( _file of _input_files ) {
     _exists =
       _file_exists(
@@ -2735,8 +2730,17 @@ function
         0);
       throw _msg;
     }
+    else {
+      _input_files_dict[
+        _file] =
+          1;
+    }
   }
-  return _input_files;
+  const
+    _input_files_set =
+      Object.keys(
+        _input_files_dict);
+  return _input_files_set;
 }
 
 function
