@@ -1375,12 +1375,49 @@ async function
     _chunks_publish_args,
     _cursor,
     _file,
+    _fs_abi,
+    _fs_bytecode,
+    _fs_compiler_output,
     _input_file,
-    _msg;
+    _msg,
+    _target_network;
   const
     _uploaded_files;
   _cursor =
     0;
+  const
+    _libevm_app_contract_setup_args = [
+      "evmfs",                  // application name
+      "FileSystem",             // contract name
+      "_fs",                    // contract short name
+      _fs_version,
+      _uri_network_id,
+      _user_level,
+      _deployments_dir,
+      "evmfs-contracts",
+      "json",                   // configuration format
+      ""                        // configuration file path
+    ];
+  try {
+    [ _fs_abi,
+      _fs_bytecode,
+      _fs_compiler_output ] =
+    await _libevm_app_contract_setup.apply(
+      null,
+      _libevm_app_contract_setup_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_libevm_contract_setup' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
   for ( _file of _input_files ) {
     _msg =
       "Uploading file " +
@@ -1391,16 +1428,18 @@ async function
       _input_files[
         _cursor];
     if ( _upload_method === "library" ) {
+      [ _target_network ] =
+        _target_networks;
       _chunks_publish_args = [
         _retries_max,
         _call_timeout,
-        _wallet_seed_path,
+        _wallet_seed,
         _api_key_path,
         _target_network,
-        _contract_address,
-        _contract_abi_path,
-        _contract_bytecode_path,
-        _contract_compiler_output_path,
+        _fs_address,
+        _fs_abi,
+        _fs_bytecode,
+        _fs_compiler_output,
         _publication_namespace,
         _file_hash,
         _index_start,
