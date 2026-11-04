@@ -164,6 +164,9 @@ const
   _encoding_type_check =
     _common_module._encoding_type_check;
 const
+  _index_end_check =
+    _common_module._index_end_check;
+const
   _check_module =
     await import(
       "./lib/check");
@@ -1438,49 +1441,6 @@ _work_dir_setup(
 	_encoding_type,
         _chunk_length
       ]);
-}
-
-async function
-  _index_end_check(
-    _index_end,
-    _chunks_dir) {
-  let
-    _index_end_get;
-  _index_end_get =
-    false;
-  const
-    _index_end_type =
-      typeof(
-        _index_end);
-  if ( _index_end_type === "undefined" ) {
-    _msg =
-      "End index undefined, " +
-      "determining.";
-    _msg_info(
-      _msg);
-    _index_end_get =
-      true;
-  }
-  else if ( _index_end_type === "string" ) {
-    if ( _index_end.length < 1 ) {
-      _msg =
-        "End index undefined, " +
-        "determining.";
-      _msg_info(
-        _msg);
-      _index_end_get =
-        true;
-    }
-  }
-  else if ( _index_end_type === "number" ) {
-    true;
-  }
-  else {
-    `Unknown type '${_index_end_type}' ` +
-    "for variable 'end index'. " +
-    "Allowed type is 'number'.";
-  }
-  return _index_end;
 }
 
 async function

@@ -640,6 +640,7 @@ export {
   _global_variables_common,
   _global_variables_evmfs_get,
   _global_variables_evmfs_publish,
+  _index_end_check,
   _input_data_check,
   _msg_info_chunk_get,
   _msg_info_chunk_got,
@@ -663,6 +664,8 @@ export {
 //     _global_variables_evmfs_get,
 //   _global_variables_evmfs_publish:
 //     _global_variables_evmfs_publish,
+//   _index_end_check:
+//     _index_end_check,
 //   _input_data_check:
 //     _input_data_check,
 //   _msg_info_chunk_get:
