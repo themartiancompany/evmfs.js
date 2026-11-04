@@ -158,6 +158,9 @@ const
     await import(
       "./lib/common");
 const
+  _cache_dir_check =
+    _common_module._cache_dir_check;
+const
   _encoding_type_check =
     _common_module._encoding_type_check;
 const
@@ -1399,6 +1402,30 @@ _work_dir_setup(
     throw _error;
   }
   const
+    _cache_dir_check_args = [
+      _cache_dir,
+    ];
+  try {
+    _cache_dir =
+      await _cache_dir_check.apply(
+        null,
+        _cache_dir_check_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_cache_dir_check' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _cache_dir_check_args);
+    _echo2(
+      _error);
+    throw _error;
+  }
+  const
     _encodings =
       await _ls(
         _publish_dir);
@@ -1411,6 +1438,49 @@ _work_dir_setup(
 	_encoding_type,
         _chunk_length
       ]);
+}
+
+async function
+  _index_end_check(
+    _index_end,
+    _chunks_dir) {
+  let
+    _index_end_get;
+  _index_end_get =
+    false;
+  const
+    _index_end_type =
+      typeof(
+        _index_end);
+  if ( _index_end_type === "undefined" ) {
+    _msg =
+      "End index undefined, " +
+      "determining.";
+    _msg_info(
+      _msg);
+    _index_end_get =
+      true;
+  }
+  else if ( _index_end_type === "string" ) {
+    if ( _index_end.length < 1 ) {
+      _msg =
+        "End index undefined, " +
+        "determining.";
+      _msg_info(
+        _msg);
+      _index_end_get =
+        true;
+    }
+  }
+  else if ( _index_end_type === "number" ) {
+    true;
+  }
+  else {
+    `Unknown type '${_index_end_type}' ` +
+    "for variable 'end index'. " +
+    "Allowed type is 'number'.";
+  }
+  return _index_end;
 }
 
 async function
@@ -1556,9 +1626,9 @@ async function
       // TODO:
       //   to be determined from existing
       //   chunks
-      // _index_end =
-      //   _index_end_get(
-      //     _file_sum);
+      _index_end =
+        _index_end_get(
+          _file_sum);
       // TODO:
       _work_dir_setup_args = [
         _cache_dir,
