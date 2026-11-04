@@ -1471,7 +1471,6 @@ async function
     _input_files) {
   let
     _checkpoint_file_path,
-    _chunks_files_paths,
     _chunks_publish_args,
     _cursor,
     _file,
@@ -1485,12 +1484,14 @@ async function
     _input_file,
     _msg,
     _namespace,
-    _work_dir_setup_args;
+    _work_dir_setup_args,
+    _work_dir;
   const
     _uploaded_files =
       [];
-  _chunks_files_paths =
-    [];
+  const
+    _chunks_files_paths =
+      [];
   _cursor =
     0;
   const
@@ -1586,7 +1587,7 @@ async function
       // TODO:
       _work_dir_setup_args = [
         _cache_dir,
-        _sum,
+        _file_sum,
         _encoding_type,
         _chunk_length
       ];
@@ -1618,7 +1619,7 @@ async function
       const
         _index_end_check_args = [
           _index_end,
-          _chunks_dir
+          _work_dir
         ];
       try {
         _index_end =
@@ -2700,9 +2701,10 @@ function
       _file_exists(
         _file);
     if ( ! _exists ) {
-      _msg =
-        `File '${_file}' ` +
-        "does not exist.";
+      const
+        _msg =
+          `File '${_file}' ` +
+          "does not exist.";
       _msg_error(
         _msg,
         0);
@@ -2761,8 +2763,9 @@ function
     }
     catch(
       _error) {
-      _msg =
-        "Error running '_input_files_check'.";
+      const
+        _msg =
+          "Error running '_input_files_check'.";
       _msg_error(
         _msg,
         0);
