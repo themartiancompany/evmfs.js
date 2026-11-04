@@ -1387,11 +1387,16 @@ async function
       [];
   _cursor =
     0;
+  const
+    _namespace_setup_args = [
+      _namespace,
+      _wallet_seed
+    ];
   try {
     _namespace =
-      _namespace_setup(
-        _namespace,
-        _wallet_seed);
+      _namespace_setup.apply(
+        null,
+        _namespace_setup_args);
   }
   catch(
     _error) {
@@ -1401,6 +1406,10 @@ async function
     _msg_error(
       _msg,
       0);
+    _echo2(
+      _namespace_setup_args);
+    _echo2(
+      _error);
     throw _error;
   }
   const
