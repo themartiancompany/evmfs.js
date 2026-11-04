@@ -48,6 +48,11 @@ const
   _cp =
     _libcrash._cp;
 /* global
+     _du */
+const
+  _du =
+    _libcrash._du;
+/* global
      _echo */
 const
   _echo =
@@ -1375,6 +1380,8 @@ async function
     _chunks_publish_args,
     _cursor,
     _file,
+    _file_size,
+    _file_sum,
     _fs_abi,
     _fs_bytecode,
     _fs_compiler_output,
@@ -1448,6 +1455,17 @@ async function
     throw _error;
   }
   for ( _file of _input_files ) {
+    [ _file_size ] =
+      _du(
+        _file);
+    if ( 100000000 < _file_size ) {
+      _msg =
+        `File '${_file}' ` +
+        "is over 100MB in size, " +
+        `it may take a while hashing it.`;
+      _msg_info(
+        _msg);
+    }
     _file_sum =
       await _file_hash(
         _file);
@@ -1471,8 +1489,8 @@ async function
         _fs_abi,
         _fs_bytecode,
         _fs_compiler_output,
-        _publication_namespace,
-        _file_hash,
+        _namespace,
+        _file_sum,
         _index_start,
         _index_end,
         _checkpoint_file_path,
@@ -2511,6 +2529,29 @@ function
 }
 
 function
+  _input_files_check(
+    _input_files) {
+  let
+    _exists,
+    _file;
+  for ( _file of _input_files ) {
+    _exists =
+      _file_exists(
+        _file);
+    if ( ! _exists ) {
+      _msg =
+        `File '${_file}' ` +
+        "does not exist.";
+      _msg_error(
+        _msg,
+        0);
+      throw _msg;
+    }
+  }
+  return _input_files;
+}
+
+function
   _input_files_auto_detect() {
   let
     _input_files;
@@ -2552,6 +2593,22 @@ function
     _input_files =
       _input_files.concat(
         _command_args);
+    try {
+      _input_files =
+        _input_files_check(
+          _input_files);
+    }
+    catch(
+      _error) {
+      _msg =
+        "Error running '_input_files_check'.";
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _error);
+      throw _error;
+    }
     _set(
       "input",
       "files",
