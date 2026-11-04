@@ -1380,15 +1380,15 @@ async function
     _fs_compiler_output,
     _input_file,
     _msg,
-    _namespace,
-    _target_network;
+    _namespace;
   const
     _uploaded_files =
       [];
   _cursor =
     0;
-  [ _target_network ] =
-    _target_networks;
+  const
+    [ _target_network ] =
+      _target_networks;
   const
     _namespace_setup_args = [
       _namespace,
@@ -1420,7 +1420,7 @@ async function
       "FileSystem",             // contract name
       "_fs",                    // contract short name
       _fs_version,
-      _uri_network_id,
+      _target_network,
       _user_level,
       _deployments_dir,
       "evmfs-contracts",
@@ -1450,7 +1450,7 @@ async function
   for ( _file of _input_files ) {
     _file_sum =
       await _file_hash(
-        _path);
+        _file);
     _msg =
       "Uploading file " +
       `'${_file}' with SHA256 sum ` +
