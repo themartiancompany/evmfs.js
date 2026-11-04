@@ -1382,7 +1382,8 @@ async function
     _msg,
     _target_network;
   const
-    _uploaded_files;
+    _uploaded_files =
+      [];
   _cursor =
     0;
   const
@@ -1419,9 +1420,13 @@ async function
     throw _error;
   }
   for ( _file of _input_files ) {
+    _file_sum =
+      await _file_hash(
+        _path);
     _msg =
       "Uploading file " +
-      `'${_file}'.`;
+      `'${_file}' with SHA256 sum ` +
+      `'${_file_sum}'.`;
     _msg_info(
       _msg);
     _input_file =
