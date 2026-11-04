@@ -1380,12 +1380,29 @@ async function
     _fs_compiler_output,
     _input_file,
     _msg,
+    _namespace,
     _target_network;
   const
     _uploaded_files =
       [];
   _cursor =
     0;
+  try {
+    _namespace =
+      _namespace_setup(
+        _namespace,
+        _wallet_seed);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_namespace_setup' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    throw _error;
+  }
   const
     _libevm_app_contract_setup_args = [
       "evmfs",                  // application name
