@@ -44,6 +44,9 @@ const
     await import(
       "libcrash-js");
 const
+  _cache_user_init =
+    _libcrash._cache_user_init;
+const
   _set =
     _libcrash._set;
 
@@ -272,17 +275,23 @@ function
     const
       _home =
         _homedir_get();
-    _cache_user_init(
-      _evmfs)
-    _cache_dir =
-      _path_join([
-        _home,
-        ".cache",
-        "evmfs"]);
-    _mkdir(
-      _cache_dir);
-    _chmod(
-    
+    try {
+      [ _cache_dir ] =
+        _cache_user_init(
+          "evmfs")
+    }
+    catch(
+      _error) {
+      _msg =
+        "Error running '_cache_user_init' " +
+        "with argument 'evmfs'.";
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _error);
+      throw _error;
+    }
   }
   return _cache_dir;
 }
@@ -583,6 +592,7 @@ function
 }
 
 export {
+  _cache_dir_check,
   _chunk_file_path_check,
   _encoding_type_check,
   _global_variables_common,
@@ -599,6 +609,8 @@ export {
 };
 
 // module.exports = {
+//   _cache_dir_check:
+//     _cache_dir_check,
 //   _chunk_file_path_check:
 //     _chunk_file_path_check,
 //   _encoding_type_check:

@@ -93,6 +93,11 @@ const
   _global_get =
     _libcrash._global_get;
 /* global
+     _ls */
+const
+  _ls =
+    _libcrash._ls;
+/* global
      _mkdir */
 const
   _mkdir =
@@ -1359,6 +1364,8 @@ _work_dir_setup(
   _sum,
   _encoding_type,
   _chunk_length) {
+  let
+    _msg;
   const
     _publish_dir =
       _path_join([
@@ -1447,7 +1454,8 @@ async function
     _index_start,
     _input_file,
     _msg,
-    _namespace;
+    _namespace,
+    _work_dir_setup_args;
   const
     _uploaded_files =
       [];
@@ -1551,6 +1559,29 @@ async function
       // _index_end =
       //   _index_end_get(
       //     _file_sum);
+      // TODO:
+      _work_dir_setup_args = [
+        _cache_dir,
+        _sum,
+        _encoding_type,
+        _chunk_length
+      ];
+      try {
+        _work_dir_setup();
+      }
+      catch(
+        _error) {
+        _msg =
+          "Error running '_work_dir_setup'.";
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _error);
+        throw _error;
+      }
+      _checkpoint_file_path =
+        "";
       _chunks_publish_args = [
         _retries_max,
         _call_timeout,
@@ -2774,6 +2805,7 @@ export {
   _contract_get,
   _contract_setup,
   _contracts_auto_detect,
+  _encoding_type_check,
   _evmfs,
   _evmfs_get,
   _evmfs_publish,
