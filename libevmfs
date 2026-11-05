@@ -241,7 +241,7 @@ const
       "js-sha256");
 const
   _sha256sum_memory =
-    _sha256sum_module.sha256.sha256;
+    _sha256sum_memory_module.sha256.sha256;
 const
   _senzacoreutils =
     await _require(
