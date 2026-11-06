@@ -481,7 +481,7 @@ async function(
             _msg =
               "Found previous encodings " +
               `'${_chunk_lengths.join(", ")}', ` +
-	      `selecting '${_chunk_length}'.`;
+              `selecting '${_chunk_length}'.`;
             _msg_info(
               _msg);
           }
@@ -515,10 +515,19 @@ async function(
         throw _msg;
       }
     }
+    else if ( _encoding_lengths_dir_type === "undefined" ) {
+      _msg =
+        "Variable 'encoding lengths directory' " +
+        "must be a directory path, setting default.";
+      _msg_info(
+        _msg);
+      _chunk_length =
+        _default;
     else {
       _msg =
         "Variable 'encoding lengths directory' " +
-        "must be a directory path.";
+        "must be a directory path. Do not set anything" +
+        "if you want the default set.";
       _msg_error(
         _msg,
         0);
