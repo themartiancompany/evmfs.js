@@ -379,7 +379,7 @@ async function
   else {
     _msg =
       "Unknown type " +
-       `'${_encoding_type_type}' for ` +
+      `'${_encoding_type_type}' for ` +
       "variable 'encoding type'. " +
       "Admissable values are of type string " +
       "with value 'base64'.";
@@ -410,6 +410,124 @@ async function
   }
   return _encoding_type;
 }
+
+async function(
+  _chunk_length_check(
+    _chunk_length,
+    _encoding_lengths_dir) {
+  let
+    _chunk_length_get,
+    _msg;
+  const
+    _default =
+      9000;
+  _chunk_length_get =
+    false;
+  const
+    _chunk_length_type =
+      typeof(
+        _chunk_length);
+  if ( _chunk_length_type === "undefined" ) {
+    _msg =
+      "Chunk length is undefined, " +
+      "auto-detecting.";
+    _chunk_length_get =
+      true;
+  }
+  else if ( _chunk_length_type === "string" ) {
+    if ( _chunk_length.length < 1 ) {
+      _msg =
+        "Chunk length is an empty string, " +
+        "auto-detecting.";
+      _chunk_length_get =
+        true;
+    }
+  }
+  else if ( _chunk_length_type === "number" ) {
+    if ( _chunk_length < 1 ) {
+      _msg =
+        "Chunk length is non-positive number, " +
+        "auto-detecting.";
+      _chunk_length_get =
+        true;
+    }
+  }
+  else {
+    _msg =
+      "Chunk length has type " +
+      `'${_chunk_length_type}', it should be a ` +
+      "positive integer.";
+    throw _msg;
+  }
+  if ( _chunk_length_get ) {
+    const
+      _encoding_lengths_dir_type =
+        typeof(
+          _encoding_lengths_dir);
+    if ( _encoding_lengths_dir_type === "string" ) {
+      if ( 0 < _encoding_lengths_dir.length ) {
+        const
+          _exists =
+            _file_exists(
+              _encoding_lengths_dir);
+        if ( _exists ) {
+          _chunk_lengths =
+            await _ls(
+              _encoding_lengths_dir);
+          if ( 0 < _chunk_lengths.length ) {
+            _chunk_length =
+              _chunk_lengths[
+                0];
+            _msg =
+              "Found previous encodings " +
+              `'${_chunk_lengths.join(", ")}', ` +
+	      `selecting '${_chunk_length}'.`;
+            _msg_info(
+              _msg);
+          }
+          else {
+            _msg =
+              "No previous encodings found, " +
+              "setting chunk length at " +
+              `default value '${_default}'.`;
+            _msg_info(
+              _msg);
+            _chunk_length =
+              _default;
+          }
+        }
+        else {
+          _msg =
+            "Encoding lengths directory " +
+            `'${_encoding_lengths_dir}' not found, ` +
+            `setting default value '${_default}'.`
+          _msg_info(
+            _msg);
+        }
+      }
+      else {
+        _msg =
+          "Variable 'encoding lengths directory' " +
+          "must be a directory path.";
+        _msg_error(
+          _msg,
+          0);
+        throw _msg;
+      }
+    }
+    else {
+      _msg =
+        "Variable 'encoding lengths directory' " +
+        "must be a directory path.";
+      _msg_error(
+        _msg,
+        0);
+      throw _msg;
+    }
+  }
+  return _chunk_length;
+}
+
 
 async function
   _index_end_check(
@@ -653,6 +771,7 @@ function
 export {
   _cache_dir_check,
   _chunk_file_path_check,
+  _chunk_length_check,
   _encoding_type_check,
   _global_variables_common,
   _global_variables_evmfs_get,
@@ -671,6 +790,8 @@ export {
 // module.exports = {
 //   _cache_dir_check:
 //     _cache_dir_check,
+//   _chunk_length_check:
+//     _chunk_length_check,
 //   _chunk_file_path_check:
 //     _chunk_file_path_check,
 //   _encoding_type_check:

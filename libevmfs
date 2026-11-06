@@ -161,6 +161,9 @@ const
   _cache_dir_check =
     _common_module._cache_dir_check;
 const
+  _chunk_length_check =
+    _common_module._chunk_length_check;
+const
   _encoding_type_check =
     _common_module._encoding_type_check;
 const
@@ -1371,53 +1374,6 @@ async function
   ];
 }
 
-async function(
-  _chunk_length_check(
-    _chunk_length) {
-  let
-    _chunk_length_get,
-    _msg;
-  _chunk_length =
-    false;
-  const
-    _chunk_length_type =
-      typeof(
-        _chunk_length);
-  if ( _chunk_length_type === "undefined" ) {
-    _msg =
-      "Chunk length is undefined, " +
-      "auto-detecting.";
-    _chunk_length_get =
-      true;
-  }
-  else if ( _chunk_length_type === "string" ) {
-    if ( _chunk_length.length < 1 ) {
-      _msg =
-        "Chunk length is an empty string, " +
-        "auto-detecting.";
-      _chunk_length_get =
-        true;
-    }
-  }
-  else if ( _chunk_length_type === "number" ) {
-    if ( _chunk_length < 1 ) {
-      _msg =
-        "Chunk length is non-positive number, " +
-        "auto-detecting.";
-      _chunk_length_get =
-        true;
-    }
-  }
-  else {
-    _msg =
-      "Chunk length has type " +
-      `'${_chunk_length_type}', it should be a ` +
-      "positive integer.";
-    throw _msg;
-  }
-  return _chunk_length;
-}
-
 async function
   _work_dir_setup(
     _cache_dir,
@@ -1483,9 +1439,26 @@ async function
     throw _error;
   }
   const
-    _encodings =
-      await _ls(
-        _publish_dir);
+    _encoding_lengths_dir =
+      _path_join([
+        _publish_dir,
+        _encoding_type
+      ]);
+  const
+    _chunk_length_check_args = [
+      _chunk_length,
+      _encoding_lengths_dir
+    ];
+  try {
+    _chunk_length =
+      await _chunk_length_check.apply(
+        null,
+        _chunk_length_check_args);
+  }
+  // const
+  //   _encodings =
+  //     await _ls(
+  //       _publish_dir);
   const
     _tmp_dir =
       _path_join([
