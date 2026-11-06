@@ -1371,12 +1371,59 @@ async function
   ];
 }
 
+async function(
+  _chunk_length_check(
+    _chunk_length) {
+  let
+    _chunk_length_get,
+    _msg;
+  _chunk_length =
+    false;
+  const
+    _chunk_length_type =
+      typeof(
+        _chunk_length);
+  if ( _chunk_length_type === "undefined" ) {
+    _msg =
+      "Chunk length is undefined, " +
+      "auto-detecting.";
+    _chunk_length_get =
+      true;
+  }
+  else if ( _chunk_length_type === "string" ) {
+    if ( _chunk_length.length < 1 ) {
+      _msg =
+        "Chunk length is an empty string, " +
+        "auto-detecting.";
+      _chunk_length_get =
+        true;
+    }
+  }
+  else if ( _chunk_length_type === "number" ) {
+    if ( _chunk_length < 1 ) {
+      _msg =
+        "Chunk length is non-positive number, " +
+        "auto-detecting.";
+      _chunk_length_get =
+        true;
+    }
+  }
+  else {
+    _msg =
+      "Chunk length has type " +
+      `'${_chunk_length_type}', it should be a ` +
+      "positive integer.";
+    throw _msg;
+  }
+  return _chunk_length;
+}
+
 async function
-_work_dir_setup(
-  _cache_dir,
-  _sum,
-  _encoding_type,
-  _chunk_length) {
+  _work_dir_setup(
+    _cache_dir,
+    _sum,
+    _encoding_type,
+    _chunk_length) {
   let
     _msg;
   const

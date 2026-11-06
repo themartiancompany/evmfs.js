@@ -128,7 +128,7 @@
   },
   "overrides": {
     "evm-contracts-tools":
-      "0.0.86",
+      "0.0.83",
     "evm-wallet":
       "npm:evm-wallet.js@^0.0.103",
     "libcrash-js":
