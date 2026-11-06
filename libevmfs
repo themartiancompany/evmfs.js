@@ -1455,6 +1455,18 @@ async function
         null,
         _chunk_length_check_args);
   }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_chunk_length_check' " +
+      "arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _chunk_length_check_args);
+    throw _error;
+  }
   // const
   //   _encodings =
   //     await _ls(
