@@ -411,7 +411,7 @@ async function
   return _encoding_type;
 }
 
-async function(
+async function
   _chunk_length_check(
     _chunk_length,
     _encoding_lengths_dir) {
@@ -523,6 +523,7 @@ async function(
         _msg);
       _chunk_length =
         _default;
+    }
     else {
       _msg =
         "Variable 'encoding lengths directory' " +
