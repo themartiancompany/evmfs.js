@@ -133,6 +133,11 @@ const
   _path_join =
     _libcrash._path_join;
 /* global
+     _realpath */
+const
+  _realpath =
+    _libcrash._realpath;
+/* global
      _require */
 const
   _require =
@@ -2744,7 +2749,8 @@ function
     _input_files) {
   let
     _exists,
-    _file;
+    _file,
+    _real_name;
   const
     _input_files_dict =
       {};
@@ -2763,8 +2769,11 @@ function
       throw _msg;
     }
     else {
+      _real_name =
+        _realpath(
+          _file);
       _input_files_dict[
-        _file] =
+        _real_name] =
           1;
     }
   }
