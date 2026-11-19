@@ -74,7 +74,6 @@
        wallet_name:
          writable */
 
-
 /* LibEVM application global variables */
 
   /* global
@@ -93,6 +92,10 @@
 
   /* global
        call_method:
+         writable */
+
+  /* global
+       checksum_type:
          writable */
 
   /* global
@@ -551,17 +554,6 @@ async function
     "selection",
     "kirsh");
   try {
-    _chunk_length_auto_detect();
-  }
-  catch(
-    _error) {
-    _msg =
-      "Error determining chunk length.";
-    _msg_error(
-      _msg,
-      0);
-  }
-  try {
     _call_method_auto_detect();
   }
   catch(
@@ -587,9 +579,13 @@ async function
     "default");
   _call_timeout_auto_detect();
   _override_set(
-    "encoding",
+    "checksum",
     "type",
     "sha256sum");
+  _override_set(
+    "encoding",
+    "type",
+    "base64");
   _override_set(
     "retries",
     "max",
@@ -697,6 +693,17 @@ async function
       _msg,
       0);
     throw _msg;
+  }
+  try {
+    _chunk_length_auto_detect();
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error determining chunk length.";
+    _msg_error(
+      _msg,
+      0);
   }
 }
 
@@ -944,6 +951,7 @@ function
     `           Publication options:`,
     `                       Lock only:   ${lock_only}`,
     `                   Skip encoding:   ${encoding_skip}`,
+    `                   Checksum type:   ${checksum_type}`,
     `                   Encoding type:   ${encoding_type}`,
     `                     Input files:`,
   ];
@@ -1038,6 +1046,7 @@ async function
       lock_only,
       chunk_length,
       encoding_skip,
+      checksum_type,
       encoding_type,
       tasks_parallel,
       price_gas,

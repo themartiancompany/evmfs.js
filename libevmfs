@@ -1492,7 +1492,9 @@ async function
   _chunk_length_auto_detect() {
   let
     _cache_dir,
-    _chunk_length;
+    _chunk_length,
+    _publish_dir,
+    _sum;
   const
     _target_command =
       _get(
@@ -1505,31 +1507,46 @@ async function
           "cache",
           "dir");
     const
-      _chunk_length_check_args = [
-        _chunk_length,
-        _encoding_lengths_dir
-      ];
-    try {
-      _chunk_length =
-        await _chunk_length_check(
-          null,
-          _chunk_length_check_args);
-    }
-    catch(
-      _error) {
+      _input_files =
+        _get(
+          "input",
+          "files");
+    for ( _file of _input_files ) {
+      _sum =
+        await _file_hash(
+          _file);
+      _publish_dir =
+        _path_join([
+          _cache_dir,
+          _sum,
+          "publish"]);
+        _encoding_type
       const
-        _msg =
-          "Error running '_chunk_length_check' " +
-          "with arguments:";
-      _msg_error(
-        _msg,
-        0);
-      _echo2(
-        _chunk_length_check_args);
-      _echo2(
-        _error);
-      throw _error;
-    }
+        _chunk_length_check_args = [
+          _chunk_length,
+          _encoding_lengths_dir
+        ];
+      try {
+        _chunk_length =
+          await _chunk_length_check.apply(
+            null,
+            _chunk_length_check_args);
+      }
+      catch(
+        _error) {
+        const
+          _msg =
+            "Error running '_chunk_length_check' " +
+            "with arguments:";
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _chunk_length_check_args);
+        _echo2(
+          _error);
+        throw _error;
+      }
   }
   _override_set(
     "chunk",
@@ -1573,6 +1590,7 @@ async function
     _call_timeout,
     _price_gas,
     _encoding_skip,
+    _checksum_type,
     _encoding_type,
     _lock_only,
     _chunk_length,
@@ -1870,6 +1888,7 @@ async function
     _lock_only,
     _chunk_length,
     _encoding_skip,
+    _checksum_type,
     _encoding_type,
     _tasks_parallel,
     _price_gas,
@@ -1954,6 +1973,7 @@ async function
         _call_timeout,
         _price_gas,
         _encoding_skip,
+        _checksum_type,
         _encoding_type,
         _lock_only,
         _chunk_length,
