@@ -1489,6 +1489,55 @@ async function
 }
 
 async function
+  _chunk_length_auto_detect() {
+  let
+    _cache_dir,
+    _chunk_length;
+  const
+    _target_command =
+      _get(
+        "target",
+        "command");
+  if ( _target_command === "publish" ) {
+    const
+      _cache_dir =
+        _get(
+          "cache",
+          "dir");
+    const
+      _chunk_length_check_args = [
+        _chunk_length,
+        _encoding_lengths_dir
+      ];
+    try {
+      _chunk_length =
+        await _chunk_length_check(
+          null,
+          _chunk_length_check_args);
+    }
+    catch(
+      _error) {
+      const
+        _msg =
+          "Error running '_chunk_length_check' " +
+          "with arguments:";
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _chunk_length_check_args);
+      _echo2(
+        _error);
+      throw _error;
+    }
+  }
+  _override_set(
+    "chunk",
+    "length",
+    _chunk_length);
+}
+
+async function
   _file_encode(
     _file,
     _chunk_length,

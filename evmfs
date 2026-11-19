@@ -550,12 +550,19 @@ async function
     "rpc",
     "selection",
     "kirsh");
-  _override_set(
-    "chunk",
-    "length",
-    "22000");
   try {
-    _call_method_standalone();
+    _chunk_length_auto_detect();
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error determining chunk length.";
+    _msg_error(
+      _msg,
+      0);
+  }
+  try {
+    _call_method_auto_detect();
   }
   catch(
     _error) {
