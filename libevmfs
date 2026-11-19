@@ -1542,6 +1542,7 @@ async function
     _fs_abi,
     _fs_bytecode,
     _fs_compiler_output,
+    _index,
     _index_end,
     _index_start,
     _input_file,
