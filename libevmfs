@@ -1498,7 +1498,7 @@ async function
     _chunk_length,
     _cursor,
     _file,
-    _publish_dir,
+    _encoding_lengths_dir,
     _sum;
   const
     _chunk_lengths =
@@ -1535,7 +1535,7 @@ async function
       _sum =
         await _file_hash(
           _file);
-      _publish_dir =
+      _encoding_lengths_dir =
         _path_join([
           _cache_dir,
           _sum,
