@@ -596,7 +596,6 @@ async function
              _chunks_dir) ) {
       _index_end =
         -1;
-      break;
     }
     else {
       const
