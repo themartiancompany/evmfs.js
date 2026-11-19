@@ -1598,6 +1598,9 @@ async function
   const
     _amount_only =
       "n";
+  _chunk_length =
+    String(
+      _chunk_length);
   const
     _out =
       _path_join([
