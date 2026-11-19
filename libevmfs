@@ -1505,6 +1505,8 @@ async function
       _get(
         "chunk",
         "lengths");
+  _echo(
+    _chunk_lengths);
   const
     _encoding_type =
       _get(
@@ -1552,7 +1554,11 @@ async function
           await _chunk_length_check.apply(
             null,
             _chunk_length_check_args);
-        _chunk_lengths.append(
+        _echo(
+          _chunk_length);
+        _echo(
+          _chunk_lengths);
+        _chunk_lengths.push(
           _chunk_length);
       }
       catch(
@@ -1896,7 +1902,7 @@ async function
         for ( _chunk of _work_dir_files ) {
           if ( _chunk.startsWith(
                  `${_file_sum}.base64`) ) {
-            _chunks_files_paths.append(
+            _chunks_files_paths.push(
               _chunk);
 	  }
 	}
