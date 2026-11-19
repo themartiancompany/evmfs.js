@@ -155,7 +155,7 @@
 /* EVMFS Publish global variables */
 
   /* global
-       chunk_length:
+       chunk_lengths:
          writable */
 
   /* global
@@ -335,8 +335,8 @@ const
 /* global
      _chunk_length_auto_detect */
 const
-  _chunk_length_auto_detect =
-    _libevmfs_module._chunk_length_auto_detect;
+  _chunk_lengths_auto_detect =
+    _libevmfs_module._chunk_lengths_auto_detect;
 /* global
      _contracts_auto_detect */
 const
@@ -705,7 +705,7 @@ async function
     throw _msg;
   }
   try {
-    _chunk_length_auto_detect();
+    _chunk_lengths_auto_detect();
   }
   catch(
     _error) {
@@ -817,7 +817,7 @@ function
       "      some networks it seems it's not possible",
       "      to spend the amount of gas needed to",
       "      write that much.",
-      `      Default: ${chunk_length}`,
+      `      Default: ${chunk_lengths}`,
       "",
       "  contract options:",
       "",
@@ -957,7 +957,7 @@ function
     `                    Target value:   ${target_value}`,
     `                   Index network:   ${index_network}`,
     `                     Call method:   ${call_method}`,
-    `                    Chunk length:   ${chunk_length}`,
+    `                    Chunk length:   ${chunk_lengths}`,
     `           Publication options:`,
     `                       Lock only:   ${lock_only}`,
     `                   Skip encoding:   ${encoding_skip}`,
@@ -1054,7 +1054,7 @@ async function
       retries_max,
       call_timeout,
       lock_only,
-      chunk_length,
+      chunk_lengths,
       encoding_skip,
       checksum_type,
       encoding_type,

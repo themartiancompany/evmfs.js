@@ -216,12 +216,12 @@ function
 function 
   _global_variables_evmfs_publish() {
   /* global
-       chunk_length:
+       chunk_lengths:
          writable */
   _set(
     "chunk",
-    "length",
-    "");
+    "lengths",
+    []);
   /* global
        encoding_skip:
          writable */
@@ -801,10 +801,9 @@ function
   _url_parse_evmfs_publish() {
   _set(
     "chunk",
-    "length",
+    "lengths",
     _argv_url_get(
-      "chunk_length")[
-        0]);
+      "chunk_lengths"));
   _set(
     "encoding",
     "skip",
