@@ -548,9 +548,11 @@ async function
 async function
   _index_end_check(
     _index_end,
+    _file_sum,
     _chunks_dir) {
   let
     _index_end_get,
+    _file,
     _msg;
   _index_end_get =
     false;
@@ -587,9 +589,19 @@ async function
     "Allowed type is 'number'.";
   }
   if ( _index_end_get ) {
+    const
+      _files =
+        await _ls(
+        _chunks_dir);
     _index_end =
-      _ls(
-        _chunks_dir).length - 1;
+      -1;
+    for ( _file of _files ) {
+      if ( _file.startsWith(
+             `${_file_sum}.base64`) ) {
+        _index_end =
+          _index_end + 1;
+      }
+    }
   }
   return _index_end;
 }

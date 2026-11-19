@@ -1647,7 +1647,7 @@ async function
       ];
       try {
         _work_dir =
-          _work_dir_setup.apply(
+          await _work_dir_setup.apply(
             null,
             _work_dir_setup_args);
       }
@@ -1673,11 +1673,12 @@ async function
       const
         _index_end_check_args = [
           _index_end,
+          _file_sum,
           _work_dir
         ];
       try {
         _index_end =
-          _index_end_check.apply(
+          await _index_end_check.apply(
             null,
             _index_end_check_args);
       }
