@@ -1573,7 +1573,7 @@ async function
         "publish",
         _encoding,
         _chunk_length,
-        `${_file_sum}.base64`
+        `${_sum}.base64`
       ]);
   const
     _chunks =
