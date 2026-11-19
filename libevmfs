@@ -1387,7 +1387,7 @@ async function
     _cache_dir,
     _sum,
     _encoding_type,
-    _chunk_length) {
+    _chunk_lengths) {
   let
     _msg;
   const
@@ -1670,7 +1670,7 @@ async function
     _checksum_type,
     _encoding_type,
     _lock_only,
-    _chunk_length,
+    _chunk_lengths,
     _tasks_parallel,
     _cache_dir,
     _input_files) {
@@ -1698,8 +1698,6 @@ async function
       [];
   _chunks_files_paths =
     [];
-  _cursor =
-    0;
   const
     [ _target_network ] =
       _target_networks;
@@ -1761,7 +1759,12 @@ async function
       _error);
     throw _error;
   }
+  _cursor =
+    0;
   for ( _file of _input_files ) {
+    _chunk_length =
+      _chunk_lengths[
+        _cursor];
     [ _file_size ] =
       _du(
         _file);
@@ -1965,7 +1968,7 @@ async function
     _retries_max,
     _call_timeout,
     _lock_only,
-    _chunk_length,
+    _chunk_lengths,
     _encoding_skip,
     _checksum_type,
     _encoding_type,
@@ -2055,7 +2058,7 @@ async function
         _checksum_type,
         _encoding_type,
         _lock_only,
-        _chunk_length,
+        _chunk_lengths,
         _tasks_parallel,
         _cache_dir,
         _input_files
