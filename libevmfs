@@ -262,6 +262,9 @@ const
     await _require(
       "encoding-tools");
 const
+  _bin2txt =
+    _encoding_tools_module._bin2txt;
+const
   _txt2bin =
     _encoding_tools_module._txt2bin;
 
@@ -1558,8 +1561,19 @@ async function
 async function
   _file_encode(
     _file,
+    _sum,
+    _encoding,
     _chunk_length,
-    _publish_dir) {
+    _cache_dir) {
+  const
+    _work_dir =
+      _path_join([
+        _cache_dir,
+        _sum,
+        "publish",
+        _encoding,
+        _chunk_length
+      ]);
   const
     _chunks =
       [];
@@ -1568,6 +1582,37 @@ async function
       "Chunking files.";
   _msg_info(
     _msg);
+  const
+    _bin2txt_args = [
+      _file,
+      _out,
+      _format,
+      _length,
+      _buffer_size_bytes,
+      _amount_only,
+      _encoding_type) {
+    ]
+  try {
+    [ _chunks_total,
+      _chunks ] =
+      await _bin2txt.apply(
+        null,
+        _bin2txt_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_bin2txt' " +
+      "arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _bin2txt_args);
+    _echo2(
+      _error);
+    throw _error;
+  }
   return _chunks;
 }
 
@@ -1774,8 +1819,10 @@ async function
         const
           _file_encode_args = [
             _file,
+            _file_sum,
+            _encoding_type,
             _chunk_length,
-            _publish_dir
+            _cache_dir
           ];
         try {
           _chunks_files_paths =
