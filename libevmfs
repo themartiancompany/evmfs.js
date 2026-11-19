@@ -1566,7 +1566,8 @@ async function
     _chunk_length,
     _cache_dir) {
   let
-    _buffer_size_bytes;
+    _buffer_size_bytes,
+    _msg;
   const
     _amount_only =
       "n";
@@ -1583,9 +1584,8 @@ async function
   const
     _chunks =
       [];
-  const
-    _msg =
-      "Chunking files.";
+  _msg =
+    "Chunking files.";
   const
     _encoding_type =
       "stream";
