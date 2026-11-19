@@ -1562,6 +1562,8 @@ async function
           _error);
         throw _error;
       }
+      _cursor =
+        _cursor + 1;
     }
   }
   _set(
