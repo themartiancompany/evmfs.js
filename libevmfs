@@ -1572,7 +1572,8 @@ async function
         _sum,
         "publish",
         _encoding,
-        _chunk_length
+        _chunk_length,
+        `${_file_sum}.base64`
       ]);
   const
     _chunks =
@@ -1590,7 +1591,7 @@ async function
       _length,
       _buffer_size_bytes,
       _amount_only,
-      _encoding_type) {
+      _encoding_type
     ]
   try {
     [ _chunks_total,
