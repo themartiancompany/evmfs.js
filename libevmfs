@@ -1740,7 +1740,7 @@ async function
         // module encodes with padding and '
         const
           _work_dir_files =
-            _ls(
+            await _ls(
               _work_dir);
         for ( _chunk of _work_dir_files ) {
           if ( _chunk.startsWith(
