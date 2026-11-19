@@ -524,6 +524,8 @@ async function
             `setting default value '${_default}'.`
           _msg_info(
             _msg);
+          _chunk_length =
+            _default;
         }
       }
       else {
