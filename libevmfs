@@ -1482,9 +1482,10 @@ async function
         _cache_dir,
         _sum,
         "publish",
-	_encoding_type,
+        _encoding_type,
         _chunk_length
       ]);
+  return _work_dir;
 }
 
 async function
@@ -1695,13 +1696,20 @@ async function
         throw _error;
       }
       if ( _index_end === -1 ) {
-        _file_encode_args = [
-          _file,
-          _chunk_length,
-          _publish_dir
-        ];
+        const
+          _publish_dir =
+            _path_join([
+              _cache_dir,
+              _file_sum,
+              "publish"]);
+        const
+          _file_encode_args = [
+            _file,
+            _chunk_length,
+            _publish_dir
+          ];
         try {
-          _chunks_files_path =
+          _chunks_files_paths =
             _file_encode.apply(
               null,
               _file_encode_args);
@@ -1731,12 +1739,12 @@ async function
         // rather than '_seq' is 'encoding-tools.js'
         // module encodes with padding and '
         const
-          _publish_dir_files =
+          _work_dir_files =
             _ls(
-              _publish_dir);
-        for ( _chunk of _publish_dir_files) {
-          if _chunk.startsWith(
-               `${_file_sum}.base64.${_index}`) {
+              _work_dir);
+        for ( _chunk of _work_dir_files ) {
+          if ( _chunk.startsWith(
+                 `${_file_sum}.base64.${_index}`) ) {
             _chunks_files_paths.append(
               _chunk);
 	  }
