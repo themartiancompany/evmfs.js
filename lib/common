@@ -47,6 +47,9 @@ const
   _cache_user_init =
     _libcrash._cache_user_init;
 const
+  _dir_exists =
+    _libcrash._dir_exists;
+const
   _file_exists =
     _libcrash._file_exists;
 const
