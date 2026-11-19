@@ -1539,7 +1539,9 @@ async function
         _path_join([
           _cache_dir,
           _sum,
-          "publish"]);
+          "publish",
+          _encoding_type
+        ]);
       const
         _chunk_length_check_args = [
           _chunk_length,
