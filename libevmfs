@@ -1387,7 +1387,7 @@ async function
     _cache_dir,
     _sum,
     _encoding_type,
-    _chunk_lengths) {
+    _chunk_length) {
   let
     _msg;
   const
@@ -1554,10 +1554,6 @@ async function
           await _chunk_length_check.apply(
             null,
             _chunk_length_check_args);
-        _echo(
-          _chunk_length);
-        _echo(
-          _chunk_lengths);
         _chunk_lengths.push(
           _chunk_length);
       }
