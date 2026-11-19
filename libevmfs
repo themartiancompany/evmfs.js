@@ -1593,8 +1593,12 @@ async function
     _chunk_length,
     _cache_dir) {
   let
-    _buffer_size_bytes,
+    _chunks,
+    _chunks_total,
     _msg;
+  const
+    _buffer_size_bytes =
+      undefined;
   const
     _amount_only =
       "n";
@@ -1611,9 +1615,6 @@ async function
         _chunk_length,
         `${_sum}.base64`
       ]);
-  const
-    _chunks =
-      [];
   _msg =
     "Chunking files.";
   const
@@ -1630,7 +1631,7 @@ async function
       _buffer_size_bytes,
       _amount_only,
       _encoding_type
-    ]
+    ];
   try {
     [ _chunks_total,
       _chunks ] =
@@ -1652,6 +1653,11 @@ async function
       _error);
     throw _error;
   }
+  _msg =
+    `Found '${_chunks_total}' ` +
+    "encoded chunks.";
+  _msg_info(
+    _msg);
   return _chunks;
 }
 

@@ -112,7 +112,7 @@
     "libcrash-js":
       "npm:crash-js@^1000000000000025.1000000000000001.1000000000000001",
     "encoding-tools":
-      "0.0.20",
+      "0.0.31",
     "evm-contracts-tools":
       "0.0.83",
     "evm-wallet":
