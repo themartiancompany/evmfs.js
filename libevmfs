@@ -1723,7 +1723,7 @@ async function
             _msg,
             0);
           _echo2(
-            file_encode_args);
+            _file_encode_args);
           _echo2(
             _error);
           throw _error;
@@ -3006,10 +3006,38 @@ function
   }
 }
 
+function
+  _call_method_auto_detect() {
+  let
+    _call_method;
+  const
+    _target_command =
+      _get(
+        "target",
+        "command");
+  if ( _target_command === "get" ) {
+    _call_method =
+      "standalone";
+  }
+  else if ( _target_command === "publish" ) {
+    _call_method =
+      "library";
+  }
+  else {
+    _call_method =
+      "library";
+  }
+  _override_set(
+    "call",
+    "method",
+    _call_method);
+}
+
 // ES6 module export
 
 export {
   _call_auth_auto_detect,
+  _call_method_auto_detect,
   _call_timeout_auto_detect,
   _ccget_module,
   _check_module,
@@ -3047,6 +3075,8 @@ export {
 // module.exports = {
 //   _call_auth_auto_detect:
 //     _call_auth_auto_detect,
+//   _call_method_auto_detect:
+//     _call_method_auto_detect,
 //   _call_timeout_auto_detect:
 //     _call_timeout_auto_detect,
 //   _common_module:
