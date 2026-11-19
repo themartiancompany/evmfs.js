@@ -1562,7 +1562,7 @@ async function
   _file_encode(
     _file,
     _sum,
-    _encoding,
+    _encoding_format,
     _chunk_length,
     _cache_dir) {
   let
@@ -1576,7 +1576,7 @@ async function
         _cache_dir,
         _sum,
         "publish",
-        _encoding,
+        _encoding_format,
         _chunk_length,
         `${_sum}.base64`
       ]);
