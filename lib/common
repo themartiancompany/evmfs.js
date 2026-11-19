@@ -464,6 +464,15 @@ async function
         true;
     }
   }
+  else if ( _chunk_length_type === "object" ) {
+    if ( _chunk_length.length < 1 ) {
+      _msg =
+        "Chunk length is an empty object, " +
+        "auto-detecting.";
+      _chunk_length_get =
+        true;
+    }
+  }
   else {
     _msg =
       "Chunk length has type " +
