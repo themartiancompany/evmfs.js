@@ -1565,8 +1565,13 @@ async function
     _encoding,
     _chunk_length,
     _cache_dir) {
+  let
+    _buffer_size_bytes;
   const
-    _work_dir =
+    _amount_only =
+      "n";
+  const
+    _out =
       _path_join([
         _cache_dir,
         _sum,
@@ -1587,11 +1592,11 @@ async function
     _bin2txt_args = [
       _file,
       _out,
-      _format,
-      _length,
+      _encoding,
+      _chunk_length,
       _buffer_size_bytes,
       _amount_only,
-      _encoding_type
+      _encoding
     ]
   try {
     [ _chunks_total,
