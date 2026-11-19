@@ -1586,17 +1586,20 @@ async function
   const
     _msg =
       "Chunking files.";
+  const
+    _encoding_type =
+      "stream";
   _msg_info(
     _msg);
   const
     _bin2txt_args = [
       _file,
       _out,
-      _encoding,
+      _encoding_format,
       _chunk_length,
       _buffer_size_bytes,
       _amount_only,
-      _encoding
+      _encoding_type
     ]
   try {
     [ _chunks_total,
