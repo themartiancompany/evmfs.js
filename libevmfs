@@ -1485,7 +1485,7 @@ async function
         _encoding_type,
         _chunk_length
       ]);
-  return _work_dir;
+  return _tmp_dir;
 }
 
 async function
@@ -1542,7 +1542,6 @@ async function
     _fs_abi,
     _fs_bytecode,
     _fs_compiler_output,
-    _index,
     _index_end,
     _index_start,
     _input_file,
@@ -1745,7 +1744,7 @@ async function
               _work_dir);
         for ( _chunk of _work_dir_files ) {
           if ( _chunk.startsWith(
-                 `${_file_sum}.base64.${_index}`) ) {
+                 `${_file_sum}.base64`) ) {
             _chunks_files_paths.append(
               _chunk);
 	  }
