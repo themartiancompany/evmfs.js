@@ -1495,6 +1495,7 @@ async function
   _chunk_lengths_auto_detect() {
   let
     _cache_dir,
+    _chunk_length,
     _cursor,
     _file,
     _publish_dir,
@@ -1504,6 +1505,11 @@ async function
       _get(
         "chunk",
         "lengths");
+  const
+    _encoding_type =
+      _get(
+        "encoding",
+        "type");
   const
     _target_command =
       _get(
