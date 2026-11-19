@@ -1677,6 +1677,7 @@ async function
   let
     _checkpoint_file_path,
     _chunk,
+    _chunk_length,
     _chunks_files_paths,
     _chunks_publish_args,
     _cursor,

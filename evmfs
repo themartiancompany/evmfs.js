@@ -705,7 +705,7 @@ async function
     throw _msg;
   }
   try {
-    _chunk_lengths_auto_detect();
+    await _chunk_lengths_auto_detect();
   }
   catch(
     _error) {
