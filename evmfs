@@ -323,10 +323,20 @@ const
   _call_auth_auto_detect =
     _libevmfs_module._call_auth_auto_detect;
 /* global
+     _call_method_auto_detect */
+const
+  _call_method_auto_detect =
+    _libevmfs_module._call_method_auto_detect;
+/* global
      _call_timeout_auto_detect */
 const
   _call_timeout_auto_detect =
     _libevmfs_module._call_timeout_auto_detect;
+/* global
+     _chunk_length_auto_detect */
+const
+  _chunk_length_auto_detect =
+    _libevmfs_module._chunk_length_auto_detect;
 /* global
      _contracts_auto_detect */
 const

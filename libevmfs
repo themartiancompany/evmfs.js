@@ -1547,6 +1547,7 @@ async function
           _error);
         throw _error;
       }
+    }
   }
   _override_set(
     "chunk",
