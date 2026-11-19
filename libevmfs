@@ -1479,6 +1479,9 @@ async function
   //   _encodings =
   //     await _ls(
   //       _publish_dir);
+  _chunk_length =
+    String(
+      _chunk_length);
   const
     _tmp_dir =
       _path_join([
