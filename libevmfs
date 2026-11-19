@@ -1723,7 +1723,7 @@ async function
             _msg,
             0);
           _echo2(
-            files_encode_args);
+            file_encode_args);
           _echo2(
             _error);
           throw _error;
