@@ -50,6 +50,12 @@ const
   _ls =
     _libcrash._ls;
 const
+  _msg_error =
+    _libcrash._msg_error;
+const
+  _msg_info =
+    _libcrash._msg_info;
+const
   _set =
     _libcrash._set;
 
@@ -544,7 +550,8 @@ async function
     _index_end,
     _chunks_dir) {
   let
-    _index_end_get;
+    _index_end_get,
+    _msg;
   _index_end_get =
     false;
   const
