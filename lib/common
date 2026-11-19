@@ -592,17 +592,25 @@ async function
     "Allowed type is 'number'.";
   }
   if ( _index_end_get ) {
-    const
-      _files =
-        await _ls(
-        _chunks_dir);
-    _index_end =
-      -1;
-    for ( _file of _files ) {
-      if ( _file.startsWith(
-             `${_file_sum}.base64`) ) {
-        _index_end =
-          _index_end + 1;
+    if ( ! _dir_exists(
+             _chunks_dir) ) {
+      _index_end =
+        -1;
+      break;
+    }
+    else {
+      const
+        _files =
+          await _ls(
+          _chunks_dir);
+      _index_end =
+        -1;
+      for ( _file of _files ) {
+        if ( _file.startsWith(
+               `${_file_sum}.base64`) ) {
+          _index_end =
+            _index_end + 1;
+        }
       }
     }
   }
