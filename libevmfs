@@ -1495,11 +1495,14 @@ async function
   _chunk_lengths_auto_detect() {
   let
     _cache_dir,
+    _file,
     _publish_dir,
     _sum;
   const
     _chunk_lengths =
-      [];
+      _get(
+        "chunk",
+        "lengths");
   const
     _target_command =
       _get(
@@ -3172,7 +3175,7 @@ export {
   _call_timeout_auto_detect,
   _ccget_module,
   _check_module,
-  _chunk_lengths,
+  _chunk_lengths_auto_detect,
   _common_module,
   _contract_get,
   _contract_setup,
