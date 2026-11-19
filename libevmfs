@@ -1835,7 +1835,7 @@ async function
           ];
         try {
           _chunks_files_paths =
-            _file_encode.apply(
+            await _file_encode.apply(
               null,
               _file_encode_args);
         }
