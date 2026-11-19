@@ -2,7 +2,7 @@
   "name":
     "evmfs",
   "version":
-    "0.0.19",
+    "0.0.20",
   "description":
     "Multi-level distributed, network-independent, cross-network, uncensorable, undeletable, permissionless file system running on Ethereum Virtual Machine-compatible networks.",
   "funding":
@@ -94,13 +94,15 @@
   },
   "devDependencies": {
     "crash-js-webpack":
-      "^0.0.87",
+      "^0.0.88",
     "eslint":
       "^10.14.0",
     "@eslint/js":
       "^10.0.1",
     "globals":
       "^17.3.0",
+    "minimatch":
+      "^11.0.4",
     "webpack":
       "^5.109.2",
     "webpack-cli":
@@ -108,7 +110,7 @@
   },
   "dependencies": {
     "libcrash-js":
-      "npm:crash-js@^1000000000000024.1000000000000001.1000000000000001",
+      "npm:crash-js@^1000000000000025.1000000000000001.1000000000000001",
     "encoding-tools":
       "0.0.20",
     "evm-contracts-tools":
@@ -132,9 +134,11 @@
     "evm-wallet":
       "npm:evm-wallet.js@^0.0.103",
     "libcrash-js":
-      "npm:crash-js@^1000000000000024.1000000000000001.1000000000000001",
+      "npm:crash-js@^1000000000000025.1000000000000001.1000000000000001",
     "libevm":
-      "0.0.55"
+      "0.0.55",
+    "minimatch":
+      "^11.0.4"
   },
   "type":
     "module",

@@ -1488,6 +1488,22 @@ async function
 }
 
 async function
+  _file_encode(
+    _file,
+    _chunk_length,
+    _publish_dir) {
+  const
+    _chunks =
+      [];
+  const
+    _msg =
+      "Chunking files.";
+  _msg_info(
+    _msg);
+  return _chunks;
+}
+
+async function
   _evmfs_publish(
     _fs_address,
     _ll_address,
@@ -1515,6 +1531,8 @@ async function
     _input_files) {
   let
     _checkpoint_file_path,
+    _chunk,
+    _chunks_files_paths,
     _chunks_publish_args,
     _cursor,
     _file,
@@ -1533,9 +1551,8 @@ async function
   const
     _uploaded_files =
       [];
-  const
-    _chunks_files_paths =
-      [];
+  _chunks_files_paths =
+    [];
   _cursor =
     0;
   const
@@ -1677,6 +1694,40 @@ async function
           _error);
         throw _error;
       }
+      if ( _index_end === -1 ) {
+        _file_encode_args = [
+          _file,
+          _chunk_length,
+          _publish_dir
+        ];
+        try {
+          _chunks_files_path =
+            _file_encode.apply(
+              null,
+              _file_encode_args);
+        }
+      }
+      else {
+        _msg =
+          "Found index end " +
+          `'${_index_end}'.`;
+        _msg_info(
+          _msg);
+        // The reason this uses '_ls'
+        // rather than '_seq' is 'encoding-tools.js'
+        // module encodes with padding and '
+        const
+          _publish_dir_files =
+            _ls(
+              _publish_dir);
+        for ( _chunk of _publish_dir_files) {
+          if _chunk.startsWith(
+               `${_file_sum}.base64.${_index}`) {
+            _chunks_files_paths.append(
+              _chunk);
+	  }
+	}
+      }
       _chunks_publish_args = [
         _retries_max,
         _call_timeout,
@@ -1711,6 +1762,14 @@ async function
       }
       _uploaded_files.push(
         _file);
+    }
+    else if ( _upload_method === "standalone" ) {
+      _msg =
+       "Upload method 'standalone' not implemented.";
+      _msg_error(
+        _msg,
+        0);
+      throw _msg;
     }
     _cursor =
       _cursor + 1;

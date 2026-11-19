@@ -579,10 +579,13 @@ async function
     "for variable 'end index'. " +
     "Allowed type is 'number'.";
   }
+  if ( _index_end_get ) {
+    _index_end =
+      _ls(
+        _chunks_dir).length - 1;
+  }
   return _index_end;
 }
-
-
 
 function
   _msg_info_chunk_get(
