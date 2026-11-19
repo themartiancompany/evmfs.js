@@ -1598,7 +1598,7 @@ async function
     _msg;
   const
     _buffer_size_bytes =
-      undefined;
+      "2000000"; // 2MB
   const
     _amount_only =
       "n";
