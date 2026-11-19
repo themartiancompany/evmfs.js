@@ -1495,6 +1495,7 @@ async function
   _chunk_lengths_auto_detect() {
   let
     _cache_dir,
+    _cursor,
     _file,
     _publish_dir,
     _sum;
@@ -1519,7 +1520,12 @@ async function
         _get(
           "input",
           "files");
+    _cursor =
+      0;
     for ( _file of _input_files ) {
+      _chunk_length =
+        _chunk_lengths[
+          _cursor];
       _sum =
         await _file_hash(
           _file);
@@ -1528,7 +1534,6 @@ async function
           _cache_dir,
           _sum,
           "publish"]);
-        _encoding_type
       const
         _chunk_length_check_args = [
           _chunk_length,
