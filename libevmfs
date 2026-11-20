@@ -1619,7 +1619,7 @@ async function
     "Chunking files.";
   const
     _encoding_type =
-      "stream";
+      "memory";
   _msg_info(
     _msg);
   const
