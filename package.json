@@ -118,7 +118,7 @@
     "evm-contracts-tools":
       "0.0.86",
     "evm-wallet":
-      "npm:evm-wallet.js@^0.0.104",
+      "npm:evm-wallet.js@^0.0.105",
     "evmfs-contracts":
       "0.0.9",
     "js-sha256":
@@ -134,7 +134,7 @@
     "evm-contracts-tools":
       "0.0.86",
     "evm-wallet":
-      "npm:evm-wallet.js@^0.0.104",
+      "npm:evm-wallet.js@^0.0.105",
     "libcrash-js":
       "npm:crash-js@^1000000000000026.1000000000000001.1000000000000001",
     "libevm":
