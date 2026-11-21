@@ -434,6 +434,7 @@ async function
     _checkpoint_file_path,
     _chunks_files_paths) {
   let
+    _check_args,
     _check_call_base_opts,
     _check_call_opts,
     _checkpoint_index,
@@ -559,54 +560,61 @@ async function
         0);
       throw _error;
     }
-    _chunk_check_args =
+    _check_args =
       _method_base_args.concat([
         _index.toString()
       ]);
     _check_call_opts =
       _check_call_base_opts.concat([
-        _chunk_check_args
+        _check_args
       ]);
+    _chunk_check_args = [
+      _chunk,
+      _check_call_opts
+    ];
     try {
       [ _published,
         _method_object ] =
-        await _chunk_check(
-          _chunk,
-          _check_call_opts);
-      // I have no idea if _check_call_base_opts
-      // has its components passed by reference
-      // or copied so I have no idea if
-      // _method_object gets immediately updated
-      // or I need to re-init the array so just
-      // in case we re-init whole array.
-      if ( _check_call_base_opts[7] == "" ) {
-        _msg =
-          "Reusing contract method object.";
-        _msg_info(
-          _msg);
-        _check_call_base_opts = [
-          "", // _wallet_seed_path,
-          _retries_max,
-          _api_key_path,
-          _target_network,
-          _contract_abi_path,
-          _contract_bytecode_path,
-          _contract_compiler_output_path,
-          _method_object,
-          _contract_address,
-          "chunks",
-        ];
-      }
-    } catch (
+        await _chunk_check.apply(
+          null,
+          _chunk_check_args);
+    }
+    catch (
         _error) {
-      _error_display(
-        _error);
       _msg =
-        "Error checking publication status.";
+        "Error running '_chunk_check' with arguments:";
       _msg_error(
         _msg,
         0);
+      _echo2(
+        _chunk_check_args);
+      _echo2(
+        _error);
       throw _error;
+    }
+    // I have no idea if _check_call_base_opts
+    // has its components passed by reference
+    // or copied so I have no idea if
+    // _method_object gets immediately updated
+    // or I need to re-init the array so just
+    // in case we re-init whole array.
+    if ( _check_call_base_opts[7] == "" ) {
+      _msg =
+        "Reusing contract method object.";
+      _msg_info(
+        _msg);
+      _check_call_base_opts = [
+        "", // _wallet_seed_path,
+        _retries_max,
+        _api_key_path,
+        _target_network,
+        _contract_abi_path,
+        _contract_bytecode_path,
+        _contract_compiler_output_path,
+        _method_object,
+        _contract_address,
+        "chunks",
+      ];
     }
     if ( _published == true ) {
       _msg_info_chunk_published_already(
@@ -630,15 +638,19 @@ async function
         _tx = await
           _chunk_publish(
             _publish_call_opts);
-      } catch (
-          _error) {
-        _error_display(
-          _error);
+      }
+      catch (
+        _error) {
         _msg =
-          "Error running publishing chunk function.";
+          "Error running publishing chunk function " +
+          "with arguments:";
         _msg_error(
           _msg,
           0);
+        _echo2(
+          _publish_call_opts);
+        _echo2(
+          _error);
         throw _error;
       }
       _msg_info_chunk_published(

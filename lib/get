@@ -355,51 +355,82 @@ async function
         _method_object ] =
         await _chunk_get(
           _read_call_opts);
-      // I have no idea if _read_call_base_opts
-      // has its components passed by reference
-      // or copied so I have no idea if
-      // _method_object gets immediately updated
-      // or I need to re-init the array so just
-      // in case we re-init whole array.
-      if ( _read_call_base_opts[7] == "" ) {
-        _msg =
-          "Reusing contract method object.";
-        _msg_info(
-          _msg);
-        _read_call_base_opts = [
-          _wallet_seed_path,
-          _retries_max,
-          _api_key_path,
-          _target_network,
-          _contract_abi_path,
-          _contract_bytecode_path,
-          _contract_compiler_output_path,
-          _method_object,
-          _contract_address,
-          "readChunk",
-        ];
-      }
-      _msg_info_chunk_got(
-        _index,
-        _progress,
-        _chunks_total);
-      _file_write(
-        _chunk_file_path,
-        _value);
-      _checkpoint_index =
-        _index.toString();
-      _file_write(
-        _checkpoint_file_path,
-        _checkpoint_index);
-    } catch (
-        _error) {
+    }
+    catch (
+      _error) {
       _error_display(
         _error);
       _msg =
-        "Error retrieving chunk.";
+        "Error running '_chunk_get' with arguments:";
       _msg_error(
         _msg,
         0);
+      _echo2(
+        _read_call_opts);
+      throw _error;
+    }
+    // I have no idea if _read_call_base_opts
+    // has its components passed by reference
+    // or copied so I have no idea if
+    // _method_object gets immediately updated
+    // or I need to re-init the array so just
+    // in case we re-init whole array.
+    if ( _read_call_base_opts[7] == "" ) {
+      _msg =
+        "Reusing contract method object.";
+      _msg_info(
+        _msg);
+      _read_call_base_opts = [
+        _wallet_seed_path,
+        _retries_max,
+        _api_key_path,
+        _target_network,
+        _contract_abi_path,
+        _contract_bytecode_path,
+        _contract_compiler_output_path,
+        _method_object,
+        _contract_address,
+        "readChunk",
+      ];
+    }
+    _msg_info_chunk_got(
+      _index,
+      _progress,
+      _chunks_total);
+    try {
+      _file_write(
+        _chunk_file_path,
+        _value);
+    }
+    catch (
+      _error) {
+      _msg =
+        "Error writing chunk value to file at path " +
+        `'${_chunk_file_path}'.`;
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _error);
+      throw _error;
+    }
+    _checkpoint_index =
+      _index.toString();
+    try {
+      _file_write(
+        _checkpoint_file_path,
+        _checkpoint_index);
+    }
+    catch (
+      _error) {
+      _msg =
+        "Error writing checkpoint value to file at path " +
+        `'${_checkpoint_file_path}'.`;
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _error);
       throw _error;
     }
     _progress =
