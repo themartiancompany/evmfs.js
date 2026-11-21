@@ -492,9 +492,10 @@ async function
             _file_exists(
               _encoding_lengths_dir);
         if ( _exists ) {
-          _chunk_lengths =
-            await _ls(
-              _encoding_lengths_dir);
+          const
+            _chunk_lengths =
+              await _ls(
+                _encoding_lengths_dir);
           if ( 0 < _chunk_lengths.length ) {
             _chunk_length =
               _chunk_lengths[
