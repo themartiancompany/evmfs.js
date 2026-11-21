@@ -1914,6 +1914,8 @@ async function
             _error);
           throw _error;
 	}
+        _index_end =
+          _chunks_files_paths.length - 1;
       }
       else {
         _msg =

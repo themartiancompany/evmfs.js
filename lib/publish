@@ -342,7 +342,8 @@ function
       `to upload (${_total_indexes}).`;
     _msg_error(
       _msg,
-      1);
+      0);
+    throw _msg;
   }
   if ( _total_chunks < _total_indexes ) {
     _msg =
@@ -351,7 +352,8 @@ function
       `chunks files to upload (${_total_chunks}).`;
     _msg_error(
       _msg,
-      1);
+      0);
+    throw _msg;
   }
   _msg =
     "Input data checked.";
@@ -373,7 +375,8 @@ function
       `cursor '${_cursor}' undefined.`;
     _msg_error(
       _msg,
-      1);
+      0);
+    throw _msg;
   }
 }
 
@@ -386,12 +389,17 @@ function
   if ( _chunks_unverified.length != 0 ) {
     if ( _chunks_unverified[0] == undefined ) {
       _msg =
-        "Weird error.";
+        "Weird error, unverified chunks variable " +
+        "is non-empty but its first element is undefined. " +
+        "Unverified chunks variable:";
       _msg_error(
         _msg,
-        1);
+        0);
+      _echo2(
+        _chunks_unverified);
+      throw _msg;
     }
-    else if ( _chunks_unverified[0].length != 0 ) {
+    else if ( 0 < _chunks_unverified[0].length ) {
       _chunks_files_paths_prefix =
         _ext_rm(
           _chunks_unverified[
@@ -399,7 +407,7 @@ function
               1]);
     }
   }
-  else if ( _chunks_unverified.length == 0 ) {
+  else if ( _chunks_unverified.length < 1 ) {
     _msg =
       "File already published.";
     _msg_info(
@@ -511,7 +519,8 @@ async function
       "File chunks list empty.";
     _msg_error(
       _msg,
-      1);
+      0);
+    throw _msg;
   }
   _input_data_check(
     _index_start,
