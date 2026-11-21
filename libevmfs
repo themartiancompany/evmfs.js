@@ -2079,6 +2079,8 @@ async function
     }
   }
   else if ( _target_command === "publish" ) {
+    _echo2(
+      _api_key_path);
     const
       _evmfs_publish_args = [
         _fs_address,
