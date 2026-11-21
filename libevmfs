@@ -1727,6 +1727,7 @@ async function
     _input_file,
     _msg,
     _namespace,
+    _path,
     _work_dir_setup_args,
     _work_dir;
   const
@@ -1933,8 +1934,13 @@ async function
         for ( _chunk of _work_dir_files ) {
           if ( _chunk.startsWith(
                  `${_file_sum}.base64`) ) {
+            _path =
+              _path_join([
+                _work_dir,
+                _chunk
+              ]);
             _chunks_files_paths.push(
-              _chunk);
+              _path);
 	  }
 	}
       }
