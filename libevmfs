@@ -48,6 +48,11 @@ const
   _cp =
     _libcrash._cp;
 /* global
+     _dir_exists */
+const
+  _dir_exists =
+    _libcrash._dir_exists;
+/* global
      _du */
 const
   _du =
@@ -1606,13 +1611,29 @@ async function
     String(
       _chunk_length);
   const
-    _out =
+    _output_dir =
       _path_join([
         _cache_dir,
         _sum,
         "publish",
         _encoding_format,
-        _chunk_length,
+        _chunk_length
+      ]);
+  if ( ! _dir_exists(
+          _output_dir) ) {
+    const
+      _mkdir_opts = {
+        "recursive":
+          true
+      };
+    _mkdir(
+      _output_dir,
+      _mkdir_opts);
+  }
+  const
+    _out =
+      _path_join([
+        _output_dir,
         `${_sum}.base64`
       ]);
   _msg =
