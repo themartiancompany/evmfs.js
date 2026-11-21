@@ -1745,7 +1745,7 @@ async function
     ];
   try {
     _namespace =
-      _namespace_setup.apply(
+      await _namespace_setup.apply(
         null,
         _namespace_setup_args);
   }
