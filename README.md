@@ -174,6 +174,15 @@ You can consult the manual from an online mirror of this
 repository. The `rst` source files are located in the `man`
 directory.
 
+### Donations
+
+The authors of the EVMFS are not used to ask for donations,
+but it's an euphemism to say this work is huge and foundamental
+for the development of the internet, so any form of
+[donation](
+  https://patreon.com/tallero)
+would sincerely be very much appreciated.
+
 ## License
 
 The Ethereum Virtual File System is released under the terms of the
