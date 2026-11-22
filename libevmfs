@@ -1850,10 +1850,10 @@ async function
         throw _error;
       }
       _checkpoint_file_path =
-        "";
-      // TODO:
-      //   to be determined from existing
-      //   chunks
+        _path_join([
+          _work_dir,
+          "checkpoint.publish"
+        ]);
       const
         _index_end_check_args = [
           _index_end,
