@@ -1562,8 +1562,9 @@ async function
           await _chunk_length_check.apply(
             null,
             _chunk_length_check_args);
-        _chunk_lengths.push(
-          _chunk_length);
+        _chunk_lengths[
+          _cursor] =
+          _chunk_length;
       }
       catch(
         _error) {
