@@ -424,7 +424,7 @@ function
     _price_gas_get;
   const
     _default =
-      "auto"; // "";
+      "";
   const
     _price_gas_type =
       typeof(

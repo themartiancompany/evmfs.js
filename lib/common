@@ -590,7 +590,7 @@ async function
   else if ( _index_end_type === "string" ) {
     if ( _index_end.length < 1 ) {
       _msg =
-        "End index undefined, " +
+        "End index is an empty string, " +
         "determining.";
       _msg_info(
         _msg);
@@ -602,9 +602,14 @@ async function
     true;
   }
   else {
-    `Unknown type '${_index_end_type}' ` +
-    "for variable 'end index'. " +
-    "Allowed type is 'number'.";
+    _msg =
+      `Unknown type '${_index_end_type}' ` +
+      "for variable 'end index'. " +
+      "Allowed type is 'number'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
   }
   if ( _index_end_get ) {
     if ( ! _dir_exists(
