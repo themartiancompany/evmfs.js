@@ -416,6 +416,84 @@ function
   return _chunks_files_paths_prefix;
 }
 
+function
+  _price_gas_check(
+    _price_gas) {
+  let
+    _msg,
+    _price_gas_get;
+  const
+    _default =
+      "";
+  const
+    _price_gas_type =
+      typeof(
+        _price_gas);
+  if ( _price_gas_type === "undefined" ) {
+    _msg =
+      "Gas price undefined, setting default.";
+    _msg_info(
+      _msg);
+    _price_gas_get =
+      true;
+  }
+  else if ( _price_gas_type === "string" ) {
+    if ( 0 < _price_gas.length ) {
+      if ( _price_gas != "auto" &&
+           _price_gas != "fast" &&
+           _price_gas != "nextblock" ) {
+        _msg =
+          `Unknown value '${_price_gas}' ` +
+          "for gas price variable.";
+        _msg_warning(
+          _msg);
+      }
+    }
+  }
+  else if ( _price_gas_type === "number" ) {
+    if ( _price_gas < 0 ) {
+      _msg =
+        "Gas price variable should be a " +
+        "non-negative integer.";
+      _msg_error(
+        _msg,
+        0);
+      throw _msg;
+    }
+  }
+  else if ( _price_gas_type === "object" ) {
+    _price_gas_keys =
+      Object.keys(
+        _price_gas);
+    if ( _price_gas_keys.length < 1 ) {
+      _msg =
+        "Gas price is an empty object, " +
+        "setting default.";
+      _msg_info(
+        _msg);
+      _price_gas_get =
+        true;
+    }
+  }
+  else {
+    _msg =
+      "Gas price variable has type " +
+      `'${_gas_price_type}' but it should be ` +
+      `a non-negative integer, an empty ` +
+      "string or having value 'auto', 'fast' " +
+      "or 'nextblock'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  if ( _price_gas_get ) {
+    _price_gas =
+      _default;
+  }
+  return _price_gas;
+}
+
 async function
   _chunks_publish(
     _retries_max,
@@ -432,7 +510,8 @@ async function
     _index_start,
     _index_end,
     _checkpoint_file_path,
-    _chunks_files_paths) {
+    _chunks_files_paths,
+    _price_gas) {
   let
     _check_args,
     _check_call_base_opts,
@@ -451,6 +530,20 @@ async function
     _publish_call_opts,
     _published,
     _tx;
+  try {
+    _price_gas =
+      _price_gas_check(
+        _price_gas);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_price_gas_check'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
   const
     _chunks_unverified =
       [];
@@ -494,11 +587,11 @@ async function
       _wallet_seed_path,
       _wallet_password,
       _api_key_path,
-      "auto",   // <---------    Price selection mode:
-                //               It can be 'auto',
-                //               'fast', 'nextblock' or an
-                //               integer directly.
-      0,
+      _price_gas,   // <---------    Price selection mode:
+                    //               It can be 'auto',
+                    //               'fast', 'nextblock' or an
+                    //               integer directly.
+      0,            //               Message value.
       "wei",
       _target_network,
       _contract_address,
