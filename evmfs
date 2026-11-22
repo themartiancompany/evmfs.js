@@ -1281,18 +1281,51 @@ async function
         "call-timeout"]);
   }
   if ( "l" in _argv ) {
+    const
+      _chunk_lengths_type =
+        typeof(
+          _argv[
+            "l"]);
+    if ( _chunk_lengths_type === "string" ) {
+      _set(
+        "chunk",
+        "lengths",
+        [ _argv[
+            "l"] ]);
+    }
+    else if ( _chunk_lengths_type === "string" ) {
+      _set(
+        "chunk",
+        "lengths",
+        _argv[
+            "l"]);
+    }
     _set(
       "chunk",
-      "length",
-      _argv[
-        "l"]);
+      "lengths",
+      [ _argv[
+        "l"] ] );
   }
   if ( "chunk-length" in _argv ) {
-    _set(
-      "chunk",
-      "length",
-      _argv[
-        "chunk-length"]);
+    const
+      _chunk_lengths_type =
+        typeof(
+          _argv[
+            "chunk-length"]);
+    if ( _chunk_lengths_type === "string" ) {
+      _set(
+        "chunk",
+        "lengths",
+        [ _argv[
+            "chunk-length"] ]);
+    }
+    else if ( _chunk_lengths_type === "string" ) {
+      _set(
+        "chunk",
+        "lengths",
+        _argv[
+            "chunk-length"]);
+    }
   }
   if ( "L" in _argv ) {
     _set(
