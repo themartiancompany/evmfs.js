@@ -1818,11 +1818,6 @@ async function
       _input_files[
         _cursor];
     if ( _upload_method === "library" ) {
-      // TODO:
-      //   to be read from checkpoint file
-      _index_start =
-        0;
-      // TODO:
       _work_dir_setup_args = [
         _cache_dir,
         _file_sum,
@@ -1854,6 +1849,16 @@ async function
           _work_dir,
           "checkpoint.publish"
         ]);
+      if ( _file_exists(
+             _checkpoint_file_path) ) {
+        _index_start =
+          _file_read(
+            _checkpoint_file_path);
+      }
+      else {
+       _index_start =
+        0;
+      }
       const
         _index_end_check_args = [
           _index_end,
