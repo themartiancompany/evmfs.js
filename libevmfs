@@ -2195,7 +2195,7 @@ async function
         _file_read(
           _path);
     _sum =
-      await _sha256sum_memory(
+      await _sha256sum(
         _file);
   }
   return _sum; 
