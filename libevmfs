@@ -1906,6 +1906,7 @@ async function
     _fs_compiler_output,
     _index_end,
     _index_start,
+    _index_verify_start,
     _input_file,
     _msg,
     _namespace,
@@ -2109,12 +2110,12 @@ async function
           _msg =
             "Selected to skip encoding, " +
             "but no previous encoding seems available " +
-	    "for this file.";
+            "for this file.";
           _msg_error(
             _msg,
             0);
           throw _msg;
-	}
+        }
         const
           _publish_dir =
             _path_join([
@@ -2193,7 +2194,10 @@ async function
         _index_start,
         _index_end,
         _checkpoint_file_path,
-        _chunks_files_paths
+        _chunks_files_paths,
+        _price_gas,
+        "" // ethers contract method object for the
+           // file system contract publish method.
       ];
       if ( _lock_only == "n" ) {
         try {
@@ -2213,6 +2217,27 @@ async function
         }
         _uploaded_files.push(
           _file);
+        if ( _file_exists(
+               _checkpoint_verify_path) ) {
+          _index_verify_start =
+            _file_read(
+              _checkpoint_verify_path);
+        }
+        else {
+         _index_verify_start =
+          0;
+        }
+        const
+          _chunks_files_paths_prefix =
+            _path_join([
+              _work_dir,
+              `${_file_sum}.base64`
+            ]);
+        const
+          _chunks_indexes =
+            _seq(
+              _index_verify_start,
+              _index_end);
         // TODO
         const
           _chunks_verify_args = [
@@ -2223,11 +2248,11 @@ async function
             _fs_abi,
             _fs_bytecode,
             _fs_compiler_output,
-
-            _method_object,
-            _publication_namespace,
-            _file_hash,
-            _checkpoint_file_path,
+            "" // ethers contract method object for the
+               // file system contract publish method.
+            _namespace,
+            _file_sum,
+            _checkpoint_verify_path,
             _chunks_files_paths_prefix,
             _chunks_indexes
           ];
@@ -2252,6 +2277,8 @@ async function
           throw _error;
 	}
       }
+      _msg =
+        "Chunks correctly verified.";
       const
         _chunks_lock_args = [
         ];

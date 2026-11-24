@@ -494,6 +494,45 @@ function
   return _price_gas;
 }
 
+function
+  _method_object_check(
+    _method_object) {
+  const
+    _method_object_type =
+      typeof(
+        _method_object);
+  if ( _method_object === "undefined" ) {
+    _method_object =
+      "";
+  }
+  if ( _method_object_type === "string" ) {
+    if ( 0 < _method_object.length ) {
+      _msg =
+        "The method object variable should be " +
+        "an Ethers Contract Method object or an empty " +
+        "string or object.";
+      _msg_error(
+        _msg,
+        0);
+      throw _msg;
+    }
+  }
+  if ( _method_object_type === "object" ) {
+    true;
+  }
+  else {
+    _msg =
+      "The method object variable should be "
+      "an Ethers Contract Method object, but has " +
+      `type '${_method_object_type}'.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  return _method_object;
+}
+
 async function
   _chunks_publish(
     _retries_max,
@@ -511,7 +550,8 @@ async function
     _index_end,
     _checkpoint_file_path,
     _chunks_files_paths,
-    _price_gas) {
+    _price_gas,
+    _method_object) {
   let
     _check_args,
     _check_call_base_opts,
@@ -524,12 +564,25 @@ async function
     _chunks_files_paths_prefix,
     _cursor,
     _index,
-    _method_object,
     _msg,
     _progress,
     _publish_call_opts,
     _published,
     _tx;
+  try {
+    _method_object =
+      _method_object_check(
+        _method_object);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_price_gas_check'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
   try {
     _price_gas =
       _price_gas_check(
@@ -563,8 +616,6 @@ async function
   _index_end =
     Number(
       _index_end);
-  _method_object =
-    "";
   const
     _wallet_password =
       "";
