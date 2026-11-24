@@ -2055,6 +2055,53 @@ async function
         }
         _uploaded_files.push(
           _file);
+        const
+          _chunks_check_args = [
+          ];
+        try {
+          _chunks_corrupted =
+            _chunks_check.apply(
+              null,
+              _chunks_check_args);
+        }
+        catch(
+          _error) {
+          _msg =
+            "Error running '_chunks_check' " +
+            "with arguments:";
+          _msg_error(
+            _msg,
+            0);
+          _echo2(
+            _chunks_check_args);
+          _echo2(
+            _error);
+          throw _error;
+	}
+      }
+      const
+        _chunks_lock_args = [
+        ];
+      try {
+        _chunks_locked =
+          _chunks_lock.apply(
+            null,
+            _chunks_lock_args);
+      }
+      catch(
+        _error) {
+        _msg =
+          "Error running '_chunks_lock' " +
+          "arguments:";
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _chunks_lock_args);
+        echo2(
+          _error);
+        throw _error;
+      }
     }
     else if ( _upload_method === "standalone" ) {
       _msg =
