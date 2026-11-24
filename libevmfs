@@ -1957,6 +1957,16 @@ async function
         throw _error;
       }
       if ( _index_end === -1 ) {
+        if ( _encoding_skip === "y" ) {
+          _msg =
+            "Selected to skip encoding, " +
+            "but no previous encoding seems available " +
+	    "for this file.";
+          _msg_error(
+            _msg,
+            0);
+          throw _msg;
+	}
         const
           _publish_dir =
             _path_join([
