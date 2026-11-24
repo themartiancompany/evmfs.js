@@ -1683,6 +1683,60 @@ async function
   return _chunks;
 }
 
+function
+  _lock_only_check(
+    _lock_only) {
+  let
+    _lock_only_get,
+    _msg;
+  _lock_only_get =
+    false;
+  const
+    _default =
+      "n";
+  const
+    _lock_only_type =
+      typeof(
+        _lock_only);
+  if ( _lock_only_type === "undefined" ) {
+    _msg =
+      "Variable 'lock only' is undefined, " +
+      `setting default '${_default}'.`;
+    _lock_only_get =
+      true;
+  }
+  else if ( _lock_only_type === "string" ) {
+    if ( _lock_only.length < 1 ) {
+      _lock_only_get =
+        true;
+    }
+  }
+  else {
+    _msg =
+      "Variable 'lock only' should be " +
+      "'y' or 'n'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  if ( _lock_only_get ) {
+     _lock_only =
+       _default
+  }
+  if ( _lock_only != "n" &&
+       _lock_only != "y" ) {
+    _msg =
+      "The 'lock only' variable should " +
+      "be 'y' or 'n'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  return _lock_only;
+}
+
 async function
   _evmfs_publish(
     _fs_address,
@@ -1731,6 +1785,22 @@ async function
     _path,
     _work_dir_setup_args,
     _work_dir;
+  try {
+    _lock_only =
+      _lock_only_check(
+        _lock_only);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_lock_only_check'.";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
   const
     _uploaded_files =
       [];
@@ -1920,7 +1990,7 @@ async function
           _echo2(
             _error);
           throw _error;
-	}
+        }
         _index_end =
           _chunks_files_paths.length - 1;
       }
@@ -1947,8 +2017,8 @@ async function
               ]);
             _chunks_files_paths.push(
               _path);
-	  }
-	}
+          }
+        }
       }
       _chunks_publish_args = [
         _retries_max,
@@ -1967,23 +2037,24 @@ async function
         _checkpoint_file_path,
         _chunks_files_paths
       ];
-      try {
-        _chunks_publish.apply(
-          null,
-          _chunks_publish_args);
-      }
-      catch(
-        _error) {
-        _msg =
-          "Error running '_chunks_publish' " +
-          "with arguments:";
-        _msg_error(
-          _msg,
-          0);
-        throw _error;
-      }
-      _uploaded_files.push(
-        _file);
+      if ( _lock_only == "n" ) {
+        try {
+          _chunks_publish.apply(
+            null,
+            _chunks_publish_args);
+        }
+        catch(
+          _error) {
+          _msg =
+            "Error running '_chunks_publish' " +
+            "with arguments:";
+          _msg_error(
+            _msg,
+            0);
+          throw _error;
+        }
+        _uploaded_files.push(
+          _file);
     }
     else if ( _upload_method === "standalone" ) {
       _msg =
@@ -2196,7 +2267,7 @@ async function
           _path);
     _sum =
       await _sha256sum(
-        _file);
+        _path);
   }
   return _sum; 
 }
