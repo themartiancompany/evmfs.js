@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#/usr/bin/env node
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -1684,6 +1684,114 @@ async function
 }
 
 function
+  _encoding_skip_check(
+    _encoding_skip) {
+  let
+    _encoding_skip_get,
+    _msg;
+  _encoding_skip_get =
+    false;
+  const
+    _default =
+      "n";
+  const
+    _encoding_skip_type =
+      typeof(
+        _encoding_skip);
+  if ( _encoding_skip_type === "undefined" ) {
+    _msg =
+      "Variable 'encoding skip' is undefined, " +
+      `setting default '${_default}'.`;
+    _msg_info(
+      _msg);
+    _encoding_skip_get =
+      true;
+  }
+  else if ( _encoding_skip_type === "string" ) {
+    if ( _encoding_skip.length < 1 ) {
+      _msg =
+        "Variable 'encoding skip' is an empty string, " +
+        `setting default '${_default}'.`;
+      _msg_info(
+        _msg);
+      _encoding_skip_get =
+        true;
+    }
+  }
+  else if ( _encoding_skip_type === "boolean" ) {
+    if ( _encoding_skip ) {
+      _encoding_skip =
+        "y";
+    }
+    else {
+      _encoding_skip =
+        "n";
+    }
+  }
+  else if ( _encoding_skip_type === "object" ) {
+    if ( _encoding_skip === null ) {
+      _msg =
+        "Encoding skip variable should be 'y' or 'n'.";
+      _msg_error(
+        _msg,
+        0);
+      throw _msg;
+    }
+    else {
+      _encoding_skip_keys =
+        Object.keys(
+          _encoding_skip);
+      if ( _encoding_skip_keys.length < 1 ) {
+        _msg =
+          "Variable 'encoding skip' is an empty object, " +
+          `setting default '${_default}'.`;
+        _msg_info(
+          _msg);
+        _encoding_skip_get =
+          true;
+      }
+      else {
+        _msg =
+          "Encoding skip variable should " +
+          "be 'y' or 'n', not an object:";
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _encoding_skip);
+        throw _msg;
+      }
+    }
+  }
+  else {
+    _msg =
+      "Variable 'encoding skip' should be " +
+      "'y' or 'n', not:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _encoding_skip);
+    throw _msg;
+  }
+  if ( _encoding_skip_get ) {
+     _encoding_skip =
+       _default;
+  }
+  if ( _encoding_skip != "n" &&
+       _encoding_skip != "y" ) {
+    _msg =
+      "The 'encoding skip' variable should " +
+      "be 'y' or 'n'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  return _encoding_skip;
+}
+
+function
   _lock_only_check(
     _lock_only) {
   let
@@ -1702,13 +1810,31 @@ function
     _msg =
       "Variable 'lock only' is undefined, " +
       `setting default '${_default}'.`;
+    _msg_info(
+      _msg);
     _lock_only_get =
       true;
   }
   else if ( _lock_only_type === "string" ) {
     if ( _lock_only.length < 1 ) {
+      _msg =
+        "Variable 'lock only' is an empty string, " +
+        `setting default '${_default}'.`;
+      _msg_info(
+        _msg);
       _lock_only_get =
         true;
+    }
+    else {
+      _msg =
+        "The 'lock only' variable should be " +
+        "'y' or 'n', not an object.";
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _lock_only);
+      throw _msg;
     }
   }
   else {
@@ -1766,6 +1892,7 @@ async function
     _input_files) {
   let
     _checkpoint_file_path,
+    _checkpoint_verify_path,
     _chunk,
     _chunk_length,
     _chunks_files_paths,
@@ -1785,6 +1912,22 @@ async function
     _path,
     _work_dir_setup_args,
     _work_dir;
+  try {
+    _encoding_skip =
+      _encoding_skip_check(
+        _encoding_skip);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_encodign_skip_check'.";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
   try {
     _lock_only =
       _lock_only_check(
@@ -1919,6 +2062,11 @@ async function
         _path_join([
           _work_dir,
           "checkpoint.publish"
+        ]);
+      _checkpoint_verify_path =
+        _path_join([
+          _work_dir,
+          "checkpoint.verify"
         ]);
       if ( _file_exists(
              _checkpoint_file_path) ) {
@@ -2065,14 +2213,29 @@ async function
         }
         _uploaded_files.push(
           _file);
+        // TODO
         const
-          _chunks_check_args = [
+          _chunks_verify_args = [
+            _retries_max,
+            _api_key_path,
+            _target_network,
+            _fs_address,
+            _fs_abi,
+            _fs_bytecode,
+            _fs_compiler_output,
+
+            _method_object,
+            _publication_namespace,
+            _file_hash,
+            _checkpoint_file_path,
+            _chunks_files_paths_prefix,
+            _chunks_indexes
           ];
         try {
           _chunks_corrupted =
-            _chunks_check.apply(
+            _chunks_verify.apply(
               null,
-              _chunks_check_args);
+              _chunks_verify_args);
         }
         catch(
           _error) {
