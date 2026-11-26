@@ -52,6 +52,9 @@ const
 const
   _dir_exists =
     _libcrash._dir_exists;
+const
+  _dirname =
+    _libcrash._dirname;
 /* global
      _du */
 const
@@ -338,6 +341,71 @@ function
     }
   }
   return _cache_dir;
+}
+
+function
+  _checkpoint_file_path_check(
+    _checkpoint_file_path) {
+  let
+    _msg;
+  const
+    _checkpoint_file_path_type =
+      typeof(
+        _checkpoint_file_path);
+  if ( _checkpoint_file_path_type === "undefined" ) {
+    _msg =
+      "Checkpoint file path is undefined, " +
+      "not saving to file.";
+    _msg_info(
+      _msg);
+    _checkpoint_file_path =
+      "";
+  }
+  else if ( _checkpoint_file_path_type === "object" ) {
+    if ( _checkpoint_file_path === null ) {
+      _msg =
+        "Checkpoint file path is 'null', " +
+        "not saving to file.";
+      _msg_info(
+        _msg);
+      _checkpoint_file_path =
+        "";
+    }
+  }
+  else if ( _checkpoint_file_path_type === "string" ) {
+    if ( _checkpoint_file_path.length < 1 ) {
+      _msg =
+        "Checkpoint file path is " +
+        "an empty string, not saving to file."
+      _msg_info(
+        _msg);
+    }
+  }
+  else {
+    _msg =
+      "Checkpoint file path has type " +
+      `'${_checkpoint_file_path_type}', ` +
+      "but it should be a file path.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  const
+    _checkpoint_dir =
+      _dirname(
+        _checkpoint_file_path);
+  if ( ! _dir_exists(
+           _checkpoint_dir) ) {
+    _msg =
+      "Checkpoint file path directory " +
+      `'${_checkpoint_dir}' does not exist.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  return _checkpoint_file_path;
 }
 
 function

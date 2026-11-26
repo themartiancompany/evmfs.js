@@ -401,6 +401,20 @@ async function
     _msg,
     _progress,
     _tx;
+  try {
+    _checkpoint_file_path =
+      _checkpoint_file_path_check(
+        _checkpoint_file_path);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_checkpoint_file_path_check'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
   if ( typeof(
          _retries_max) === "undefined" ||
        _retries_max == "" ) {
