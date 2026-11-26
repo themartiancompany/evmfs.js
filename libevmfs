@@ -1957,7 +1957,6 @@ async function
     _chunks_corrupted,
     _chunks_files_paths,
     _chunks_locked,
-    _chunks_files_paths,
     _chunks_publish_args,
     _cursor,
     _file,
