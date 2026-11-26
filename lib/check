@@ -89,6 +89,9 @@ const
   _common_module =
     await import(
       "./common");
+const
+  _chunk_file_path_check =
+    _common_module._chunk_file_path_check;
 /* global
      _method_object_check */
 const
@@ -101,13 +104,6 @@ const
 const
   _chunk_get =
     _chunks_get_module._chunk_get;
-const
-  _common_module =
-    await import(
-      "./common");
-const
-  _chunk_file_path_check =
-    _common_module._chunk_file_path_check;
 
 function
   _global_variables() {
