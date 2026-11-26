@@ -830,23 +830,25 @@ async function
     }
     _checkpoint_index =
       _index.toString();
-    try {
-      _file_write(
-        _checkpoint_file_path,
-        _checkpoint_index);
-    }
-    catch(
-      _error) {
-      _msg =
-        "Error writing current checkpoint " +
-        `index '${_checkpoint_index}' at path ` +
-        `'${_checkpoint_file_path}'.`;
-      _msg_error(
-        _msg,
-        0);
-      _echo2(
-        _error);
-      throw _error;
+    if ( _checkpoint_file_path != "" ) {
+      try {
+        _file_write(
+          _checkpoint_file_path,
+          _checkpoint_index);
+      }
+      catch(
+        _error) {
+        _msg =
+          "Error writing current checkpoint " +
+          `index '${_checkpoint_index}' at path ` +
+          `'${_checkpoint_file_path}'.`;
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _error);
+        throw _error;
+      }
     }
     _progress =
       _progress + 1;

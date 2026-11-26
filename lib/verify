@@ -435,14 +435,42 @@ async function
     _chunks_checked_total =
       _chunks_checked.length;
     if ( _chunks_checked_total == 1 ) {
+      const
+        _index_checkpoint =
+          _index.toString()
       if ( _chunks_checked[0] == true ) {
-        _file_write(
-          _checkpoint_file_path,
-          _index.toString());
+        const
+          _index_checkpoint =
+            _index.toString()
+        if ( _checkpoint_file_path != "" ) {
+          try {
+            _file_write(
+              _checkpoint_file_path,
+              _index_checkpoint);
+          }
+          catch(
+            _error) {
+            _msg =
+              "Error writing current checkpoint " +
+              `index '${_index_checkpoint}' at path ` +
+              `'${_checkpoint_file_path}'.`;
+            _msg_error(
+              _msg,
+              0);
+            _echo2(
+              _error);
+            throw _error;
+          }
+	}
+        else {
+          _msg =
+            "Saving last checked index " +
+            `'${_index_checkpoint}'`
+	}
       }
       else if ( _chunks_checked[0] == false ) {
         _msg =
-          `Chunk with index ${_index.toString()} ` +
+          `Chunk with index ${_index_checkpoint} ` +
 	  `has not been published.`;
         throw _msg;
       }

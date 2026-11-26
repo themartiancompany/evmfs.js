@@ -389,7 +389,8 @@ async function
     _file_hash,
     _index_start,
     _index_end,
-    _checkpoint_file_path) {
+    _checkpoint_file_path,
+    _locked_method_object) {
   let
     _checkpoint_index,
     _lock_call_args,
@@ -449,8 +450,20 @@ async function
   const
     _wallet_password =
       "";
-  _locked_method_object =
-    "";
+  try {
+    _locked_method_object =
+      _method_object_check(
+        _locked_method_object);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_checkpoint_file_path_check'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
   const
     _lock_call_base_args = [
       _retries_max,
@@ -563,9 +576,11 @@ async function
     }
     _checkpoint_index =
       _index.toString();
-    _file_write(
-      _checkpoint_file_path,
-      _checkpoint_index);
+    if ( _checkpoint_file_path != "" ) {
+      _file_write(
+        _checkpoint_file_path,
+        _checkpoint_index);
+    }
     _progress =
       _progress + 1;
   }
