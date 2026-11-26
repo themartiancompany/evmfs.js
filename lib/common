@@ -638,6 +638,8 @@ async function
 function
   _method_object_check(
     _method_object) {
+  let
+    _msg;
   const
     _method_object_type =
       typeof(
