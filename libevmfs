@@ -2300,7 +2300,7 @@ async function
           _file_sum,
           _index_start,
           _index_end,
-          _checkpoint_lock_path) {
+          _checkpoint_lock_path
         ];
       try {
         _chunks_locked =
