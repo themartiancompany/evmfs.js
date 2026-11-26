@@ -477,6 +477,8 @@ async function
     _msg =
       "Chunk length is undefined, " +
       "auto-detecting.";
+    _msg_info(
+      _msg);
     _chunk_length_get =
       true;
   }
@@ -485,6 +487,8 @@ async function
       _msg =
         "Chunk length is an empty string, " +
         "auto-detecting.";
+      _msg_info(
+        _msg);
       _chunk_length_get =
         true;
     }
@@ -494,6 +498,8 @@ async function
       _msg =
         "Chunk length is non-positive number, " +
         "auto-detecting.";
+      _msg_info(
+        _msg);
       _chunk_length_get =
         true;
     }
@@ -503,6 +509,8 @@ async function
       _msg =
         "Chunk length is an empty object, " +
         "auto-detecting.";
+      _msg_info(
+        _msg);
       _chunk_length_get =
         true;
     }
@@ -512,6 +520,9 @@ async function
       "Chunk length has type " +
       `'${_chunk_length_type}', it should be a ` +
       "positive integer.";
+    _msg_error(
+      _msg,
+      0);
     throw _msg;
   }
   if ( _chunk_length_get ) {
