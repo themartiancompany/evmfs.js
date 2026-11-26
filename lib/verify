@@ -303,9 +303,21 @@ async function
     _index,
     _msg,
     _progress;
-  if ( _method_object == undefined ) {
+  try {
     _method_object =
-      "";
+      _method_object_check(
+        _method_object);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_method_object_check'.";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
   }
   _chunks_checked =
     [];
