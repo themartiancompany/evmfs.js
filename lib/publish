@@ -53,6 +53,12 @@ const
   _cmdline_check =
     _libcrash._cmdline_check;
 const
+  _dir_exists =
+    _libcrash._dir_exists;
+const
+  _dirname =
+    _libcrash._dirname;
+const
   _echo =
     _libcrash._echo;
 const
@@ -514,6 +520,28 @@ function
   return _price_gas;
 }
 
+function
+  _checkpoint_file_path_check(
+    _checkpoint_file_path) {
+  let
+    _msg;
+  const
+    _checkpoint_dir =
+      _dirname(
+        _checkpoint_file_path);
+  if ( ! _dir_exists(
+           _checkpoint_dir) ) {
+    _msg =
+      "Checkpoint file path directory " +
+      `'${_checkpoint_dir}'.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  return _checkpoint_file_path;
+}
+
 async function
   _chunks_publish(
     _retries_max,
@@ -551,6 +579,20 @@ async function
     _published,
     _tx;
   try {
+    _checkpoint_file_path =
+      _checkpoint_file_path_check(
+        _checkpoint_file_path);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_checkpoint_file_path_check'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  try {
     _method_object =
       _method_object_check(
         _method_object);
@@ -558,7 +600,7 @@ async function
   catch(
     _error) {
     _msg =
-      "Error running '_price_gas_check'.";
+      "Error running '_method_object'.";
     _msg_error(
       _msg,
       0);

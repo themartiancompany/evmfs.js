@@ -467,7 +467,7 @@ async function
     ];
   const
     _chunks_total =
-      _index_end - index_start + 1;
+      _index_end - _index_start + 1;
   _input_data_check(
     _chunks_total);
   _progress =
@@ -515,9 +515,23 @@ async function
         _chunks_total);
     }
     else if ( _locked == false ) {
-      _tx = await
-        _chunk_lock(
-          _lock_call_args);
+      try { 
+        _tx =
+          await _chunk_lock(
+            _lock_call_args);
+      }
+      catch(
+        _error) {
+        _msg =
+          "Error running '_chunk_lock', " +
+          "omitting arguments because they are unsanitized.";
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _error);
+        throw _error;
+      }
       _msg_info_chunk_locked(
         _tx,
         _index,
