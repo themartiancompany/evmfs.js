@@ -290,7 +290,7 @@ function
       3;
   const
     _buffer_length_type =
-      _typeof(
+      typeof(
         _buffer_length);
   _buffer_length_get =
     false;
@@ -444,7 +444,7 @@ function
     if ( _checkpoint_file_path.length < 1 ) {
       _msg =
         "Checkpoint file path is " +
-        "an empty string, not saving to file."
+        "an empty string, not saving to file.";
       _msg_info(
         _msg);
     }
