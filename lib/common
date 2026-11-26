@@ -303,6 +303,7 @@ function
       true;
   else if ( _buffer_length_type === "number" ) {
     true;
+  }
   else if ( _buffer_length_type === "string" ) {
     if ( _buffer_length.length < 1 ) {
       _buffer_length_get =

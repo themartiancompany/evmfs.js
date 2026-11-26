@@ -397,7 +397,6 @@ async function
     _locked,
     _locked_call_base_args,
     _locked_call_args,
-    _locked_method_object,
     _method_args,
     _msg,
     _progress,

@@ -2291,7 +2291,7 @@ async function
           _file);
         if ( 0 < _chunks_unverified.length ) {
           _msg =
-            "There are chunks left to verify."
+            "There are chunks left to verify.";
           _msg_info(
             _msg);
         }
