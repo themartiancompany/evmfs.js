@@ -665,7 +665,7 @@ function
   }
   else {
     _msg =
-      "The method object variable should be "
+      "The method object variable should be " +
       "an Ethers Contract Method object, but has " +
       `type '${_method_object_type}'.`;
     _msg_error(
