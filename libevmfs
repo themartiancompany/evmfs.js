@@ -2280,27 +2280,11 @@ async function
         _msg =
           "Publishing checkpoint reports same value " +
           `'${_index_checkpoint}' as end index '${_index_end}', ` +
-          "publication complete, removing checkpoint file, " +
-          "checking uploaded chunks.";
+          "publication complete, checking uploaded chunks.";
         _msg_info(
           _msg);
         _publish_skip =
           "y";
-        try {
-          _rm(
-            _checkpoint_file_path);
-        }
-        catch(
-          _error) {
-          _msg =
-            "Error removing checkpoint file.";
-          _msg_error(
-            _msg,
-            0);
-          _echo2(
-            _error);
-          throw _error;
-	}
       }
       _chunks_publish_args = [
         _retries_max,
@@ -2342,7 +2326,7 @@ async function
               _chunks_publish_args);
             throw _error;
           }
-	}
+        }
         else if ( _publish_skip == "y" ) {
           _chunks_unverified =
             [];
@@ -2354,7 +2338,7 @@ async function
               _chunk]);
             _index_unverified =
               _index_unverified + 1;
-	  }
+          }
         }
         else {
           _msg =
@@ -2363,7 +2347,7 @@ async function
           _msg_error(
             _msg,
             0);
-	}
+        }
         _uploaded_files.push(
           _file);
         if ( 0 < _chunks_unverified.length ) {
@@ -2450,12 +2434,31 @@ async function
           _echo2(
             _error);
           throw _error;
-	}
+        }
       }
       _msg =
         "Chunks correctly verified.";
       _msg_info(
         _msg);
+      _msg =
+        "Removing publishing checkpoint file.";
+      _msg_info(
+        _msg);
+      try {
+        _rm(
+          _checkpoint_file_path);
+      }
+      catch(
+        _error) {
+        _msg =
+          "Error removing checkpoint file.";
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _error);
+        throw _error;
+      }
       const
         _chunks_lock_args = [
           _retries_max,
