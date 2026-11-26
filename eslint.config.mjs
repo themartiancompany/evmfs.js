@@ -35,7 +35,7 @@ function
     _file;
   for ( _file of _libs ) {
     _files.push(
-      _file);
+      `**/lib/${_file}`);
   }
   return _files;
 }
@@ -54,31 +54,23 @@ const
      "man/**"
   ];
 const
-  _libs = [
-    "ccget",
-    "check",
-    "common",
-    "get"
-    "index",
-    "lengthlock",
-    "lock",
-    "publish",
-    "publish_bulk",
-    "verify"
-  ];
-const
   _files = [
-     "**/*.{js,mjs,cjs}",
-     `**/${_project}*`,
-     `**/lib/*`,
-     `**/lib/**`,
-     `**/lib${_project}`
+    "**/*.{js,mjs,cjs}",
+    `**/${_project}*`,
+    `**/lib/*`,
+    `**/lib/**`,
+    `**/lib${_project}`,
+    "**/lib/ccget",
+    "**/lib/check",
+    "**/lib/common",
+    "**/lib/get"
+    "**/lib/index",
+    "**/lib/lengthlock",
+    "**/lib/lock",
+    "**/lib/publish",
+    "**/lib/publish_bulk",
+    "**/lib/verify"
   ];
-const
-  _files_mjs =
-    _lib_add(
-      _files,
-      _libs);
 
 export default defineConfig([
  {
@@ -90,7 +82,7 @@ export default defineConfig([
        "prefer-const":
          "error" },
    files:
-     _files_mjs,
+     _files,
    plugins:
      { js },
    extends:
