@@ -2283,7 +2283,8 @@ async function
                 _work_dir,
                 `${_file_sum}.base64`
 	      ])
-	    ];
+            ];
+        }
         else if ( 1 < _chunks_total ) {
           _indexes =
             _seq(
