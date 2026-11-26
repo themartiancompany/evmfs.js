@@ -561,6 +561,13 @@ async function
     _publish_call_opts,
     _published,
     _tx;
+  const
+    _global =
+      _global_get();
+  const
+    _quiet =
+      _global[
+        "quiet"];
   try {
     _checkpoint_file_path =
       _checkpoint_file_path_check(
@@ -748,6 +755,28 @@ async function
     // _method_object gets immediately updated
     // or I need to re-init the array so just
     // in case we re-init whole array.
+    _msg =
+      "Contract method object got from " +
+      "'_chunk_check':";
+    _msg_info( 
+      _msg);
+    if ( _quiet == "n" ) {
+      _echo( 
+        _method_object);
+    }
+    _msg =
+      "Displaying '_check_call_base_opts' " +
+      "eighth item (index 7), current method object:";
+    _msg_info(
+      _msg);
+    if ( _quiet == "n" ) {
+      const
+        _method_object_current =
+        _check_call_base_opts[
+          7];
+      _echo( 
+        _method_object_current);
+    }
     if ( _check_call_base_opts[7] == "" ) {
       _msg =
         "Reusing contract method object.";
