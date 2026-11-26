@@ -396,6 +396,7 @@ async function
       // _method_object gets immediately updated
       // or I need to re-init the array so just
       // in case we re-init whole array.
+      /* eslint-disable-next-line */
       _chunks_check_args = [
         _retries_max,
         _api_key_path,

@@ -1747,9 +1747,10 @@ function
       throw _msg;
     }
     else {
-      _encoding_skip_keys =
-        Object.keys(
-          _encoding_skip);
+      const
+        _encoding_skip_keys =
+          Object.keys(
+            _encoding_skip);
       if ( _encoding_skip_keys.length < 1 ) {
         _msg =
           "Variable 'encoding skip' is an empty object, " +

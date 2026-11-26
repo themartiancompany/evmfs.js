@@ -59,7 +59,7 @@ const
     _libcrash._du;
 const
   _echo2 =
-    _libcrash._echo2
+    _libcrash._echo2;
 const
   _file_exists =
     _libcrash._file_exists;
@@ -75,6 +75,9 @@ const
 const
   _path_join =
     _libcrash._path_join;
+const
+  _require =
+    _libcrash._require;
 const
   _set =
     _libcrash._set;
@@ -567,7 +570,7 @@ async function
           _msg =
             "Encoding lengths directory " +
             `'${_encoding_lengths_dir}' not found, ` +
-            `setting default value '${_default}'.`
+            `setting default value '${_default}'.`;
           _msg_info(
             _msg);
           _chunk_length =
@@ -612,12 +615,12 @@ async function
     _path) {
   let
     _msg,
+    _size,
     _sum;
   try {
-    const
-      [ _size ] =
-        await _du(
-          _path);
+    [ _size ] =
+      await _du(
+        _path);
   }
   catch(
     _error) {

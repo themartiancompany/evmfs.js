@@ -83,6 +83,9 @@ const
   _override_set =
     _libcrash._override_set;
 const
+  _seq =
+    _libcrash._seq;
+const
   _set =
     _libcrash._set;
 const
@@ -343,14 +346,15 @@ function
       typeof(
         _chunks_files_paths);
   if ( _chunks_files_paths_type !== "undefined" ) {
-    _chunks_total =
-      _chunks_files_paths.length;
+    const
+      _chunks_total =
+        _chunks_files_paths.length;
     _msg =
       `Checking '${_chunks_total}' chunks.`;
     _msg_info(
       _msg);
   }
-  if ( _chunks_files_paths_types === "undefined" ) {
+  if ( _chunks_files_paths_type === "undefined" ) {
     _msg =
       "No chunks files provided";
     _msg_error(
@@ -376,6 +380,10 @@ function
     if ( _chunks_files_paths_keys.length < 1 ) {
       _msg =
         "Chunks files paths object array is empty.";
+      _msg_error(
+        _msg,
+        0);
+      throw _msg;
     }
     else {
       const
