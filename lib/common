@@ -301,6 +301,7 @@ function
       _msg);
     _buffer_length_get =
       true;
+  }
   else if ( _buffer_length_type === "number" ) {
     true;
   }

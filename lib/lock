@@ -97,6 +97,11 @@ const
 const
   _checkpoint_file_path_check =
     _common_module._checkpoint_file_path_check;
+/* global
+     _method_object_check */
+const
+  _method_object_check =
+    _common_module._method_object_check;
 const
   _evm_contracts_tools_module =
     await _require(
