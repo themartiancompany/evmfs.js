@@ -2274,7 +2274,7 @@ async function
         //     _chunks_files_paths.push(
         //       _path);
         //   }
-	// }
+        // }
         _chunks_total =
           _index_end + 1;
         if ( _chunks_total < 1 ) {
@@ -2286,14 +2286,14 @@ async function
             _msg,
             0);
           throw _msg;
-	}
+        }
         else if ( _chunks_total == 1 ) {
-            _chunks_files_paths = [
-              _path_join([
-                _work_dir,
-                `${_file_sum}.base64`
-	      ])
-            ];
+          _chunks_files_paths = [
+            _path_join([
+              _work_dir,
+              `${_file_sum}.base64`
+	    ])
+          ];
         }
         else if ( 1 < _chunks_total ) {
           _indexes =
@@ -2302,14 +2302,13 @@ async function
               _chunks_total);
           _chunks_files_paths =
             [];
-	  }
           for ( _index of _indexes ) {
             _chunks_files_paths.push(
               _path_join([
                 _work_dir,
                 `${_file_sum}.base64.${_index}`
 	      ]));
-	  }
+          }
         }
       }
       _publish_skip =
