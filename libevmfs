@@ -2289,7 +2289,7 @@ async function
         }
         _uploaded_files.push(
           _file);
-        if ( 0 _chunks_unverified.length ) {
+        if ( 0 < _chunks_unverified.length ) {
           _msg =
             "There are chunks left to verify."
           _msg_info(
