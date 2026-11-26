@@ -97,6 +97,15 @@ const
 const
   _contract_call_static =
     _evm_contracts_tools_module._contract_call_static;
+const
+  _common_module =
+    await import(
+      "./common");
+/* global
+     _checkpoint_file_path_check */
+const
+  _checkpoint_file_path_check =
+    _common_module._checkpoint_file_path_check;
 
 function
   _global_variables() {
@@ -415,6 +424,20 @@ async function
     _method_args,
     _msg,
     _progress;
+  try {
+    _checkpoint_file_path =
+      _checkpoint_file_path_check(
+        _checkpoint_file_path);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_checkpoint_file_path_check'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
   const
     _locks =
       [];

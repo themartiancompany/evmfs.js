@@ -103,6 +103,15 @@ const
 const
   _references_read =
     _chunks_ccget_module._references_read;
+const
+  _common_module =
+    await import(
+      "./common");
+/* global
+     _checkpoint_file_path_check */
+const
+  _checkpoint_file_path_check =
+    _common_module._checkpoint_file_path_check;
 
 function
   _global_variables() {
@@ -333,8 +342,7 @@ async function
     _index_end,
     _chunk_chain_id,
     _chunk_fs_address,
-    _checkpoint_file_path
-  ) {
+    _checkpoint_file_path) {
   let
     _checkpoint_index,
     _chunk_fs,
@@ -347,6 +355,20 @@ async function
     _progress,
     _reference,
     _tx;
+  try {
+    _checkpoint_file_path =
+      _checkpoint_file_path_check(
+        _checkpoint_file_path);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_checkpoint_file_path_check'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
   if ( typeof(
          _call_timeout) === "undefined" ||
        _call_timeout == "" ) {
