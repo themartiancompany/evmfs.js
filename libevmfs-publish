@@ -274,198 +274,6 @@ const
     _encoding_tools_module._txt2bin;
 
 function
-  _call_timeout_auto_detect() {
-  let
-    _call_timeout,
-    _msg;
-  const
-    _target_command =
-      _get(
-        "target",
-        "command");
-  if ( _target_command === "get" ) {
-    _call_timeout =
-      3000;
-  }
-  else if ( _target_command === "publish" ) {
-    _call_timeout =
-      60000;
-  }
-  else {
-    _msg =
-      `Unknown command '${_target_command}'.`;
-    _msg_error(
-      _msg,
-      0);
-    throw _msg;
-  }
-  _override_set(
-    "call",
-    "timeout",
-    _call_timeout);
-}
-
-function
-  _tasks_parallel_auto_detect() {
-  let
-    _msg,
-    _tasks_parallel;
-  const
-    _target_command =
-      _get(
-        "target",
-        "command");
-  if ( _target_command === "get" ) {
-    _tasks_parallel =
-      1;
-  }
-  else if ( _target_command === "publish" ) {
-    _tasks_parallel =
-      1;
-  }
-  else {
-    _msg =
-      `Unknown command '${_target_command}'.`;
-    _msg_error(
-      _msg,
-      0);
-    throw _msg;
-  }
-  _override_set(
-    "tasks",
-    "parallel",
-    _tasks_parallel);
-}
-
-async function
-  _contracts_auto_detect() {
-  let
-    _contract_setup_auto_detect_args,
-    _msg;
-  const
-    _contract_version =
-      _get(
-        "contract",
-        "version");
-  const
-    _target_networks =
-      _get(
-        "target",
-        "networks");
-  const
-    _configuration_format =
-      _get(
-        "configuration",
-        "format");
-  const
-    _target_network =
-      _target_networks[
-        0];
-  const
-    _user_level =
-      _get(
-        "user",
-        "level");
-  const
-    _deployments_dir =
-      _get(
-        "deployments",
-        "dir");
-  const
-    _contracts_package =
-      "evmfs-contracts";
-  _contract_setup_auto_detect_args = [
-    "evmfs",                  // application name
-    "FileSystem",             // contract name
-    "fs",                     // contract short name
-    _contract_version,
-    _target_network,
-    _user_level,
-    _deployments_dir,
-    _contracts_package,
-    _configuration_format
-  ];
-  try {
-    await _contract_setup_auto_detect.apply(
-      null,
-      _contract_setup_auto_detect_args);
-  }
-  catch(
-    _error) {
-    _msg =
-      "Error running '_contract_setup_auto_detect' " +
-      "with arguments:";
-    _msg_error(
-      _msg,
-      0);
-    _echo2(
-      _error);
-    throw _error;
-  }
-  _contract_setup_auto_detect_args = [
-    "evmfs",                  // application name
-    "CrossChainFileSystem",   // contract name
-    "ccfs",                   // contract short name
-    _contract_version,
-    _target_network,
-    _user_level,
-    _deployments_dir,
-    _contracts_package,
-    _configuration_format
-  ];
-  try {
-    await _contract_setup_auto_detect.apply(
-      null,
-      _contract_setup_auto_detect_args);
-  }
-  catch(
-    _error) {
-    _msg =
-      "Error running '_contract_setup_auto_detect' " +
-      "with arguments:";
-    _msg_error(
-      _msg,
-      0);
-    _echo2(
-      _error);
-    throw _error;
-  }
-  _contract_setup_auto_detect_args = [
-    "evmfs",                  // application name
-    "LengthLock",             // contract name
-    "ll",                     // contract short name
-    _contract_version,
-    _target_network,
-    _user_level,
-    _deployments_dir,
-    _contracts_package,
-    _configuration_format
-  ];
-  try {
-    await _contract_setup_auto_detect.apply(
-      null,
-      _contract_setup_auto_detect_args);
-    _msg =
-      "Got LengthLock address " +
-      `'${ll_address}'.`;
-    _msg_info(
-      _msg);
-  }
-  catch(
-    _error) {
-    _msg =
-      "Error running '_contract_setup_auto_detect' " +
-      "with arguments:";
-    _msg_error(
-      _msg,
-      0);
-    _echo2(
-      _error);
-    throw _error;
-  }
-}
-
-function
   _address_section_get(
     _uri,
     _position) {
@@ -737,152 +545,6 @@ async function
       0);
     throw _msg;
   }
-}
-
-async function
-  _contract_type_get(
-    _contract_address,
-    _fs_version,
-    _target_networks,
-    _user_level,
-    _configuration_format,
-    _deployments_dir) {
-  let
-    _address,
-    _contract_addresses,
-    _evm_contract_deployment_address_args,
-    _msg,
-    _network,
-    _type;
-  const
-    _results =
-      [];
-  const
-    _contracts_types = [
-      "FileSystem",
-      "CrossChainFileSystem"
-    ];
-  _network =
-    _target_networks[
-      0];
-  const
-    _network_type =
-      typeof(
-        _network);
-  _msg =
-    "Looking for contract types " +
-    `having address '${_contract_address}'.`;
-  _msg_info(
-    _msg);
-  if ( _network_type === "undefined" ) {
-    for ( _type of _contracts_types ) {
-      _evm_contract_deployment_address_args = [
-        [],                  // target networks
-        [],                  // networks ids
-        "n",                 // all networks
-        "evmfs",
-        _type,
-        _fs_version,
-        _user_level,
-        _configuration_format,
-        _deployments_dir,
-        "object"
-      ];
-      try {
-        _contract_addresses =
-          await _evm_contract_deployment_address.apply(
-            null,
-            _evm_contract_deployment_address_args);
-      }
-      catch(
-        _error) {
-        _msg =
-          "Error locally retrieving " +
-          "contract address.";
-        _msg_error(
-          _msg);
-        _echo2(
-          _error);
-        throw _error;
-      }
-      for ( _network in _contract_addresses ) {
-        _address =
-          _contract_addresses[
-            _network];
-        if ( _address === _contract_address ) {
-          _results.push([
-            _type,
-            _network, 
-            _address
-          ]);
-        }
-      }
-    }
-  }
-  else {
-    for ( _type of _contracts_types ) {
-      _evm_contract_deployment_address_args = [
-        _target_networks,    // target networks
-        _target_networks,    // networks ids
-        "n",                 // all networks
-        "evmfs",
-        _type,
-        _fs_version,
-        _user_level,
-        _configuration_format,
-        _deployments_dir,
-        "object"
-      ];
-      try {
-        _contract_addresses =
-          await _evm_contract_deployment_address.apply(
-            null,
-            _evm_contract_deployment_address_args);
-      }
-      catch(
-        _error) {
-        _msg =
-          "Error locally retrieving " +
-          "contract address.";
-        _msg_error(
-          _msg);
-        _echo2(
-          _error);
-        throw _error;
-      }
-      for ( _network in _contract_addresses ) {
-        _address =
-          _contract_addresses[
-            _network];
-        if ( _address === _contract_address ) {
-          _results.push([
-            _type,
-            _network, 
-            _address
-          ]);
-        }
-      }
-    }
-  }
-  if ( 1 < _results.length ) {
-    _msg =
-      "More than a file system type corresponding " +
-      "found for the given contract:";
-    _msg_info(
-      _msg);
-    const
-      _global =
-        _global_get();
-    const
-      _quiet =
-        _global[
-          "quiet"];
-    if ( _quiet === "n" ) {
-      _echo(
-        _results);
-    }
-  }
-  return _results;
 }
 
 async function
@@ -2437,14 +2099,13 @@ function
 // ES6 module export
 
 export {
-  _call_timeout_auto_detect,
   _check_module,
   _chunk_lengths_auto_detect,
   _common_module,
   _contract_get,
   _contract_setup,
-  _contracts_auto_detect,
   _encoding_type_check,
+  _encoding_skip_check,
   _evmfs_publish,
   _hash_check,
   _hash_get,
@@ -2457,25 +2118,22 @@ export {
   _network_id_get,
   _publish_module,
   _publish_bulk_module,
-  _tasks_parallel_auto_detect,
   _verify_module,
 };
 
 // Common JS exports
 
 // module.exports = {
-//   _call_timeout_auto_detect:
-//     _call_timeout_auto_detect,
 //   _chunk_lengths_auto_detect:
 //     _chunk_lengths_auto_detect,
 //   _common_module:
 //     _common_module,
 //   _check_module:
 //     _check_module,
-//   _contracts_auto_detect:
-//     _contracts_auto_detect,
 //   _deployments_dir_auto_detect:
 //     _deployments_dir_auto_detect,
+//   _encoding_skip_check:
+//     _encoding_skip_check,
 //   _evmfs_publish:
 //     _evmfs_publish,
 //   _index_module:
@@ -2488,8 +2146,6 @@ export {
 //     _publish_module,
 //   _publish_bulk_module:
 //     _publish_bulk_module,
-//   _tasks_parallel_auto_detect:
-//     _tasks_parallel_auto_detect,
 //   _verify_module:
 //     _verify_module,
 // };

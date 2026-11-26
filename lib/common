@@ -752,6 +752,83 @@ async function
   return _chunk_length;
 }
 
+function
+  _hash_get(
+    _uri) {
+  let
+    _hash;
+  try {
+    _hash =
+      _address_section_get(
+        _uri,
+        0);
+  }
+  catch(
+    _error) {
+    const
+      _msg =
+        "Error extracting hash " +
+        `from URI '${_uri}'.`;
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _msg);
+    throw _error;
+  }
+  return _hash;
+}
+
+function
+  _namespace_get(
+    _uri) {
+  let
+    _namespace;
+  try {
+    _namespace =
+      _address_section_get(
+        _uri,
+        1);
+  }
+  catch(
+    _error) {
+    const
+      _msg =
+        "Error extracting namespace " +
+        `from URI '${_uri}'.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  return _namespace;
+}
+
+function
+  _contract_get(
+    _uri) {
+  let
+    _contract;
+  try {
+    _contract =
+      _address_section_get(
+        _uri,
+        2);
+  }
+  catch(
+    _error) {
+    const
+    _msg =
+      "Error extracting contract address " +
+      `from URI '${_uri}'.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  return _contract;
+}
+
 async function
   _file_hash(
     _path) {
@@ -1135,14 +1212,17 @@ export {
   _checkpoint_file_path_check,
   _chunk_file_path_check,
   _chunk_length_check,
+  _contract_get,
   _encoding_type_check,
   _global_variables_common,
   _global_variables_evmfs_get,
   _global_variables_evmfs_publish,
   _file_hash,
+  _hash_get,
   _index_end_check,
   _input_data_check,
   _method_object_check,
+  _namespace_get,
   _msg_info_chunk_get,
   _msg_info_chunk_got,
   _msg_info_chunk_published,
@@ -1161,8 +1241,12 @@ export {
 //     _chunk_length_check,
 //   _chunk_file_path_check:
 //     _chunk_file_path_check,
+//   _contract_get:
+//     _contract_get,
 //   _encoding_type_check:
 //     _encoding_type_check,
+//   _hash_get:
+//     _hash_get,
 //   _file_hash:
 //     _file_hash,
 //   _global_variables_common:
@@ -1177,6 +1261,8 @@ export {
 //     _input_data_check,
 //   _method_object_check:
 //     _method_object_check,
+//   _namespace_get:
+//     _namespace_get,
 //   _msg_info_chunk_get:
 //     _msg_info_chunk_get,
 //   _msg_info_chunk_got:

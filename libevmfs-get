@@ -174,6 +174,9 @@ const
   _chunk_length_check =
     _common_module._chunk_length_check;
 const
+  _contract_setup =
+    _common_module._contract_setup;
+const
   _encoding_type_check =
     _common_module._encoding_type_check;
 const
@@ -263,70 +266,6 @@ const
 const
   _txt2bin =
     _encoding_tools_module._txt2bin;
-
-function
-  _call_timeout_auto_detect() {
-  let
-    _call_timeout,
-    _msg;
-  const
-    _target_command =
-      _get(
-        "target",
-        "command");
-  if ( _target_command === "get" ) {
-    _call_timeout =
-      3000;
-  }
-  else if ( _target_command === "publish" ) {
-    _call_timeout =
-      60000;
-  }
-  else {
-    _msg =
-      `Unknown command '${_target_command}'.`;
-    _msg_error(
-      _msg,
-      0);
-    throw _msg;
-  }
-  _override_set(
-    "call",
-    "timeout",
-    _call_timeout);
-}
-
-function
-  _tasks_parallel_auto_detect() {
-  let
-    _msg,
-    _tasks_parallel;
-  const
-    _target_command =
-      _get(
-        "target",
-        "command");
-  if ( _target_command === "get" ) {
-    _tasks_parallel =
-      1;
-  }
-  else if ( _target_command === "publish" ) {
-    _tasks_parallel =
-      1;
-  }
-  else {
-    _msg =
-      `Unknown command '${_target_command}'.`;
-    _msg_error(
-      _msg,
-      0);
-    throw _msg;
-  }
-  _override_set(
-    "tasks",
-    "parallel",
-    _tasks_parallel);
-}
 
 async function
   _contracts_auto_detect() {
@@ -728,301 +667,6 @@ async function
       0);
     throw _msg;
   }
-}
-
-async function
-  _contract_type_get(
-    _contract_address,
-    _fs_version,
-    _target_networks,
-    _user_level,
-    _configuration_format,
-    _deployments_dir) {
-  let
-    _address,
-    _contract_addresses,
-    _evm_contract_deployment_address_args,
-    _msg,
-    _network,
-    _type;
-  const
-    _results =
-      [];
-  const
-    _contracts_types = [
-      "FileSystem",
-      "CrossChainFileSystem"
-    ];
-  _network =
-    _target_networks[
-      0];
-  const
-    _network_type =
-      typeof(
-        _network);
-  _msg =
-    "Looking for contract types " +
-    `having address '${_contract_address}'.`;
-  _msg_info(
-    _msg);
-  if ( _network_type === "undefined" ) {
-    for ( _type of _contracts_types ) {
-      _evm_contract_deployment_address_args = [
-        [],                  // target networks
-        [],                  // networks ids
-        "n",                 // all networks
-        "evmfs",
-        _type,
-        _fs_version,
-        _user_level,
-        _configuration_format,
-        _deployments_dir,
-        "object"
-      ];
-      try {
-        _contract_addresses =
-          await _evm_contract_deployment_address.apply(
-            null,
-            _evm_contract_deployment_address_args);
-      }
-      catch(
-        _error) {
-        _msg =
-          "Error locally retrieving " +
-          "contract address.";
-        _msg_error(
-          _msg);
-        _echo2(
-          _error);
-        throw _error;
-      }
-      for ( _network in _contract_addresses ) {
-        _address =
-          _contract_addresses[
-            _network];
-        if ( _address === _contract_address ) {
-          _results.push([
-            _type,
-            _network, 
-            _address
-          ]);
-        }
-      }
-    }
-  }
-  else {
-    for ( _type of _contracts_types ) {
-      _evm_contract_deployment_address_args = [
-        _target_networks,    // target networks
-        _target_networks,    // networks ids
-        "n",                 // all networks
-        "evmfs",
-        _type,
-        _fs_version,
-        _user_level,
-        _configuration_format,
-        _deployments_dir,
-        "object"
-      ];
-      try {
-        _contract_addresses =
-          await _evm_contract_deployment_address.apply(
-            null,
-            _evm_contract_deployment_address_args);
-      }
-      catch(
-        _error) {
-        _msg =
-          "Error locally retrieving " +
-          "contract address.";
-        _msg_error(
-          _msg);
-        _echo2(
-          _error);
-        throw _error;
-      }
-      for ( _network in _contract_addresses ) {
-        _address =
-          _contract_addresses[
-            _network];
-        if ( _address === _contract_address ) {
-          _results.push([
-            _type,
-            _network, 
-            _address
-          ]);
-        }
-      }
-    }
-  }
-  if ( 1 < _results.length ) {
-    _msg =
-      "More than a file system type corresponding " +
-      "found for the given contract:";
-    _msg_info(
-      _msg);
-    const
-      _global =
-        _global_get();
-    const
-      _quiet =
-        _global[
-          "quiet"];
-    if ( _quiet === "n" ) {
-      _echo(
-        _results);
-    }
-  }
-  return _results;
-}
-
-async function
-  _contract_setup(
-    _contract_address,
-    _target_networks,
-    _fs_version,
-    _user_level,
-    _configuration_format,
-    _deployments_dir) {
-  let
-    _address,
-    _contract_address_get,
-    _contract_type,
-    _contracts_candidates,
-    _msg,
-    _network;
-  _contract_address_get =
-    false;
-  const
-    _contract_address_type =
-      typeof(
-        _contract_address);
-  if ( _contract_address_type === "string" ) {
-    if ( _contract_address.length < 1 ) {
-      _msg =
-        "No EVMFS contract address specified, " +
-        "inferring it automatically.";
-      _msg_info(
-        _msg);
-      _contract_address_get =
-        true;
-    }
-  }
-  else {
-    _msg =
-      `Unknown type '${_contract_address_type}' for ` +
-      "variable contract address.";
-    _msg_warning(
-      _msg);
-  }
-  if ( _contract_address_get ) {
-    const
-      _target_app =
-        "evmfs";
-    const
-      _evm_contract_deployment_address_args = [
-        _target_networks,
-        _target_networks,
-        "n",                 // all networks
-        _target_app,
-        "FileSystem",
-        _fs_version,
-        _user_level,
-        _configuration_format,
-        _deployments_dir
-      ];
-    try {
-      const
-        _global =
-          _global_get();
-      const
-        _quiet =
-          _global[
-            "quiet"];
-      _msg =
-        "Running '_evm_contract_deployment_address' " +
-        "with arguments:";
-      if ( _quiet === "n" ) {
-        _echo(
-          _evm_contract_deployment_address_args);
-      }
-      _contract_address =
-        await _evm_contract_deployment_address.apply(
-          null,
-          _evm_contract_deployment_address_args);
-    }
-    catch(
-      _error) {
-      _msg =
-        "Error locally retrieving " +
-        "contract address.";
-      _msg_error(
-        _msg);
-      _echo2(
-        _error);
-      throw _error;
-    }
-  }
-  else {
-    const
-      _contract_type_get_args = [
-        _contract_address,
-        _fs_version,
-        _target_networks,
-        _user_level,
-        _configuration_format,
-        _deployments_dir
-      ];
-    try {
-      _contracts_candidates =
-        await _contract_type_get.apply(
-          null,
-          _contract_type_get_args);
-    }
-    catch(
-      _error) {
-      _msg =
-        "Error running '_contract_type_get' " +
-        "with arguments:";
-      _msg_error(
-        _msg,
-        0);
-      _echo2(
-        _contract_type_get_args);
-      _echo2(
-        _error);
-      throw _error;
-    }
-  }
-  if ( 1 === _contracts_candidates.length ) {
-    [ _contract_type ] =
-      _contracts_candidates[
-        0];
-  }
-  else if ( 1 < _contracts_candidates.length ) {
-    _msg =
-      "Found more than a contract type, " +
-      "assuming the cross-chain one is the " +
-      "correct one because exist check can be " +
-      "postponed to a future release.";
-    _msg_info(
-      _msg);
-    _echo(
-      _contracts_candidates);
-    _msg_warning(
-      _msg);
-    for ( [ _contract_type,
-            _network,
-            _address ] of _contracts_candidates ) {
-      if ( _address === _contract_address ) {
-        break;
-      }
-    }
-  }
-  return [
-    _contract_address,
-    _contract_type
-  ];
 }
 
 async function
@@ -1548,239 +1192,6 @@ async function
   _msg_info(
     _msg);
   return _chunks;
-}
-
-function
-  _encoding_skip_check(
-    _encoding_skip) {
-  let
-    _encoding_skip_get,
-    _msg;
-  _encoding_skip_get =
-    false;
-  const
-    _default =
-      "n";
-  const
-    _encoding_skip_type =
-      typeof(
-        _encoding_skip);
-  if ( _encoding_skip_type === "undefined" ) {
-    _msg =
-      "Variable 'encoding skip' is undefined, " +
-      `setting default '${_default}'.`;
-    _msg_info(
-      _msg);
-    _encoding_skip_get =
-      true;
-  }
-  else if ( _encoding_skip_type === "string" ) {
-    if ( _encoding_skip.length < 1 ) {
-      _msg =
-        "Variable 'encoding skip' is an empty string, " +
-        `setting default '${_default}'.`;
-      _msg_info(
-        _msg);
-      _encoding_skip_get =
-        true;
-    }
-  }
-  else if ( _encoding_skip_type === "boolean" ) {
-    if ( _encoding_skip ) {
-      _encoding_skip =
-        "y";
-    }
-    else {
-      _encoding_skip =
-        "n";
-    }
-  }
-  else if ( _encoding_skip_type === "object" ) {
-    if ( _encoding_skip === null ) {
-      _msg =
-        "Encoding skip variable should be 'y' or 'n'.";
-      _msg_error(
-        _msg,
-        0);
-      throw _msg;
-    }
-    else {
-      const
-        _encoding_skip_keys =
-          Object.keys(
-            _encoding_skip);
-      if ( _encoding_skip_keys.length < 1 ) {
-        _msg =
-          "Variable 'encoding skip' is an empty object, " +
-          `setting default '${_default}'.`;
-        _msg_info(
-          _msg);
-        _encoding_skip_get =
-          true;
-      }
-      else {
-        _msg =
-          "Encoding skip variable should " +
-          "be 'y' or 'n', not an object:";
-        _msg_error(
-          _msg,
-          0);
-        _echo2(
-          _encoding_skip);
-        throw _msg;
-      }
-    }
-  }
-  else {
-    _msg =
-      "Variable 'encoding skip' should be " +
-      "'y' or 'n', not:";
-    _msg_error(
-      _msg,
-      0);
-    _echo2(
-      _encoding_skip);
-    throw _msg;
-  }
-  if ( _encoding_skip_get ) {
-     _encoding_skip =
-       _default;
-  }
-  if ( _encoding_skip != "n" &&
-       _encoding_skip != "y" ) {
-    _msg =
-      "The 'encoding skip' variable should " +
-      "be 'y' or 'n'.";
-    _msg_error(
-      _msg,
-      0);
-    throw _msg;
-  }
-  return _encoding_skip;
-}
-
-function
-  _lock_only_check(
-    _lock_only) {
-  let
-    _lock_only_get,
-    _msg;
-  _lock_only_get =
-    false;
-  const
-    _default =
-      "n";
-  const
-    _lock_only_type =
-      typeof(
-        _lock_only);
-  if ( _lock_only_type === "undefined" ) {
-    _msg =
-      "Variable 'lock only' is undefined, " +
-      `setting default '${_default}'.`;
-    _msg_info(
-      _msg);
-    _lock_only_get =
-      true;
-  }
-  else if ( _lock_only_type === "string" ) {
-    if ( _lock_only.length < 1 ) {
-      _msg =
-        "Variable 'lock only' is an empty string, " +
-        `setting default '${_default}'.`;
-      _msg_info(
-        _msg);
-      _lock_only_get =
-        true;
-    }
-    else {
-      if ( _lock_only !== "n" &&
-           _lock_only !== "y" &&
-           _lock_only !== "true" &&
-           _lock_only !== "false" ) {
-        _msg =
-          "The 'lock only' variable should be " +
-          `'y' or 'n', not '${_lock_only}'.`;
-        _msg_error(
-          _msg,
-          0);
-        throw _msg;
-      }
-    }
-  }
-  else if ( _lock_only_type === "boolean" ) {
-    if ( _lock_only ) {
-      _lock_only =
-        "y";
-    }
-    else {
-      _lock_only =
-        "n";
-    }
-  }
-  else if ( _lock_only_type === "object" ) {
-    if ( _lock_only === null ) {
-      _msg =
-        "The 'lock only' variable should be " +
-        "'y' or 'n', not 'null'.";
-      _msg_error(
-        _msg,
-        0);
-      throw _msg;
-    }
-    else {
-      const
-        _lock_only_keys =
-          Object.keys(
-            _lock_only);
-      if ( _lock_only_keys.length < 1 ) {
-        _msg =
-          "Variable 'lock only' is an empty object, " +
-          `setting default '${_default}'.`;
-        _msg_info(
-          _msg);
-        _lock_only_get =
-          true;
-      }
-      else {
-        _msg =
-          "The 'lock only' variable should be " +
-          "'y' or 'n', not an object.";
-        _msg_error(
-          _msg,
-          0);
-        _echo2(
-          _lock_only);
-        throw _msg;
-      }
-    }
-  }
-  else {
-    _msg =
-      "Variable 'lock only' should be " +
-      "'y' or 'n' but it has type " +
-      `'${_lock_only_type}'.`;
-    _msg_error(
-      _msg,
-      0);
-    throw _msg;
-  }
-  if ( _lock_only_get ) {
-     _lock_only =
-       _default;
-  }
-  if ( _lock_only != "n" &&
-       _lock_only != "y" ) {
-    _msg =
-      "The 'lock only' variable should " +
-      "be 'y' or 'n' but it has value " +
-      `'${_lock_only}'.`;
-    _msg_error(
-      _msg,
-      0);
-    throw _msg;
-  }
-  return _lock_only;
 }
 
 async function
@@ -2687,13 +2098,15 @@ async function
 // ES6 module export
 
 export {
-  _call_timeout_auto_detect,
   _ccget_module,
   _check_module,
   _common_module,
   _contract_get,
   _contract_setup,
   _contracts_auto_detect,
+  _chunk_get,
+  _chunks_get_async,
+  _chunks_get_sync,
   _encoding_type_check,
   _evmfs_get,
   _get_module,
@@ -2707,19 +2120,22 @@ export {
   _output_files_auto_detect,
   _network_id_get,
   _resource_get,
-  _resource_length_get,
-  _tasks_parallel_auto_detect
+  _resource_length_get
 };
 
 // Common JS exports
 
 // module.exports = {
-//   _call_timeout_auto_detect:
-//     _call_timeout_auto_detect,
 //   _ccget_module:
 //     _ccget_module,
 //   _check_module:
 //     _check_module,
+//   _chunk_get:
+//     _chunk_get,
+//   _chunks_get_async:
+//     _chunks_get_async,
+//   _chunks_get_sync:
+//     _chunks_get_sync,
 //   _common_module:
 //     _common_module,
 //   _contracts_auto_detect:
@@ -2739,7 +2155,5 @@ export {
 //   _resource_get:
 //     _resource_get,
 //   _resource_length_get:
-//     _resource_length_get,
-//   _tasks_parallel_auto_detect:
-//     _tasks_parallel_auto_detect
+//     _resource_length_get
 // };

@@ -167,6 +167,12 @@ const
     await import(
       "./libevmfs-get");
 const
+  _chunk_get =
+    _libevmfs_get_module._chunk_get;
+const
+  _chunks_get_sync =
+    _libevmfs_get_module._chunk_get_sync;
+const
   _chunks_total_get =
     _libevmfs_get_module._chunks_total_get;
 const
@@ -198,11 +204,20 @@ const
   _chunk_lengths_auto_detect =
     _libevmfs_publish_module._chunk_lengths_auto_detect;
 const
+  _encoding_skip_check =
+    _libevmfs_publish_module._encoding_skip_check;
+const
+  _file_encode =
+    _libevmfs_publish_module._file_encode;
+const
   _input_files_auto_detect =
     _libevmfs_publish_module._input_files_auto_detect;
 const
   _input_files_check =
     _libevmfs_publish_module._input_files_check;
+const
+  _lock_only_check =
+    _libevmfs_publish_module._lock_only_check;
 const
   _common_module =
     await import(
@@ -214,14 +229,24 @@ const
   _chunk_length_check =
     _common_module._chunk_length_check;
 const
+  _contract_get =
+    _common_module._contract_get;
+const
   _encoding_type_check =
     _common_module._encoding_type_check;
 const
   _file_hash =
     _common_module._file_hash;
 const
+  _hash_get =
+    _common_module._hash_get;
+const
   _index_end_check =
     _common_module._index_end_check;
+const
+  _namespace_get =
+    _common_module._namespace_get;
+  
 const
   _check_module =
     await import(
@@ -297,13 +322,13 @@ const
 const
   _address_get =
     _evm_wallet_module._address_get;
-const
-  _sha256sum_memory_module =
-    await _require(
-      "js-sha256");
-const
-  _sha256sum_memory =
-    _sha256sum_memory_module.sha256.sha256;
+// const
+//   _sha256sum_memory_module =
+//     await _require(
+//       "js-sha256");
+// const
+//   _sha256sum_memory =
+//     _sha256sum_memory_module.sha256.sha256;
 const
   _senzacoreutils =
     await _require(
@@ -585,33 +610,6 @@ function
   }
   return _uri_array_reverse[
            _position];
-}
-
-function
-  _hash_get(
-    _uri) {
-  let
-    _hash;
-  try {
-    _hash =
-      _address_section_get(
-        _uri,
-        0);
-  }
-  catch(
-    _error) {
-    const
-      _msg =
-        "Error extracting hash " +
-        `from URI '${_uri}'.`;
-    _msg_error(
-      _msg,
-      0);
-    _echo2(
-      _msg);
-    throw _error;
-  }
-  return _hash;
 }
 
 function
@@ -1312,331 +1310,6 @@ async function
 }
 
 async function
-  _file_encode(
-    _file,
-    _sum,
-    _encoding_format,
-    _chunk_length,
-    _cache_dir) {
-  let
-    _chunks,
-    _chunks_total,
-    _msg;
-  const
-    _buffer_size_bytes =
-      "2000000"; // 2MB
-  const
-    _amount_only =
-      "n";
-  _chunk_length =
-    String(
-      _chunk_length);
-  const
-    _output_dir =
-      _path_join([
-        _cache_dir,
-        _sum,
-        "publish",
-        _encoding_format,
-        _chunk_length
-      ]);
-  if ( ! _dir_exists(
-          _output_dir) ) {
-    const
-      _mkdir_opts = {
-        "recursive":
-          true
-      };
-    _mkdir(
-      _output_dir,
-      _mkdir_opts);
-  }
-  const
-    _out =
-      _path_join([
-        _output_dir,
-        `${_sum}.base64`
-      ]);
-  _msg =
-    "Chunking files.";
-  const
-    _encoding_type =
-      "memory";
-  _msg_info(
-    _msg);
-  const
-    _bin2txt_args = [
-      _file,
-      _out,
-      _encoding_format,
-      _chunk_length,
-      _buffer_size_bytes,
-      _amount_only,
-      _encoding_type
-    ];
-  try {
-    [ _chunks_total,
-      _chunks ] =
-      await _bin2txt.apply(
-        null,
-        _bin2txt_args);
-  }
-  catch(
-    _error) {
-    _msg =
-      "Error running '_bin2txt' " +
-      "arguments:";
-    _msg_error(
-      _msg,
-      0);
-    _echo2(
-      _bin2txt_args);
-    _echo2(
-      _error);
-    throw _error;
-  }
-  _msg =
-    `Found '${_chunks_total}' ` +
-    "encoded chunks.";
-  _msg_info(
-    _msg);
-  return _chunks;
-}
-
-function
-  _encoding_skip_check(
-    _encoding_skip) {
-  let
-    _encoding_skip_get,
-    _msg;
-  _encoding_skip_get =
-    false;
-  const
-    _default =
-      "n";
-  const
-    _encoding_skip_type =
-      typeof(
-        _encoding_skip);
-  if ( _encoding_skip_type === "undefined" ) {
-    _msg =
-      "Variable 'encoding skip' is undefined, " +
-      `setting default '${_default}'.`;
-    _msg_info(
-      _msg);
-    _encoding_skip_get =
-      true;
-  }
-  else if ( _encoding_skip_type === "string" ) {
-    if ( _encoding_skip.length < 1 ) {
-      _msg =
-        "Variable 'encoding skip' is an empty string, " +
-        `setting default '${_default}'.`;
-      _msg_info(
-        _msg);
-      _encoding_skip_get =
-        true;
-    }
-  }
-  else if ( _encoding_skip_type === "boolean" ) {
-    if ( _encoding_skip ) {
-      _encoding_skip =
-        "y";
-    }
-    else {
-      _encoding_skip =
-        "n";
-    }
-  }
-  else if ( _encoding_skip_type === "object" ) {
-    if ( _encoding_skip === null ) {
-      _msg =
-        "Encoding skip variable should be 'y' or 'n'.";
-      _msg_error(
-        _msg,
-        0);
-      throw _msg;
-    }
-    else {
-      const
-        _encoding_skip_keys =
-          Object.keys(
-            _encoding_skip);
-      if ( _encoding_skip_keys.length < 1 ) {
-        _msg =
-          "Variable 'encoding skip' is an empty object, " +
-          `setting default '${_default}'.`;
-        _msg_info(
-          _msg);
-        _encoding_skip_get =
-          true;
-      }
-      else {
-        _msg =
-          "Encoding skip variable should " +
-          "be 'y' or 'n', not an object:";
-        _msg_error(
-          _msg,
-          0);
-        _echo2(
-          _encoding_skip);
-        throw _msg;
-      }
-    }
-  }
-  else {
-    _msg =
-      "Variable 'encoding skip' should be " +
-      "'y' or 'n', not:";
-    _msg_error(
-      _msg,
-      0);
-    _echo2(
-      _encoding_skip);
-    throw _msg;
-  }
-  if ( _encoding_skip_get ) {
-     _encoding_skip =
-       _default;
-  }
-  if ( _encoding_skip != "n" &&
-       _encoding_skip != "y" ) {
-    _msg =
-      "The 'encoding skip' variable should " +
-      "be 'y' or 'n'.";
-    _msg_error(
-      _msg,
-      0);
-    throw _msg;
-  }
-  return _encoding_skip;
-}
-
-function
-  _lock_only_check(
-    _lock_only) {
-  let
-    _lock_only_get,
-    _msg;
-  _lock_only_get =
-    false;
-  const
-    _default =
-      "n";
-  const
-    _lock_only_type =
-      typeof(
-        _lock_only);
-  if ( _lock_only_type === "undefined" ) {
-    _msg =
-      "Variable 'lock only' is undefined, " +
-      `setting default '${_default}'.`;
-    _msg_info(
-      _msg);
-    _lock_only_get =
-      true;
-  }
-  else if ( _lock_only_type === "string" ) {
-    if ( _lock_only.length < 1 ) {
-      _msg =
-        "Variable 'lock only' is an empty string, " +
-        `setting default '${_default}'.`;
-      _msg_info(
-        _msg);
-      _lock_only_get =
-        true;
-    }
-    else {
-      if ( _lock_only !== "n" &&
-           _lock_only !== "y" &&
-           _lock_only !== "true" &&
-           _lock_only !== "false" ) {
-        _msg =
-          "The 'lock only' variable should be " +
-          `'y' or 'n', not '${_lock_only}'.`;
-        _msg_error(
-          _msg,
-          0);
-        throw _msg;
-      }
-    }
-  }
-  else if ( _lock_only_type === "boolean" ) {
-    if ( _lock_only ) {
-      _lock_only =
-        "y";
-    }
-    else {
-      _lock_only =
-        "n";
-    }
-  }
-  else if ( _lock_only_type === "object" ) {
-    if ( _lock_only === null ) {
-      _msg =
-        "The 'lock only' variable should be " +
-        "'y' or 'n', not 'null'.";
-      _msg_error(
-        _msg,
-        0);
-      throw _msg;
-    }
-    else {
-      const
-        _lock_only_keys =
-          Object.keys(
-            _lock_only);
-      if ( _lock_only_keys.length < 1 ) {
-        _msg =
-          "Variable 'lock only' is an empty object, " +
-          `setting default '${_default}'.`;
-        _msg_info(
-          _msg);
-        _lock_only_get =
-          true;
-      }
-      else {
-        _msg =
-          "The 'lock only' variable should be " +
-          "'y' or 'n', not an object.";
-        _msg_error(
-          _msg,
-          0);
-        _echo2(
-          _lock_only);
-        throw _msg;
-      }
-    }
-  }
-  else {
-    _msg =
-      "Variable 'lock only' should be " +
-      "'y' or 'n' but it has type " +
-      `'${_lock_only_type}'.`;
-    _msg_error(
-      _msg,
-      0);
-    throw _msg;
-  }
-  if ( _lock_only_get ) {
-     _lock_only =
-       _default;
-  }
-  if ( _lock_only != "n" &&
-       _lock_only != "y" ) {
-    _msg =
-      "The 'lock only' variable should " +
-      "be 'y' or 'n' but it has value " +
-      `'${_lock_only}'.`;
-    _msg_error(
-      _msg,
-      0);
-    throw _msg;
-  }
-  return _lock_only;
-}
-
-async function
   _evmfs(
     _target_command,
     _fs_address,
@@ -1803,230 +1476,6 @@ async function
   return _return;
 }
 
-async function
-  _chunks_get_async(
-    _uri_network_id,
-    _uri_namespace,
-    _uri_hash,
-    _chunks_dir,
-    _length,
-    _tasks_parallel) {
-}
-
-async function
-  _chunks_get_sync(
-    _fs_address,
-    _fs_version,
-    _user_level,
-    _api_key_path,
-    _deployments_dir,
-    _uri_network_id,
-    _uri_namespace,
-    _uri_hash,
-    _chunks_dir,
-    _length,
-    _tasks_parallel,
-    _retries_max) {
-  let
-    _chunk,
-    _chunk_get_args,
-    _fs_abi,
-    _fs_bytecode,
-    _fs_compiler_output,
-    _index,
-    _method_object,
-    _msg,
-    _piece;
-  const
-    _chunks =
-      [];
-  _method_object =
-    {};
-  const
-    _libevm_app_contract_setup_args = [
-      "evmfs",                  // application name
-      "FileSystem",             // contract name
-      "_fs",                    // contract short name
-      _fs_version,
-      _uri_network_id,
-      _user_level,
-      _deployments_dir,
-      "evmfs-contracts",
-      "json",                   // configuration format
-      ""                        // configuration file path
-    ];
-  const
-    _global =
-      _global_get();
-  const
-    _quiet =
-      _global[
-        "quiet"];
-  _msg =
-    "Running '_libevm_app_contract_setup' " +
-    "with arguments:";
-  _msg_info(
-    _msg);
-  if ( _quiet == "n" ) {
-    _echo(
-      _libevm_app_contract_setup_args);
-  }
-  try {
-    [ _fs_abi,
-      _fs_bytecode,
-      _fs_compiler_output ] =
-    await _libevm_app_contract_setup.apply(
-      null,
-      _libevm_app_contract_setup_args);
-  }
-  catch(
-    _error) {
-    _msg =
-      "Error running '_libevm_contract_setup' " +
-      "with arguments:";
-    _msg_error(
-      _msg,
-      0);
-    _echo2(
-      _error);
-    throw _error;
-  }
-  for ( _chunk of _seq(
-                    _length) ) {
-    _msg =
-      "Downloading chunk " +
-      `'${_chunk}' of '${_length}'.`;
-    _msg_info(
-      _msg);
-    _index =
-      _chunk - 1;
-    _piece =
-      _path_join([
-        _chunks_dir,
-        `${_uri_hash}.${_chunk}`
-      ]);
-    _chunk_get_args = [
-      _fs_address,
-      _fs_abi,
-      _fs_bytecode,
-      _fs_compiler_output,
-      _uri_network_id,
-      _uri_namespace,
-      _uri_hash,
-      _index,
-      _piece,
-      _api_key_path,
-      _retries_max,
-      _method_object,
-      _piece
-    ];
-    _msg =
-      "Running '_chunk_get' with arguments:";
-    _msg_info(
-      _msg);
-    if ( _quiet == "n" ) {
-      _echo(
-        _chunk_get_args);
-    }
-    try {
-      _method_object =
-        await _chunk_get.apply(
-          null,
-          _chunk_get_args);
-    }
-    catch(
-      _error) {
-      _msg =
-        `Error retrieving chunk ` +
-        `with index '${_index}'`;
-      _msg_error(
-        _msg,
-        0);
-      throw _error;
-    }
-    _chunks.push(
-      _piece);
-  }
-  return _chunks;
-}
-
-async function
-  _chunk_get(
-    _fs_address,
-    _fs_abi_path,
-    _fs_bytecode_path,
-    _fs_compiler_output_path,
-    _uri_network_id,
-    _uri_namespace,
-    _uri_hash,
-    _index,
-    _piece,
-    _api_key_path,
-    _retries_max,
-    _method_object,
-    _output) {
-  let
-    _chunk,
-    _msg;
-  const
-    _method_args = [
-      // _fs_address,         // dis for ccfs
-      _uri_namespace,
-      _uri_hash,
-      _index
-    ];
-  const
-    _contract_call_static_args = [
-      "",                       // wallet seed,
-      _retries_max,
-      _api_key_path,
-      _uri_network_id,
-      _fs_abi_path,
-      _fs_bytecode_path,
-      _fs_compiler_output_path,
-      _method_object,           // method object
-      _fs_address,
-      "readChunk",
-      _method_args,
-      {}                        // _contract_object
-    ];
-  try {
-    [ _chunk,
-      _method_object ] =
-      await _contract_call_static.apply(
-        null,
-        _contract_call_static_args);
-  }
-  catch(
-    _error) {
-    _msg =
-      "Error running '_contract_call_static' " +
-      "with arguments:";
-    _msg_error(
-      _msg,
-      0);
-    throw _error;
-  }
-  try {
-    _file_write(
-      _output,
-      _chunk);
-  }
-  catch(
-    _error) {
-    _msg =
-      "Error writing chunk onto " +
-      `file at path '${_output}'.`;
-    _msg_error(
-      _msg,
-      0);
-    _echo2(
-      _error);
-    throw _error;
-  }
-  return _method_object;
-}
-
 function
   _call_method_auto_detect() {
   let
@@ -2062,6 +1511,9 @@ export {
   _call_timeout_auto_detect,
   _ccget_module,
   _check_module,
+  _chunk_get,
+  _chunks_get_async,
+  _chunks_get_sync,
   _chunk_lengths_auto_detect,
   _common_module,
   _contract_get,
