@@ -1977,6 +1977,7 @@ async function
     _index_checkpoint,
     _index_end,
     _index_start,
+    _index_verify_checkpoint,
     _index_verify_start,
     _index_unverified,
     _indexes,
@@ -1985,6 +1986,7 @@ async function
     _namespace,
     _path,
     _publish_skip,
+    _verify_skip,
     _work_dir_setup_args,
     _work_dir;
   const

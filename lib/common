@@ -61,11 +61,17 @@ const
   _du =
     _libcrash._du;
 const
+  _echo =
+    _libcrash._echo;
+const
   _echo2 =
     _libcrash._echo2;
 const
   _file_exists =
     _libcrash._file_exists;
+const
+  _global_get =
+    _libcrash._global_get;
 const
   _ls =
     _libcrash._ls;
