@@ -1826,15 +1826,63 @@ function
         true;
     }
     else {
+      if ( _lock_only !== "n" &&
+           _lock_only !== "y" &&
+           _lock_only !== "true" &&
+           _lock_only !== "false" ) {
       _msg =
         "The 'lock only' variable should be " +
-        "'y' or 'n', not an object.";
+        `'y' or 'n', not '${_lock_only}'.`;
       _msg_error(
         _msg,
         0);
-      _echo2(
-        _lock_only);
       throw _msg;
+    }
+  else if ( _lock_only_type === "boolean" ) {
+    if ( _lock_only ) {
+      _lock_only =
+        "y";
+    }
+    else {
+      _lock_only =
+        "n";
+    }
+  }
+  else if ( _lock_only_type === "object" ) {
+    if ( _lock_only === null ) {
+      _msg =
+        "The 'lock only' variable should be " +
+        "'y' or 'n', not 'null'.";
+      _msg_error(
+        _msg,
+        0);
+      throw _msg;
+    }
+    else {
+      const
+        _lock_only_keys =
+          Object.keys(
+            _lock_only);
+      if ( _lock_only_keys.length < 1 ) {
+        _msg =
+          "Variable 'lock only' is an empty object, " +
+          `setting default '${_default}'.`;
+        _msg_info(
+          _msg);
+        _lock_only_get =
+          true;
+      }
+      else {
+        _msg =
+          "The 'lock only' variable should be " +
+          "'y' or 'n', not an object.";
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _lock_only);
+        throw _msg;
+      }
     }
   }
   else {
@@ -2369,8 +2417,6 @@ async function
     _input_uris,
     _target_key,
     _target_value) {
-  _echo2(
-    _output_files);
   let
     _msg,
     _return;
@@ -3471,7 +3517,7 @@ function
   }
 }
 
-function
+async function
   _output_files_auto_detect() {
   let
     _msg,
