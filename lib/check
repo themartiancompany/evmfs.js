@@ -340,6 +340,7 @@ function
   _chunks_files_paths_check(
     _chunks_files_paths) {
   let
+    _chunks_files_paths_index,
     _index,
     _msg;
   const

@@ -898,6 +898,9 @@ function
   else if ( _method_object_type === "object" ) {
     true;
   }
+  else if ( _method_object_type === "function" ) {
+    true;
+  }
   else {
     _msg =
       "The method object variable should be " +
