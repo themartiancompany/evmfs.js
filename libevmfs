@@ -1974,10 +1974,12 @@ async function
     _index_end,
     _index_start,
     _index_verify_start,
+    _index_unverified,
     _input_file,
     _msg,
     _namespace,
     _path,
+    _publish_skip,
     _work_dir_setup_args,
     _work_dir;
   try {
@@ -2151,7 +2153,7 @@ async function
       }
       else {
         _index_checkpoint =
-          -1;
+          -2;
         _index_start =
           0;
       }
@@ -2181,11 +2183,7 @@ async function
           _error);
         throw _error;
       }
-      if ( _index_checkpoint === _index_end ) {
-        _publish_skip =
-          "true";
-      }
-      else if ( _index_end === -1 ) {
+      if ( _index_end === -1 ) {
         if ( _encoding_skip === "y" ) {
           _msg =
             "Selected to skip encoding, " +
@@ -2259,6 +2257,14 @@ async function
           }
         }
       }
+      _publish_skip =
+        "n";
+      if ( _index_checkpoint === _index_end ) {
+        _publish_skip =
+          "y";
+        _rm(
+          _checkpoint_file_path);
+      }
       _chunks_publish_args = [
         _retries_max,
         _call_timeout,
@@ -2280,24 +2286,47 @@ async function
            // file system contract publish method.
       ];
       if ( _lock_only == "n" ) {
-        try {
-          _chunks_unverified =
-            await _chunks_publish.apply(
-              null,
+        if ( _publish_skip == "n" ) {
+          try {
+            _chunks_unverified =
+              await _chunks_publish.apply(
+                null,
+                _chunks_publish_args);
+          }
+          catch(
+            _error) {
+            _msg =
+              "Error running '_chunks_publish' " +
+              "with arguments:";
+            _msg_error(
+              _msg,
+              0);
+            _echo2(
               _chunks_publish_args);
+            throw _error;
+          }
+	}
+        else if ( _publish_skip == "y" ) {
+          _chunks_unverified =
+            [];
+          _index_unverified =
+            _index_start;
+          for ( _chunk of _chunks_files_paths ) {
+            _chunks_unverified.push([
+              _index_unverified,
+              _chunk]);
+            _index_unverified =
+              _index_unverified + 1;
+	  }
         }
-        catch(
-          _error) {
+        else {
           _msg =
-            "Error running '_chunks_publish' " +
-            "with arguments:";
+            "Variable 'skip publish' can only " +
+            "be 'y' or 'n'.";
           _msg_error(
             _msg,
             0);
-          _echo2(
-            _chunks_publish_args);
-          throw _error;
-        }
+	}
         _uploaded_files.push(
           _file);
         if ( 0 < _chunks_unverified.length ) {
