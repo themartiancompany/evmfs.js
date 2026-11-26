@@ -50,7 +50,7 @@ const
     "**/lib/ccget",
     "**/lib/check",
     "**/lib/common",
-    "**/lib/get"
+    "**/lib/get",
     "**/lib/index",
     "**/lib/lengthlock",
     "**/lib/lock",
