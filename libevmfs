@@ -1953,8 +1953,10 @@ async function
     _cache_dir,
     _input_files) {
   let
+    _checkpoint_file_exists,
     _checkpoint_file_path,
     _checkpoint_lock_path,
+    _checkpoint_verify_exists,
     _checkpoint_verify_path,
     _chunk,
     _chunk_length,
@@ -2143,11 +2145,26 @@ async function
           _work_dir,
           "checkpoint.verify"
         ]);
-      if ( _file_exists(
-             _checkpoint_file_path) ) {
+      _checkpoint_file_exists =
+        _file_exists(
+          _checkpoint_file_path);
+      if ( _checkpoint_file_exists ) {
         _index_checkpoint =
           _file_read(
             _checkpoint_file_path);
+        _index_checkpoint =
+          Number(
+            _index_checkpoint);
+        if ( isNaN(
+               _index_checkpoint) ) {
+          _msg =
+            "Error converting index " +
+            `'${_index_checkpoint}' to number `;
+          _msg_error(
+            _msg,
+            0);
+          throw _msg;
+	}
         _index_start =
           _index_checkpoint;
       }
@@ -2272,7 +2289,7 @@ async function
         try {
           _rm(
             _checkpoint_file_path);
-	}
+        }
         catch(
           _error) {
           _msg =
@@ -2355,8 +2372,10 @@ async function
           _msg_info(
             _msg);
         }
-        if ( _file_exists(
-               _checkpoint_verify_path) ) {
+        _checkpoint_verify_exists =
+          _file_exists(
+            _checkpoint_verify_path);
+        if ( _checkpoint_verify_exists ) {
           _index_verify_start =
             _file_read(
               _checkpoint_verify_path);
