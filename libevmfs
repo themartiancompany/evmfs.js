@@ -2169,7 +2169,7 @@ async function
                _index_checkpoint) ) {
           _msg =
             "Error converting index " +
-            `'${_index_checkpoint}' to number `;
+            `'${_index_checkpoint}' to number.`;
           _msg_error(
             _msg,
             0);
@@ -2420,15 +2420,40 @@ async function
           _file_exists(
             _checkpoint_verify_path);
         if ( _checkpoint_verify_exists ) {
-          _index_verify_start =
+          _index_verify_checkpoint =
             _file_read(
               _checkpoint_verify_path);
+          _index_verify_checkpoint =
+            Number(
+              _index_verify_checkpoint);
+          if ( isNaN(
+                 _index_verify_checkpoint) ) {
+            _msg =
+              "Error converting verification index " +
+              `'${_index_verify_checkpoint}' to number.`;
+            _msg_error(
+              _msg,
+              0);
+            throw _msg;
+          }
+          _index_verify_start =
+            _index_verify_checkpoint;
           _msg =
             "Previous verification run detected, " +
             `reading from index '${_index_verify_start}'.`;
           _msg_info(
             _msg,
             0);
+          if ( _index_verify_start === _index_end ) {
+            _msg =
+              "Verification checkpoint index " +
+              `'${_index_verify_start}' same as ` +
+	      `end index '${_index_end}'.`;
+            _msg_info(
+              _msg);
+            _verify_skip =
+              "y";
+	  }
         }
         else {
           _msg =
@@ -2475,31 +2500,39 @@ async function
             _chunks_files_paths_prefix,
             _chunks_indexes
           ];
-        try {
-          _chunks_corrupted =
-            await _chunks_verify.apply(
-              null,
+        if ( _verify_skip === "n" ) {
+          try {
+            _chunks_corrupted =
+              await _chunks_verify.apply(
+                null,
+                _chunks_verify_args);
+          }
+          catch(
+            _error) {
+            _msg =
+              "Error running '_chunks_verify' " +
+              "with arguments:";
+            _msg_error(
+              _msg,
+              0);
+            _echo2(
               _chunks_verify_args);
-        }
-        catch(
-          _error) {
+            _echo2(
+              _error);
+            throw _error;
+          }
           _msg =
-            "Error running '_chunks_verify' " +
-            "with arguments:";
-          _msg_error(
-            _msg,
-            0);
-          _echo2(
-            _chunks_verify_args);
-          _echo2(
-            _error);
-          throw _error;
-        }
+            "Chunks correctly verified.";
+          _msg_info(
+            _msg);
+	}
+        else {
+          _msg =
+            "Verification skipped.";
+          _msg_info(
+            _msg);
+	}
       }
-      _msg =
-        "Chunks correctly verified.";
-      _msg_info(
-        _msg);
       _msg =
         "Removing publishing checkpoint file.";
       _msg_info(
