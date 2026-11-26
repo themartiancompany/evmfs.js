@@ -44,6 +44,9 @@ const
     await import(
       "libcrash-js");
 const
+  _argv_url_get =
+    _libcrash._argv_url_get;
+const
   _cache_user_init =
     _libcrash._cache_user_init;
 const
@@ -249,7 +252,8 @@ function
   _cache_dir_check(
     _cache_dir) {
   let
-    _cache_dir_get;
+    _cache_dir_get,
+    _msg;
   const
     _cache_dir_type =
       typeof(

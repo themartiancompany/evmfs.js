@@ -1591,7 +1591,7 @@ async function
         _cursor + 1;
     }
   }
-  _set_override(
+  _override_set(
     "chunk",
     "lengths",
     _chunk_lengths);
@@ -1905,7 +1905,7 @@ function
   }
   if ( _lock_only_get ) {
      _lock_only =
-       _default
+       _default;
   }
   if ( _lock_only != "n" &&
        _lock_only != "y" ) {
@@ -2345,6 +2345,8 @@ async function
       }
       _msg =
         "Chunks correctly verified.";
+      _msg_info(
+        _msg);
       const
         _chunks_lock_args = [
           _retries_max,
@@ -2378,7 +2380,7 @@ async function
           0);
         _echo2(
           _chunks_lock_args);
-        echo2(
+        _echo2(
           _error);
         throw _error;
       }

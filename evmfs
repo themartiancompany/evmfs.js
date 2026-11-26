@@ -1293,7 +1293,8 @@ async function
         [ _argv[
             "l"] ]);
     }
-    else if ( _chunk_lengths_type === "string" ) {
+    else if ( _chunk_lengths_type === "array" ||
+              _chunk_lengths_type === "object" ) {
       _set(
         "chunk",
         "lengths",
@@ -1319,7 +1320,8 @@ async function
         [ _argv[
             "chunk-length"] ]);
     }
-    else if ( _chunk_lengths_type === "string" ) {
+    else if ( _chunk_lengths_type === "array" ||
+              _chunk_lengths_type === "object" ) {
       _set(
         "chunk",
         "lengths",

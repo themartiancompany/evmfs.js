@@ -89,6 +89,9 @@ const
   _msg_error =
     _libcrash._msg_error;
 const
+  _msg_warning =
+    _libcrash._msg_warning;
+const
   _override_set =
     _libcrash._override_set;
 const
@@ -467,23 +470,35 @@ function
     }
   }
   else if ( _price_gas_type === "object" ) {
-    _price_gas_keys =
-      Object.keys(
-        _price_gas);
-    if ( _price_gas_keys.length < 1 ) {
+    if ( _price_gas === null ) {
       _msg =
-        "Gas price is an empty object, " +
+        "Gas price is 'null', " +
         "setting default.";
       _msg_info(
         _msg);
       _price_gas_get =
         true;
     }
+    else {
+      const
+        _price_gas_keys =
+          Object.keys(
+            _price_gas);
+      if ( _price_gas_keys.length < 1 ) {
+        _msg =
+          "Gas price is an empty object, " +
+          "setting default.";
+        _msg_info(
+          _msg);
+        _price_gas_get =
+          true;
+      }
+    }
   }
   else {
     _msg =
       "Gas price variable has type " +
-      `'${_gas_price_type}' but it should be ` +
+      `'${_price_gas_type}' but it should be ` +
       `a non-negative integer, an empty ` +
       "string or having value 'auto', 'fast' " +
       "or 'nextblock'.";

@@ -296,7 +296,7 @@ async function
     _chunks_indexes
   ) {
   let
-    _check_opts,
+    _chunks_check_args,
     _chunk_file_path,
     _chunks_checked,
     _chunks_checked_total,
@@ -353,7 +353,7 @@ async function
     }
     _chunk_file_path_check(
       _chunk_file_path);
-    _check_opts = [
+    _chunks_check_args = [
       _retries_max,
       _api_key_path,
       _target_network,
@@ -373,6 +373,7 @@ async function
         _method_object ] =
         await _chunks_check.apply(
           null,
+          _chunks_check_args);
     } catch (
         _error) {
       _error_display(
@@ -438,6 +439,9 @@ async function
         _index);
       _msg =
         "Some chunks have not been published.";
+      _msg_error(
+        _msg,
+        0);
       throw _msg;
     }
   }
