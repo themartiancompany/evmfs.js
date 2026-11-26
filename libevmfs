@@ -1830,13 +1830,14 @@ function
            _lock_only !== "y" &&
            _lock_only !== "true" &&
            _lock_only !== "false" ) {
-      _msg =
-        "The 'lock only' variable should be " +
-        `'y' or 'n', not '${_lock_only}'.`;
-      _msg_error(
-        _msg,
-        0);
-      throw _msg;
+        _msg =
+          "The 'lock only' variable should be " +
+          `'y' or 'n', not '${_lock_only}'.`;
+        _msg_error(
+          _msg,
+          0);
+        throw _msg;
+      }
     }
   else if ( _lock_only_type === "boolean" ) {
     if ( _lock_only ) {
@@ -1888,7 +1889,8 @@ function
   else {
     _msg =
       "Variable 'lock only' should be " +
-      "'y' or 'n'.";
+      "'y' or 'n' but it has type " +
+      `'${_lock_only_type}'.`;
     _msg_error(
       _msg,
       0);
@@ -1902,7 +1904,8 @@ function
        _lock_only != "y" ) {
     _msg =
       "The 'lock only' variable should " +
-      "be 'y' or 'n'.";
+      "be 'y' or 'n' but it has value " +
+      `'${_lock_only}'.`;
     _msg_error(
       _msg,
       0);
