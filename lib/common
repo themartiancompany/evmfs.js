@@ -660,14 +660,15 @@ function
       throw _msg;
     }
   }
-  if ( _method_object_type === "object" ) {
+  else if ( _method_object_type === "object" ) {
     true;
   }
   else {
     _msg =
       "The method object variable should be " +
-      "an Ethers Contract Method object, but has " +
-      `type '${_method_object_type}'.`;
+      "an Ethers Contract Method object, but it has " +
+      `type '${_method_object_type}' and value ` +
+      `'${_method_object}'.`;
     _msg_error(
       _msg,
       0);
