@@ -27,19 +27,6 @@ import js from "@eslint/js";
 import globals from "globals";
 import { defineConfig } from "eslint/config";
 
-function
-  _lib_add(
-    _files,
-    _libs) {
-  let
-    _file;
-  for ( _file of _libs ) {
-    _files.push(
-      `**/lib/${_file}`);
-  }
-  return _files;
-}
-
 const
   _project =
     "evmfs";
