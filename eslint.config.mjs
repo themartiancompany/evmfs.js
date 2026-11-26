@@ -38,7 +38,8 @@ const
      `**/*.lib${_project}.js`,
      "node_modules/**",
      "eslint.config.js",
-     "man/**"
+     "man/**",
+     "**/*.tgz"
   ];
 const
   _files = [
