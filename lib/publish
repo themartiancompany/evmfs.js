@@ -600,7 +600,7 @@ async function
   catch(
     _error) {
     _msg =
-      "Error running '_method_object'.";
+      "Error running '_method_object_check'.";
     _msg_error(
       _msg,
       0);
