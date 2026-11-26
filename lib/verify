@@ -372,56 +372,44 @@ async function
       [ _chunks_checked,
         _method_object ] =
         await _chunks_check.apply(
-	  null,
-          _check_opts);
-          // _retries_max,
-          // _api_key_path,
-          // _target_network,
-          // _contract_address,
-          // _contract_abi_path,
-          // _contract_bytecode_path,
-          // _contract_compiler_output_path,
-          // _method_object,
-          // _publication_namespace,
-          // _file_hash,
-          // _index,
-          // _index,
-          // [_chunk_file_path]); 
-      if ( _check_opts[7] == "" ) {
-        _msg_info(
-          "Reusing contract method object.");
-        // I have no idea if _check_call_base_opts
-        // has its components passed by reference
-        // or copied so I have no idea if
-        // _method_object gets immediately updated
-        // or I need to re-init the array so just
-        // in case we re-init whole array.
-        _check_opts = [
-          _retries_max,
-          _api_key_path,
-          _target_network,
-          _contract_address,
-          _contract_abi_path,
-          _contract_bytecode_path,
-          _contract_compiler_output_path,
-          _method_object,
-          _publication_namespace,
-          _file_hash,
-          _index,
-          _index,
-          [_chunk_file_path]
-        ];
-      }
+          null,
     } catch (
         _error) {
       _error_display(
         _error);
       _msg =
-        "Error running check routine.";
+        "Error running 'chunks_check', " +
+        "not showing arguments because method " +
+        "object is unsanitized.";
       _msg_error(
         _msg,
         0);
       throw _error;
+    }
+    if ( _check_opts[7] == "" ) {
+      _msg_info(
+        "Reusing contract method object.");
+      // I have no idea if _check_call_base_opts
+      // has its components passed by reference
+      // or copied so I have no idea if
+      // _method_object gets immediately updated
+      // or I need to re-init the array so just
+      // in case we re-init whole array.
+      _check_opts = [
+        _retries_max,
+        _api_key_path,
+        _target_network,
+        _contract_address,
+        _contract_abi_path,
+        _contract_bytecode_path,
+        _contract_compiler_output_path,
+        _method_object,
+        _publication_namespace,
+        _file_hash,
+        _index,
+        _index,
+        [_chunk_file_path]
+      ];
     }
     _chunks_checked_total =
       _chunks_checked.length;

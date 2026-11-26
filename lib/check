@@ -272,7 +272,7 @@ async function
         };
       throw _error;
     }
-    if ( _value == _chunk ) {
+    if ( _value === _chunk ) {
       return [
         true,
         _method_object
@@ -290,13 +290,13 @@ async function
     }
   } catch(
       _error) {
-    _error_display(
-      _error);
     _msg =
       "Error getting chunk from the network.";
     _msg_error(
       _msg,
       0);
+    _error_display(
+      _error);
     throw _error;
   }
 }
@@ -333,6 +333,79 @@ function
     _msg);
 }
 
+function
+  _chunks_files_paths_check(
+    _chunks_files_paths) {
+  let
+    _msg;
+  const
+    _chunks_files_paths_type =
+      typeof(
+        _chunks_files_paths);
+  if ( _chunks_files_paths_type !== "undefined" ) {
+    _chunks_total =
+      _chunks_files_paths.length;
+    _msg =
+      `Checking '${_chunks_total}' chunks.`;
+    _msg_info(
+      _msg);
+  }
+  if ( _chunks_files_paths_types === "undefined" ) {
+    _msg =
+      "No chunks files provided";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  else if ( _chunks_files_paths_type === "array" ) {
+    if ( _chunks_files_paths.length < 1 ) {
+      _msg =
+        "Chunks files paths array is empty.";
+      _msg_error(
+        _msg,
+        0);
+      throw _msg;
+    }
+  }
+  else if ( _chunks_files_paths_type === "object" ) {
+    const
+      _chunks_files_paths_keys =
+        Object.keys(
+          _chunks_files_paths);
+    if ( _chunks_files_paths_keys.length < 1 ) {
+      _msg =
+        "Chunks files paths object array is empty.";
+    }
+    else {
+      const
+        _object_array_keys =
+          _seq(
+            0,
+            _chunks_files_paths_keys.length - 1);
+      if ( _chunks_files_paths_keys !== _object_array_keys ) {
+        _msg =
+          "Chunks files paths object must be an object array.";
+        _msg_error(
+          _msg,
+          0);
+        throw _msg;
+      }
+    }
+  }
+  else {
+    _msg =
+      "Chunks files paths object has type " +
+      `'${_chunks_files_paths_type}' but it should be ` +
+      "an array of existing encoded chunks paths.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  return _chunks_files_paths;
+}
+
 async function
   _chunks_check(
     _retries_max,
@@ -350,7 +423,6 @@ async function
     _chunks_files_paths
   ) {
   let
-    _chunks_total,
     _check_call_base_opts,
     _check_call_opts,
     _checked,
@@ -376,14 +448,6 @@ async function
     _echo2(
       _error);
     throw _error;
-  }
-  const
-    _method_object_type =
-      typeof(
-        _method_object);
-  if ( _method_object_type === "undefined" ) {
-    _method_object =
-      "";
   }
   _index_start =
     Number(
@@ -414,32 +478,25 @@ async function
       _publication_namespace,
       _file_hash
     ];
-  if ( _chunks_files_paths == [] ) {
+  try {
+    _chunks_files_paths =
+      _chunks_files_paths_check(
+        _chunks_files_paths);
+  }
+  catch(
+    _error) {
     _msg =
-      "File chunks list empty.";
+      "Error running '_chunks_files_paths'.";
     _msg_error(
       _msg,
-      1);
+      0);
+    _echo2(
+      _error);
+    throw _error;
   }
-  if ( typeof(
-         _chunks_files_paths) != "undefined" ) {
+  const
     _chunks_total =
       _chunks_files_paths.length;
-    _msg =
-      `Checking '${_chunks_total}' chunks.`;
-    _msg_info(
-      _msg);
-  }
-  else if ( typeof(
-              _chunks_files_paths) === "undefined" ) {
-    _msg =
-      "No chunks files provided";
-    _msg_error(
-      _msg,
-      1);
-  }
-  _chunks_total =
-    _chunks_files_paths.length;
   _input_data_check(
     _index_start,
     _index_end,

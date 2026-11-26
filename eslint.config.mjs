@@ -53,6 +53,9 @@ export default defineConfig([
      "**/*.{js,mjs,cjs}",
      `**/${_project}*`,
      `**/lib/*`,
+     `**/lib/**`,
+     `**/lib/check`,
+     `**/lib/publish`,
      `**/lib${_project}`
    ],
    plugins:
