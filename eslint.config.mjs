@@ -40,6 +40,45 @@ const
      "eslint.config.js",
      "man/**"
   ];
+const
+  _libs = [
+    "check",
+     "get"
+     "verify",
+     "index",
+     "lock",
+     "publish",
+     "publish.bulk",
+     "verify",
+  ];
+const
+  _files = [
+     "**/*.{js,mjs,cjs}",
+     `**/${_project}*`,
+     `**/lib/*`,
+     `**/lib/**`,
+     `**/lib${_project}`
+  ];
+
+function
+  _lib_add(
+    _files,
+    _libs) {
+  let
+    _file;
+  for ( _file of _libs ) {
+    _files.push(
+      _file);
+  }
+  return _files;
+}
+
+const
+  _files_mjs =
+    _lib_add(
+      _files,
+      _libs);
+
 export default defineConfig([
  {
    ignores:
@@ -49,15 +88,8 @@ export default defineConfig([
          "error",
        "prefer-const":
          "error" },
-   files: [
-     "**/*.{js,mjs,cjs}",
-     `**/${_project}*`,
-     `**/lib/*`,
-     `**/lib/**`,
-     `**/lib/check`,
-     `**/lib/publish`,
-     `**/lib${_project}`
-   ],
+   files:
+     _files_mjs,
    plugins:
      { js },
    extends:
