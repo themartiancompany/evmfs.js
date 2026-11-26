@@ -2260,10 +2260,30 @@ async function
       _publish_skip =
         "n";
       if ( _index_checkpoint === _index_end ) {
+        _msg =
+          "Publishing checkpoint reports same value " +
+          `'${_index_checkpoint}' as end index '${_index_end}', ` +
+          "publication complete, removing checkpoint file, " +
+          "checking uploaded chunks.";
+        _msg_info(
+          _msg);
         _publish_skip =
           "y";
-        _rm(
-          _checkpoint_file_path);
+        try {
+          _rm(
+            _checkpoint_file_path);
+	}
+        catch(
+          _error) {
+          _msg =
+            "Error removing checkpoint file.";
+          _msg_error(
+            _msg,
+            0);
+          _echo2(
+            _error);
+          throw _error;
+	}
       }
       _chunks_publish_args = [
         _retries_max,
