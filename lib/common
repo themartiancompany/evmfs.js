@@ -562,7 +562,6 @@ async function
   return _chunk_length;
 }
 
-
 async function
   _index_end_check(
     _index_end,
@@ -634,6 +633,45 @@ async function
     }
   }
   return _index_end;
+}
+
+function
+  _method_object_check(
+    _method_object) {
+  const
+    _method_object_type =
+      typeof(
+        _method_object);
+  if ( _method_object === "undefined" ) {
+    _method_object =
+      "";
+  }
+  if ( _method_object_type === "string" ) {
+    if ( 0 < _method_object.length ) {
+      _msg =
+        "The method object variable should be " +
+        "an Ethers Contract Method object or an empty " +
+        "string or object.";
+      _msg_error(
+        _msg,
+        0);
+      throw _msg;
+    }
+  }
+  if ( _method_object_type === "object" ) {
+    true;
+  }
+  else {
+    _msg =
+      "The method object variable should be "
+      "an Ethers Contract Method object, but has " +
+      `type '${_method_object_type}'.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  return _method_object;
 }
 
 function
@@ -839,6 +877,7 @@ export {
   _global_variables_evmfs_publish,
   _index_end_check,
   _input_data_check,
+  _method_object_check,
   _msg_info_chunk_get,
   _msg_info_chunk_got,
   _msg_info_chunk_published,
@@ -867,6 +906,8 @@ export {
 //     _index_end_check,
 //   _input_data_check:
 //     _input_data_check,
+//   _method_object_check:
+//     _method_object_check,
 //   _msg_info_chunk_get:
 //     _msg_info_chunk_get,
 //   _msg_info_chunk_got:

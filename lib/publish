@@ -127,6 +127,11 @@ const
     await import(
       "./common");
 /* global
+     _method_object_check */
+const
+  _method_object_check =
+    _common_module._method_object_check;
+/* global
      _msg_info_chunk_published */
 const
   _msg_info_chunk_published =
@@ -492,45 +497,6 @@ function
       _default;
   }
   return _price_gas;
-}
-
-function
-  _method_object_check(
-    _method_object) {
-  const
-    _method_object_type =
-      typeof(
-        _method_object);
-  if ( _method_object === "undefined" ) {
-    _method_object =
-      "";
-  }
-  if ( _method_object_type === "string" ) {
-    if ( 0 < _method_object.length ) {
-      _msg =
-        "The method object variable should be " +
-        "an Ethers Contract Method object or an empty " +
-        "string or object.";
-      _msg_error(
-        _msg,
-        0);
-      throw _msg;
-    }
-  }
-  if ( _method_object_type === "object" ) {
-    true;
-  }
-  else {
-    _msg =
-      "The method object variable should be "
-      "an Ethers Contract Method object, but has " +
-      `type '${_method_object_type}'.`;
-    _msg_error(
-      _msg,
-      0);
-    throw _msg;
-  }
-  return _method_object;
 }
 
 async function

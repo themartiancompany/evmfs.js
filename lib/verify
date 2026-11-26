@@ -94,7 +94,7 @@ const
       "./check");
 const
   _chunks_check =
-    _chunks_check_module._check;
+    _chunks_check_module._chunks_check;
 const
   _chunk_file_path_check =
     _file_exists;
