@@ -2325,22 +2325,10 @@ async function
           "y";
       }
       else if ( _index_checkpoint < _index_end ) {
-        const
-          _indexes_to_remove =
-            _seq(
-              0,
-              _index_checkpoint);
-        const
-          _chunks_files_paths_new =
-            [];
-        for ( _index of _indexes_to_remove ) {
-          
-	}
-        for ( _index in _chunks_files_paths ) {
-          if ( _chunk.endsWith(
-                 `.${_chunk}`)
-	}
-        _chunks_fi
+        _chunks_files_paths =
+          _chunks_files_paths.slice(
+            _index_start,
+            _index_end + 1);
       }
       _chunks_publish_args = [
         _retries_max,
