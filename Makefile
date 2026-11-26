@@ -70,6 +70,8 @@ _NPM_FILES:=\
   $(_PROJECT_NPM) \
   lib \
   lib$(_PROJECT_NPM) \
+  lib$(_PROJECT_NPM)-get \
+  lib$(_PROJECT_NPM)-publish \
   lib$(_PROJECT_NPM).webpack.config.cjs \
   eslint.config.mjs \
   fs-worker.webpack.config.cjs \
