@@ -116,13 +116,11 @@
     "encoding-tools":
       "0.0.36",
     "evm-contracts-tools":
-      "0.0.89",
+      "0.0.90",
     "evm-wallet":
       "npm:evm-wallet.js@^0.0.109",
     "evmfs-contracts":
       "0.0.9",
-    "js-sha256":
-      "1.0.0",
     "libevm":
       "0.0.60",
     "senzacoreutils":
@@ -132,7 +130,7 @@
   },
   "overrides": {
     "evm-contracts-tools":
-      "0.0.89",
+      "0.0.90",
     "evm-wallet":
       "npm:evm-wallet.js@^0.0.109",
     "libcrash-js":
