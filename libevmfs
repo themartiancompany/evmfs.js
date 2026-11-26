@@ -1962,6 +1962,7 @@ async function
     _chunks_files_paths,
     _chunks_locked,
     _chunks_publish_args,
+    _chunks_unverified,
     _cursor,
     _file,
     _file_size,
@@ -2271,9 +2272,10 @@ async function
       ];
       if ( _lock_only == "n" ) {
         try {
-          _chunks_publish.apply(
-            null,
-            _chunks_publish_args);
+          _chunks_unverified =
+            _chunks_publish.apply(
+              null,
+              _chunks_publish_args);
         }
         catch(
           _error) {
@@ -2287,15 +2289,39 @@ async function
         }
         _uploaded_files.push(
           _file);
+        if ( 0 _chunks_unverified.length ) {
+          _msg =
+            "There are chunks left to verify."
+          _msg_info(
+            _msg);
+        }
         if ( _file_exists(
                _checkpoint_verify_path) ) {
           _index_verify_start =
             _file_read(
               _checkpoint_verify_path);
+          _msg =
+            "Previous verification run detected, " +
+            `reading from index '${_index_verify_start}'.`;
+          _msg_info(
+            _msg,
+            0);
         }
         else {
-         _index_verify_start =
-          0;
+          _msg =
+            "Found no previous verification index, " +
+            "starting from the beginning.";
+          _msg_info(
+            _msg);
+          if ( 0 < _index_end + 1 - _chunks_unverified.length) {
+            _msg =
+              "Only some of the index should be verified, " +
+              "but all of them are verified just the same.";
+            _msg_info(
+              _msg);
+          }
+          _index_verify_start =
+           0;
         }
         const
           _chunks_files_paths_prefix =
