@@ -1,4 +1,4 @@
-#/usr/bin/env node
+#!/usr/bin/env node
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -2248,8 +2248,8 @@ async function
             _fs_abi,
             _fs_bytecode,
             _fs_compiler_output,
-            "" // ethers contract method object for the
-               // file system contract publish method.
+            "", // ethers contract method object for the
+                // file system contract publish method.
             _namespace,
             _file_sum,
             _checkpoint_verify_path,
