@@ -124,6 +124,12 @@ const
   _common_module =
     await import(
       "./common");
+const
+  _buffer_length_check =
+    _common_module._buffer_length_check;
+const
+  _checkpoint_file_path_check =
+    _common_module._checkpoint_file_path_check;
 /* global
      _msg_info_chunk_published */
 const
@@ -454,17 +460,39 @@ async function
     _publish_bulk_args,
     _published,
     _tx;
+  try {
+    _checkpoint_file_path =
+      _checkpoint_file_path_check(
+        _checkpoint_file_path);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_checkpoint_file_path_check'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
   const
     _chunks_buffer =
       [];
   const
     _chunks_buffers =
       [];
-  if ( _buffer_length == "" ||
-       typeof(
-         _buffer_length) === 'undefined' ) {
+  try {
     _buffer_length =
-      3;
+      _buffer_length_check(
+        _buffer_length);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_buffer_length_check'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
   }
   if ( _call_timeout == "" ||
        typeof(

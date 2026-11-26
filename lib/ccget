@@ -114,6 +114,13 @@ const
   _evm_chains_rpc_backend_get =
     _libevm_module._rpc_backend_get;
 const
+  _common_module =
+    await import(
+      "./common");
+const
+  _checkpoint_file_path_check =
+    _common_module._checkpoint_file_path_check;
+const
   _chunks_get_module =
     await import(
       "./get");
@@ -1271,6 +1278,20 @@ async function
     _rpc_backend,
     _rpc_backend_get_args,
     _progress;
+  try {
+    _checkpoint_file_path =
+      _checkpoint_file_path_check(
+        _checkpoint_file_path);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_checkpoint_file_path_check'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
   const
     _method_objects_empty =
       Object.keys(

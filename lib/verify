@@ -93,6 +93,11 @@ const
     await import(
       "./common");
 /* global
+     _checkpoint_file_path_check */
+const
+  _checkpoint_file_path_check =
+    _common_module._checkpoint_file_path_check;
+/* global
      _method_object_check */
 const
   _method_object_check =
@@ -303,6 +308,20 @@ async function
     _index,
     _msg,
     _progress;
+  try {
+    _checkpoint_file_path =
+      _checkpoint_file_path_check(
+        _checkpoint_file_path);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_checkpoint_file_path_check'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
   try {
     _method_object =
       _method_object_check(

@@ -102,11 +102,19 @@ const
     await import(
       "./common");
 const
+  _checkpoint_file_path_check =
+    _common_module._checkpoint_file_path_check;
+const
   _chunk_file_path_check =
     _common_module._chunk_file_path_check;
 const
   _input_data_check =
     _common_module._input_data_check;
+/* global
+     _method_object_check */
+const
+  _method_object_check =
+    _common_module._method_object_check;
 const
   _msg_info_chunk_get =
     _common_module._msg_info_chunk_get;
@@ -293,10 +301,35 @@ async function
     _msg,
     _progress,
     _value;
-  if ( typeof(
-         _method_object) === "undefined" ) {
+  try {
+    _checkpoint_file_path =
+      _checkpoint_file_path_check(
+        _checkpoint_file_path);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_checkpoint_file_path_check'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  try {
     _method_object =
-      "";
+      _method_object_check(
+        _method_object);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_method_object_check'.";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
   }
   const
     _wallet_seed_path =

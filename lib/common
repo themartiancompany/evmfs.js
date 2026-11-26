@@ -280,6 +280,71 @@ function
 }
 
 function
+  _buffer_length_check(
+    _buffer_length) {
+  let
+    _buffer_length_get,
+    _msg;
+  const
+    _default =
+      3;
+  const
+    _buffer_length_type =
+      _typeof(
+        _buffer_length);
+  _buffer_length_get =
+    false;
+  if ( _buffer_length_type === "undefined" ) {
+    _msg =
+      "Buffer length undefined, setting default.";
+    _msg_info(
+      _msg);
+    _buffer_length_get =
+      true;
+  else if ( _buffer_length_type === "number" ) {
+    true;
+  else if ( _buffer_length_type === "string" ) {
+    if ( _buffer_length.length < 1 ) {
+      _buffer_length_get =
+        true;
+    }
+  }
+  else if ( _buffer_length_type === "object" ) {
+    const
+      _buffer_length_keys =
+        Object.keys(
+          _buffer_length);
+    if ( _buffer_length_keys.length < 1 ) {
+      _msg =
+        "Buffer length is an empty object, " +
+        `setting default '${_default}'.`;
+      _msg_info(
+        _msg);
+    }
+  else {
+    _msg =
+      "Variable 'buffer length has type " +
+      `'${_buffer_length}' but it should be ` +
+      "a positive number.";
+    throw _msg;
+  }
+  if ( _buffer_length_get ) {
+    _buffer_length =
+      _default;
+  }
+  if ( _buffer_length < 0 ) {
+    _msg =
+      "Variable 'buffer length' should " +
+      "a positive integer.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  return _buffer_length;
+}
+
+function
   _cache_dir_check(
     _cache_dir) {
   let
@@ -1038,7 +1103,9 @@ function
 }
 
 export {
+  _buffer_length_check,
   _cache_dir_check,
+  _checkpoint_file_path_check,
   _chunk_file_path_check,
   _chunk_length_check,
   _encoding_type_check,
@@ -1059,6 +1126,8 @@ export {
 };
 
 // module.exports = {
+//   _buffer_length_check:
+//     _buffer_length_check,
 //   _cache_dir_check:
 //     _cache_dir_check,
 //   _chunk_length_check:

@@ -136,6 +136,11 @@ const
     await import(
       "./common");
 /* global
+     _checkpoint_file_path_check */
+const
+  _checkpoint_file_path_check =
+    _common_module._checkpoint_file_path_check;
+/* global
      _method_object_check */
 const
   _method_object_check =
@@ -518,53 +523,6 @@ function
       _default;
   }
   return _price_gas;
-}
-
-function
-  _checkpoint_file_path_check(
-    _checkpoint_file_path) {
-  let
-    _msg;
-  const
-    _checkpoint_file_path_type =
-      typeof(
-        _checkpoint_file_path);
-  if ( _checkpoint_file_path_type === "undefined" ) {
-    _msg =
-      "Checkpoint file path is undefined, " +
-      "not saving to file.";
-    _msg_info(
-      _msg);
-    _checkpoint_file_path =
-      "";
-  }
-  if ( _checkpoint_file_path_type === "object" ) {
-    if ( _checkpoint_file_path === null ) {
-      _msg =
-        "Checkpoint file path is 'null', " +
-        "not saving to file.";
-      _msg_info(
-        _msg);
-      _checkpoint_file_path =
-        "";
-    }
-  }
-  else 
-  const
-    _checkpoint_dir =
-      _dirname(
-        _checkpoint_file_path);
-  if ( ! _dir_exists(
-           _checkpoint_dir) ) {
-    _msg =
-      "Checkpoint file path directory " +
-      `'${_checkpoint_dir}'.`;
-    _msg_error(
-      _msg,
-      0);
-    throw _msg;
-  }
-  return _checkpoint_file_path;
 }
 
 async function
