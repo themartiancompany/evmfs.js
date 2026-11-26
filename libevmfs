@@ -2273,7 +2273,7 @@ async function
       if ( _lock_only == "n" ) {
         try {
           _chunks_unverified =
-            _chunks_publish.apply(
+            await _chunks_publish.apply(
               null,
               _chunks_publish_args);
         }
@@ -2354,7 +2354,7 @@ async function
           ];
         try {
           _chunks_corrupted =
-            _chunks_verify.apply(
+            await _chunks_verify.apply(
               null,
               _chunks_verify_args);
         }
@@ -2396,7 +2396,7 @@ async function
         ];
       try {
         _chunks_locked =
-          _chunks_lock.apply(
+          await _chunks_lock.apply(
             null,
             _chunks_lock_args);
       }
