@@ -1964,6 +1964,7 @@ async function
     _chunks_files_paths,
     _chunks_locked,
     _chunks_publish_args,
+    _chunks_total,
     _chunks_unverified,
     _cursor,
     _file,
@@ -1977,6 +1978,7 @@ async function
     _index_start,
     _index_verify_start,
     _index_unverified,
+    _indexes,
     _input_file,
     _msg,
     _namespace,
@@ -2166,7 +2168,7 @@ async function
           throw _msg;
 	}
         _index_start =
-          _index_checkpoint;
+          _index_checkpoint + 1;
       }
       else {
         _index_checkpoint =
@@ -2257,21 +2259,46 @@ async function
         // The reason this uses '_ls'
         // rather than '_seq' is 'encoding-tools.js'
         // module encodes with padding and '
-        const
-          _work_dir_files =
-            await _ls(
-              _work_dir);
-        for ( _chunk of _work_dir_files ) {
-          if ( _chunk.startsWith(
-                 `${_file_sum}.base64`) ) {
-            _path =
+        // const
+        //   _work_dir_files =
+        //     await _ls(
+        //       _work_dir);
+        // for ( _chunk of _work_dir_files ) {
+        //   if ( _chunk.startsWith(
+        //          `${_file_sum}.base64`) ) {
+        //     _path =
+        //       _path_join([
+        //         _work_dir,
+        //         _chunk
+        //       ]);
+        //     _chunks_files_paths.push(
+        //       _path);
+        //   }
+	// }
+        _chunks_total =
+          _index_end + 1;
+        if ( _chunks_total == 1 ) {
+            _chunks_files_paths = [
               _path_join([
                 _work_dir,
-                _chunk
-              ]);
+                `${_file_sum}.base64`
+	      ])
+	    ];
+        else if ( 1 < _chunks_total ) {
+          _indexes =
+            _seq(
+              1,
+              _chunks_total);
+          _chunks_files_paths =
+            [];
+	  }
+          for ( _index of _indexes ) {
             _chunks_files_paths.push(
-              _path);
-          }
+              _path_join([
+                _work_dir,
+                `${_file_sum}.base64.${_index}`
+	      ]));
+	  }
         }
       }
       _publish_skip =
@@ -2285,6 +2312,24 @@ async function
           _msg);
         _publish_skip =
           "y";
+      }
+      else if ( _index_checkpoint < _index_end ) {
+        const
+          _indexes_to_remove =
+            _seq(
+              0,
+              _index_checkpoint);
+        const
+          _chunks_files_paths_new =
+            [];
+        for ( _index of _indexes_to_remove ) {
+          
+	}
+        for ( _index in _chunks_files_paths ) {
+          if ( _chunk.endsWith(
+                 `.${_chunk}`)
+	}
+        _chunks_fi
       }
       _chunks_publish_args = [
         _retries_max,
