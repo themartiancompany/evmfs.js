@@ -729,6 +729,15 @@ async function
       _chunk,
       _check_call_opts
     ];
+    _msg =
+      "Running '_chunk_check' " +
+      "with options:";
+    _msg_info(
+      _msg);
+    if ( _quiet == "n" ) {
+      _echo(
+        _chunk_check_args);
+    }
     try {
       [ _published,
         _method_object ] =
