@@ -1892,6 +1892,7 @@ async function
     _input_files) {
   let
     _checkpoint_file_path,
+    _checkpoint_lock_path,
     _checkpoint_verify_path,
     _chunk,
     _chunk_length,
@@ -2063,6 +2064,11 @@ async function
         _path_join([
           _work_dir,
           "checkpoint.publish"
+        ]);
+      _checkpoint_lock_path =
+        _path_join([
+          _work_dir,
+          "checkpoint.lock"
         ]);
       _checkpoint_verify_path =
         _path_join([
@@ -2281,6 +2287,20 @@ async function
         "Chunks correctly verified.";
       const
         _chunks_lock_args = [
+          _retries_max,
+          _call_timeout,
+          _wallet_seed,
+          _api_key_path,
+          _target_network,
+          _fs_address,
+          _fs_abi_path,
+          _fs_bytecode_path,
+          _fs_compiler_output_path,
+          _namespace,
+          _file_sum,
+          _index_start,
+          _index_end,
+          _checkpoint_lock_path) {
         ];
       try {
         _chunks_locked =
