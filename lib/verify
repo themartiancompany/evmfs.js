@@ -89,6 +89,15 @@ const
   _set =
     _libcrash._set;
 const
+  _common_module =
+    await import(
+      "./common");
+/* global
+     _method_object_check */
+const
+  _method_object_check =
+    _common_module._method_object_check;
+const
   _chunks_check_module =
     await import(
       "./check");

@@ -86,6 +86,15 @@ const
   _set =
     _libcrash._set;
 const
+  _common_module =
+    await import(
+      "./common");
+/* global
+     _method_object_check */
+const
+  _method_object_check =
+    _common_module._method_object_check;
+const
   _chunks_get_module =
     await import(
       "./get");
@@ -356,6 +365,22 @@ async function
     _method_args,
     _msg,
     _progress;
+  try {
+    _method_object =
+      _method_object_check(
+        _method_object);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_method_object_check'.";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
   const
     _method_object_type =
       typeof(
