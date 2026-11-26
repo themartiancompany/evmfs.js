@@ -2277,7 +2277,17 @@ async function
 	// }
         _chunks_total =
           _index_end + 1;
-        if ( _chunks_total == 1 ) {
+        if ( _chunks_total < 1 ) {
+          _msg =
+            "It shouldn't be possible for " +
+            "the total chunks variable to be " +
+            "less than one.";
+          _msg_error(
+            _msg,
+            0);
+          throw _msg;
+	}
+        else if ( _chunks_total == 1 ) {
             _chunks_files_paths = [
               _path_join([
                 _work_dir,
