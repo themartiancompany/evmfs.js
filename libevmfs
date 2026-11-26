@@ -204,6 +204,9 @@ const
     await import(
       "./lib/lock");
 const
+  _chunks_lock =
+    _lock_module._chunks_lock;
+const
   _publish_module =
     await import(
       "./lib/publish");
@@ -218,6 +221,9 @@ const
   _verify_module =
     await import(
       "./lib/verify");
+const
+  _chunks_verify =
+    _verify_module._chunks_verify;
 const
   _libevm_module =
     await _require(
@@ -1839,6 +1845,7 @@ function
         throw _msg;
       }
     }
+  }
   else if ( _lock_only_type === "boolean" ) {
     if ( _lock_only ) {
       _lock_only =
@@ -2322,13 +2329,13 @@ async function
         catch(
           _error) {
           _msg =
-            "Error running '_chunks_check' " +
+            "Error running '_chunks_verify' " +
             "with arguments:";
           _msg_error(
             _msg,
             0);
           _echo2(
-            _chunks_check_args);
+            _chunks_verify_args);
           _echo2(
             _error);
           throw _error;
