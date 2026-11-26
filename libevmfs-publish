@@ -1,0 +1,2531 @@
+#!/usr/bin/env node
+
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+/**    ------------------------------------------------------------------
+ *     Copyright ©
+ *       Pellegrino Prevete
+ *         2024, 2025, 2026
+ * 
+ *     All rights reserved
+ *     ------------------------------------------------------------------
+ * 
+ *     This program is free software: you can redistribute it and/or
+ *     modify it under the terms of the GNU General Public License as
+ *     published by the Free Software Foundation, either version 3 of
+ *     the License, or (at your option) any later version.
+ * 
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ * 
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.
+ *     If not, see <https://www.gnu.org/licenses/>.
+ */
+
+/* eslint-disable
+     no-unused-vars */
+
+/* EVMFS variables */
+
+/* global
+     fs_address:
+       writable */
+
+/* global
+     ll_address:
+       writable */
+
+const
+  _libcrash =
+    await import(
+      "libcrash-js");
+/* global
+     _cp */
+const
+  _cp =
+    _libcrash._cp;
+/* global
+     _dir_exists */
+const
+  _dir_exists =
+    _libcrash._dir_exists;
+/* global
+     _du */
+const
+  _du =
+    _libcrash._du;
+/* global
+     _echo */
+const
+  _echo =
+    _libcrash._echo;
+/* global
+     _echo2 */
+const
+  _echo2 =
+    _libcrash._echo2;
+/* global
+     _exit */
+const
+  _exit =
+    _libcrash._exit;
+/* global
+     _file_exists */
+const
+  _file_exists =
+    _libcrash._file_exists;
+/* global
+     _file_read */
+const
+  _file_read =
+    _libcrash._file_read;
+/* global
+     _file_write */
+const
+  _file_write =
+    _libcrash._file_write;
+/* global
+     _get */
+const
+  _get =
+    _libcrash._get;
+/* global
+     _global_get */
+const
+  _global_get =
+    _libcrash._global_get;
+/* global
+     _ls */
+const
+  _ls =
+    _libcrash._ls;
+/* global
+     _mkdir */
+const
+  _mkdir =
+    _libcrash._mkdir;
+/* global
+     _msg_error */
+const
+  _msg_error =
+    _libcrash._msg_error;
+/* global
+     _msg_info */
+const
+  _msg_info =
+    _libcrash._msg_info;
+/* global
+     _msg_warning */
+const
+  _msg_warning =
+    _libcrash._msg_warning;
+/* global
+     _mv */
+const
+  _mv =
+    _libcrash._mv;
+/* global
+     _override_set */
+const
+  _override_set =
+    _libcrash._override_set;
+/* global
+     _path_join */
+const
+  _path_join =
+    _libcrash._path_join;
+/* global
+     _realpath */
+const
+  _realpath =
+    _libcrash._realpath;
+/* global
+     _require */
+const
+  _require =
+    _libcrash._require;
+/* global
+     _rm */
+const
+  _rm =
+    _libcrash._rm;
+/* global
+     _seq */
+const
+  _seq =
+    _libcrash._seq;
+/* global
+     _set */
+const
+  _set =
+    _libcrash._set;
+
+const
+  _common_module =
+    await import(
+      "./lib/common");
+const
+  _cache_dir_check =
+    _common_module._cache_dir_check;
+const
+  _chunk_length_check =
+    _common_module._chunk_length_check;
+const
+  _encoding_type_check =
+    _common_module._encoding_type_check;
+const
+  _file_hash =
+    _common_module._file_hash;
+const
+  _index_end_check =
+    _common_module._index_end_check;
+const
+  _check_module =
+    await import(
+      "./lib/check");
+const
+  _index_module =
+    await import(
+      "./lib/index");
+const
+  _lengthlock_module =
+    await import(
+      "./lib/lengthlock");
+const
+  _lock_module =
+    await import(
+      "./lib/lock");
+const
+  _chunks_lock =
+    _lock_module._chunks_lock;
+const
+  _publish_module =
+    await import(
+      "./lib/publish");
+const
+  _chunks_publish =
+    _publish_module._chunks_publish;
+const
+  _publish_bulk_module =
+    await import(
+      "./lib/publish_bulk");
+const
+  _verify_module =
+    await import(
+      "./lib/verify");
+const
+  _chunks_verify =
+    _verify_module._chunks_verify;
+const
+  _libevm_module =
+    await _require(
+      "libevm");
+const
+  _contract_setup_auto_detect =
+    _libevm_module._contract_setup_auto_detect;
+const
+  _deployments_dir_check =
+    _libevm_module._deployments_dir_check;
+const
+  _libevm_app_contract_setup =
+    _libevm_module._libevm_app_contract_setup;
+const
+  _evm_contracts_tools_module =
+    await _require(
+      "evm-contracts-tools");
+const
+  _contract_call_static =
+    _evm_contracts_tools_module._contract_call_static;
+const
+  _evm_contract_deployment_address =
+    _evm_contracts_tools_module._evm_contract_deployment_address;
+const
+  _evm_wallet_module =
+    await _require(
+      "evm-wallet");
+const
+  _address_get =
+    _evm_wallet_module._address_get;
+// const
+//   _sha256sum_memory_module =
+//     await _require(
+//       "js-sha256");
+const
+  _sha256sum_memory =
+    _sha256sum_memory_module.sha256.sha256;
+const
+  _senzacoreutils =
+    await _require(
+      "senzacoreutils");
+const
+  _sha256sum =
+    _senzacoreutils._sha256sum;
+const
+  _encoding_tools_module =
+    await _require(
+      "encoding-tools");
+const
+  _bin2txt =
+    _encoding_tools_module._bin2txt;
+const
+  _txt2bin =
+    _encoding_tools_module._txt2bin;
+
+function
+  _call_timeout_auto_detect() {
+  let
+    _call_timeout,
+    _msg;
+  const
+    _target_command =
+      _get(
+        "target",
+        "command");
+  if ( _target_command === "get" ) {
+    _call_timeout =
+      3000;
+  }
+  else if ( _target_command === "publish" ) {
+    _call_timeout =
+      60000;
+  }
+  else {
+    _msg =
+      `Unknown command '${_target_command}'.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  _override_set(
+    "call",
+    "timeout",
+    _call_timeout);
+}
+
+function
+  _call_auth_auto_detect() {
+  let
+    _call_auth,
+    _msg;
+  const
+    _target_command =
+      _get(
+        "target",
+        "command");
+  if ( _target_command === "get" ) {
+    _call_auth =
+      "n";
+  }
+  else if ( _target_command === "publish" ) {
+    _call_auth =
+      "y";
+  }
+  else {
+    _msg =
+      `Unknown command '${_target_command}'.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  _override_set(
+    "call",
+    "auth",
+    _call_auth);
+}
+
+function
+  _tasks_parallel_auto_detect() {
+  let
+    _msg,
+    _tasks_parallel;
+  const
+    _target_command =
+      _get(
+        "target",
+        "command");
+  if ( _target_command === "get" ) {
+    _tasks_parallel =
+      1;
+  }
+  else if ( _target_command === "publish" ) {
+    _tasks_parallel =
+      1;
+  }
+  else {
+    _msg =
+      `Unknown command '${_target_command}'.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  _override_set(
+    "tasks",
+    "parallel",
+    _tasks_parallel);
+}
+
+async function
+  _contracts_auto_detect() {
+  let
+    _contract_setup_auto_detect_args,
+    _msg;
+  const
+    _contract_version =
+      _get(
+        "contract",
+        "version");
+  const
+    _target_networks =
+      _get(
+        "target",
+        "networks");
+  const
+    _configuration_format =
+      _get(
+        "configuration",
+        "format");
+  const
+    _target_network =
+      _target_networks[
+        0];
+  const
+    _user_level =
+      _get(
+        "user",
+        "level");
+  const
+    _deployments_dir =
+      _get(
+        "deployments",
+        "dir");
+  const
+    _contracts_package =
+      "evmfs-contracts";
+  _contract_setup_auto_detect_args = [
+    "evmfs",                  // application name
+    "FileSystem",             // contract name
+    "fs",                     // contract short name
+    _contract_version,
+    _target_network,
+    _user_level,
+    _deployments_dir,
+    _contracts_package,
+    _configuration_format
+  ];
+  try {
+    await _contract_setup_auto_detect.apply(
+      null,
+      _contract_setup_auto_detect_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_contract_setup_auto_detect' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
+  _contract_setup_auto_detect_args = [
+    "evmfs",                  // application name
+    "CrossChainFileSystem",   // contract name
+    "ccfs",                   // contract short name
+    _contract_version,
+    _target_network,
+    _user_level,
+    _deployments_dir,
+    _contracts_package,
+    _configuration_format
+  ];
+  try {
+    await _contract_setup_auto_detect.apply(
+      null,
+      _contract_setup_auto_detect_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_contract_setup_auto_detect' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
+  _contract_setup_auto_detect_args = [
+    "evmfs",                  // application name
+    "LengthLock",             // contract name
+    "ll",                     // contract short name
+    _contract_version,
+    _target_network,
+    _user_level,
+    _deployments_dir,
+    _contracts_package,
+    _configuration_format
+  ];
+  try {
+    await _contract_setup_auto_detect.apply(
+      null,
+      _contract_setup_auto_detect_args);
+    _msg =
+      "Got LengthLock address " +
+      `'${ll_address}'.`;
+    _msg_info(
+      _msg);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_contract_setup_auto_detect' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
+}
+
+function
+  _address_section_get(
+    _uri,
+    _position) {
+  let
+    _msg,
+    _uri_array_reverse;
+  const
+    _uri_type =
+      typeof(
+        _uri);
+  if ( _uri_type != "string" ) {
+    const
+      _msg =
+        `Unknown type '${_uri_type}' ` +
+        `for uri '${_uri}'.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  try {
+    _uri_array_reverse =
+      _uri.split("/").reverse();
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error splitting URI " +
+      `'${_uri}'.`;
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
+  return _uri_array_reverse[
+           _position];
+}
+
+function
+  _hash_get(
+    _uri) {
+  let
+    _hash;
+  try {
+    _hash =
+      _address_section_get(
+        _uri,
+        0);
+  }
+  catch(
+    _error) {
+    const
+      _msg =
+        "Error extracting hash " +
+        `from URI '${_uri}'.`;
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _msg);
+    throw _error;
+  }
+  return _hash;
+}
+
+function
+  _namespace_get(
+    _uri) {
+  let
+    _namespace;
+  try {
+    _namespace =
+      _address_section_get(
+        _uri,
+        1);
+  }
+  catch(
+    _error) {
+    const
+      _msg =
+        "Error extracting namespace " +
+        `from URI '${_uri}'.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  return _namespace;
+}
+
+function
+  _contract_get(
+    _uri) {
+  let
+    _contract;
+  try {
+    _contract =
+      _address_section_get(
+        _uri,
+        2);
+  }
+  catch(
+    _error) {
+    const
+    _msg =
+      "Error extracting contract address " +
+      `from URI '${_uri}'.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  return _contract;
+}
+
+function
+  _network_id_get(
+    _uri) {
+  let
+    _network_id;
+  try {
+    _network_id =
+      _address_section_get(
+        _uri,
+        3);
+  }
+  catch(
+    _error) {
+    const
+      _msg =
+        "Error extracting network id " +
+        `from URI '${_uri}'.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  return _network_id;
+}
+
+function
+  _hash_type_check(
+    _hash_type) {
+  let
+    _hash_type_get,
+    _msg;
+  _hash_type_get =
+    false;
+  const
+    _default =
+      "sha256sum";
+  const
+    _hash_type_type =
+      typeof(
+        _hash_type);
+  if ( _hash_type_type === "undefined" ) {
+    _msg =
+      "Hash type undefined, setting " +
+      `default type '${_default}'.`;
+    _msg_info(
+      _msg);
+    _hash_type_get =
+      true;
+  }
+  else if ( _hash_type_type === "string" ) {
+    if ( _hash_type.length < 1 ) {
+      _msg =
+        "Hash type is an empty, setting " +
+        `default type '${_default}'.`;
+      _msg_info(
+        _msg);
+      _hash_type_get =
+        true;
+    }
+    else {
+      if ( _hash_type === "sha256sum" ) {
+        true;
+      }
+      else if ( _hash_type === "sha512sum" ) {
+        true;
+      }
+      else {
+        _msg =
+          `Unknown hash type '${_hash_type}'.`;
+        _msg_error(
+          _msg,
+          0);
+        throw _msg;
+      }
+    }
+  }
+  else {
+    _msg =
+      `Unknown type '${_hash_type_type}' ` +
+      `for variable 'hash type'.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  if ( _hash_type_get ) {
+    _hash_type =
+      _default;
+  }
+  return _hash_type;
+}
+
+async function
+  _hash_check(
+    _hash,
+    _hash_type) {
+  let
+    _msg,
+    _re;
+  try {
+    _hash_type =
+      _hash_type_check(
+        _hash_type);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error checking hash type.";
+    _msg_error(
+      _msg,
+      0);
+    throw _error;
+  }
+  if ( _hash.length < 1 ) {
+    _msg =
+      "Empty URI hash.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  if ( _hash_type === "sha256sum" ) {
+    _re =
+      new RegExp(
+        "[a-fA-F0-9]{64}$");
+  }
+  else if ( _hash_type === "sha512sum" ) {
+    _re =
+      new RegExp(
+        "[a-fA-F0-9]{128}$");
+  }
+  else {
+    _msg =
+      "Check for hash type " +
+      `'${_hash_type}' not implemented.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  const
+    _valid =
+      _hash.match(
+        _re);
+  if ( ! _valid ) {
+    _msg =
+      `Hash '${_hash}' ` +
+      `of type '${_hash_type}' ` +
+      "not valid.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+}
+
+async function
+  _contract_type_get(
+    _contract_address,
+    _fs_version,
+    _target_networks,
+    _user_level,
+    _configuration_format,
+    _deployments_dir) {
+  let
+    _address,
+    _contract_addresses,
+    _evm_contract_deployment_address_args,
+    _msg,
+    _network,
+    _type;
+  const
+    _results =
+      [];
+  const
+    _contracts_types = [
+      "FileSystem",
+      "CrossChainFileSystem"
+    ];
+  _network =
+    _target_networks[
+      0];
+  const
+    _network_type =
+      typeof(
+        _network);
+  _msg =
+    "Looking for contract types " +
+    `having address '${_contract_address}'.`;
+  _msg_info(
+    _msg);
+  if ( _network_type === "undefined" ) {
+    for ( _type of _contracts_types ) {
+      _evm_contract_deployment_address_args = [
+        [],                  // target networks
+        [],                  // networks ids
+        "n",                 // all networks
+        "evmfs",
+        _type,
+        _fs_version,
+        _user_level,
+        _configuration_format,
+        _deployments_dir,
+        "object"
+      ];
+      try {
+        _contract_addresses =
+          await _evm_contract_deployment_address.apply(
+            null,
+            _evm_contract_deployment_address_args);
+      }
+      catch(
+        _error) {
+        _msg =
+          "Error locally retrieving " +
+          "contract address.";
+        _msg_error(
+          _msg);
+        _echo2(
+          _error);
+        throw _error;
+      }
+      for ( _network in _contract_addresses ) {
+        _address =
+          _contract_addresses[
+            _network];
+        if ( _address === _contract_address ) {
+          _results.push([
+            _type,
+            _network, 
+            _address
+          ]);
+        }
+      }
+    }
+  }
+  else {
+    for ( _type of _contracts_types ) {
+      _evm_contract_deployment_address_args = [
+        _target_networks,    // target networks
+        _target_networks,    // networks ids
+        "n",                 // all networks
+        "evmfs",
+        _type,
+        _fs_version,
+        _user_level,
+        _configuration_format,
+        _deployments_dir,
+        "object"
+      ];
+      try {
+        _contract_addresses =
+          await _evm_contract_deployment_address.apply(
+            null,
+            _evm_contract_deployment_address_args);
+      }
+      catch(
+        _error) {
+        _msg =
+          "Error locally retrieving " +
+          "contract address.";
+        _msg_error(
+          _msg);
+        _echo2(
+          _error);
+        throw _error;
+      }
+      for ( _network in _contract_addresses ) {
+        _address =
+          _contract_addresses[
+            _network];
+        if ( _address === _contract_address ) {
+          _results.push([
+            _type,
+            _network, 
+            _address
+          ]);
+        }
+      }
+    }
+  }
+  if ( 1 < _results.length ) {
+    _msg =
+      "More than a file system type corresponding " +
+      "found for the given contract:";
+    _msg_info(
+      _msg);
+    const
+      _global =
+        _global_get();
+    const
+      _quiet =
+        _global[
+          "quiet"];
+    if ( _quiet === "n" ) {
+      _echo(
+        _results);
+    }
+  }
+  return _results;
+}
+
+async function
+  _contract_setup(
+    _contract_address,
+    _target_networks,
+    _fs_version,
+    _user_level,
+    _configuration_format,
+    _deployments_dir) {
+  let
+    _address,
+    _contract_address_get,
+    _contract_type,
+    _contracts_candidates,
+    _msg,
+    _network;
+  _contract_address_get =
+    false;
+  const
+    _contract_address_type =
+      typeof(
+        _contract_address);
+  if ( _contract_address_type === "string" ) {
+    if ( _contract_address.length < 1 ) {
+      _msg =
+        "No EVMFS contract address specified, " +
+        "inferring it automatically.";
+      _msg_info(
+        _msg);
+      _contract_address_get =
+        true;
+    }
+  }
+  else {
+    _msg =
+      `Unknown type '${_contract_address_type}' for ` +
+      "variable contract address.";
+    _msg_warning(
+      _msg);
+  }
+  if ( _contract_address_get ) {
+    const
+      _target_app =
+        "evmfs";
+    const
+      _evm_contract_deployment_address_args = [
+        _target_networks,
+        _target_networks,
+        "n",                 // all networks
+        _target_app,
+        "FileSystem",
+        _fs_version,
+        _user_level,
+        _configuration_format,
+        _deployments_dir
+      ];
+    try {
+      const
+        _global =
+          _global_get();
+      const
+        _quiet =
+          _global[
+            "quiet"];
+      _msg =
+        "Running '_evm_contract_deployment_address' " +
+        "with arguments:";
+      if ( _quiet === "n" ) {
+        _echo(
+          _evm_contract_deployment_address_args);
+      }
+      _contract_address =
+        await _evm_contract_deployment_address.apply(
+          null,
+          _evm_contract_deployment_address_args);
+    }
+    catch(
+      _error) {
+      _msg =
+        "Error locally retrieving " +
+        "contract address.";
+      _msg_error(
+        _msg);
+      _echo2(
+        _error);
+      throw _error;
+    }
+  }
+  else {
+    const
+      _contract_type_get_args = [
+        _contract_address,
+        _fs_version,
+        _target_networks,
+        _user_level,
+        _configuration_format,
+        _deployments_dir
+      ];
+    try {
+      _contracts_candidates =
+        await _contract_type_get.apply(
+          null,
+          _contract_type_get_args);
+    }
+    catch(
+      _error) {
+      _msg =
+        "Error running '_contract_type_get' " +
+        "with arguments:";
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _contract_type_get_args);
+      _echo2(
+        _error);
+      throw _error;
+    }
+  }
+  if ( 1 === _contracts_candidates.length ) {
+    [ _contract_type ] =
+      _contracts_candidates[
+        0];
+  }
+  else if ( 1 < _contracts_candidates.length ) {
+    _msg =
+      "Found more than a contract type, " +
+      "assuming the cross-chain one is the " +
+      "correct one because exist check can be " +
+      "postponed to a future release.";
+    _msg_info(
+      _msg);
+    _echo(
+      _contracts_candidates);
+    _msg_warning(
+      _msg);
+    for ( [ _contract_type,
+            _network,
+            _address ] of _contracts_candidates ) {
+      if ( _address === _contract_address ) {
+        break;
+      }
+    }
+  }
+  return [
+    _contract_address,
+    _contract_type
+  ];
+}
+
+async function
+  _evmfs_status() {
+  true;
+}
+
+async function
+  _namespace_setup(
+    _namespace,
+    _wallet_seed) {
+  let
+    _msg,
+    _namespace_get;
+  _namespace_get =
+    false;
+  const
+    _namespace_type =
+      typeof(
+        _namespace);
+  if ( _namespace_type === "undefined"  ) {
+    _msg =
+      "Namespace is undefined, setting " +
+      "own.";
+    _msg_info(
+      _msg);
+    _namespace_get =
+      true;
+  }
+  if ( _namespace_type === "string"  ) {
+    if ( _namespace.length < 1 ) {
+      _msg =
+        "Namespace is an empty string, " +
+        "setting own.";
+      _msg_info(
+        _msg);
+      _namespace_get =
+        true;
+    }
+  }
+  else if ( _namespace_type === "object"  ) {
+    _msg =
+      "Seed system support is for a later version.";
+    _msg_info(
+      _msg);
+    _namespace_get =
+      true;
+  }
+  else {
+    _msg =
+      `Unknown type '${_namespace_type}' for ` +
+      "namespace variable.";
+    _msg_error(
+      _msg,
+      0);
+  }
+  if ( _namespace_get ) {
+    const
+      _address_get_args = [
+        _wallet_seed,
+        "",                  // network
+        "",                  // api key
+        "",                  // chain id
+        "",                  // chain name
+        ""                   // output file
+      ];
+    try {
+      _namespace =
+        await _address_get.apply(
+          null,
+          _address_get_args);
+    }
+    catch(
+      _error) {
+      _msg =
+        "Error getting address for " +
+        "own address.";
+      _msg_error(
+        _msg,
+        0);
+      throw _error;
+    }
+  }
+  return _namespace;
+}
+
+async function
+  _work_dir_setup(
+    _cache_dir,
+    _sum,
+    _encoding_type,
+    _chunk_length) {
+  let
+    _msg;
+  const
+    _publish_dir =
+      _path_join([
+        _cache_dir,
+        _sum,
+        "publish"]);
+  const
+    _encoding_type_check_args = [
+      _encoding_type,
+      _cache_dir,
+      _sum
+    ];
+  try {
+    _encoding_type =
+      await _encoding_type_check.apply(
+        null,
+        _encoding_type_check_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_encoding_type_check' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _encoding_type_check_args);
+    _echo2(
+      _error);
+    throw _error;
+  }
+  const
+    _cache_dir_check_args = [
+      _cache_dir,
+    ];
+  try {
+    _cache_dir =
+      await _cache_dir_check.apply(
+        null,
+        _cache_dir_check_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_cache_dir_check' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _cache_dir_check_args);
+    _echo2(
+      _error);
+    throw _error;
+  }
+  const
+    _encoding_lengths_dir =
+      _path_join([
+        _publish_dir,
+        _encoding_type
+      ]);
+  const
+    _chunk_length_check_args = [
+      _chunk_length,
+      _encoding_lengths_dir
+    ];
+  try {
+    _chunk_length =
+      await _chunk_length_check.apply(
+        null,
+        _chunk_length_check_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_chunk_length_check' " +
+      "arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _chunk_length_check_args);
+    throw _error;
+  }
+  // const
+  //   _encodings =
+  //     await _ls(
+  //       _publish_dir);
+  _chunk_length =
+    String(
+      _chunk_length);
+  const
+    _tmp_dir =
+      _path_join([
+        _cache_dir,
+        _sum,
+        "publish",
+        _encoding_type,
+        _chunk_length
+      ]);
+  return _tmp_dir;
+}
+
+async function
+  _chunk_lengths_auto_detect() {
+  let
+    _cache_dir,
+    _chunk_length,
+    _cursor,
+    _file,
+    _encoding_lengths_dir,
+    _sum;
+  const
+    _chunk_lengths =
+      _get(
+        "chunk",
+        "lengths");
+  _echo(
+    _chunk_lengths);
+  const
+    _encoding_type =
+      _get(
+        "encoding",
+        "type");
+  const
+    _target_command =
+      _get(
+        "target",
+        "command");
+  if ( _target_command === "publish" ) {
+    const
+      _cache_dir =
+        _get(
+          "cache",
+          "dir");
+    const
+      _input_files =
+        _get(
+          "input",
+          "files");
+    _cursor =
+      0;
+    for ( _file of _input_files ) {
+      _chunk_length =
+        _chunk_lengths[
+          _cursor];
+      _sum =
+        await _file_hash(
+          _file);
+      _encoding_lengths_dir =
+        _path_join([
+          _cache_dir,
+          _sum,
+          "publish",
+          _encoding_type
+        ]);
+      const
+        _chunk_length_check_args = [
+          _chunk_length,
+          _encoding_lengths_dir
+        ];
+      try {
+        _chunk_length =
+          await _chunk_length_check.apply(
+            null,
+            _chunk_length_check_args);
+        _chunk_lengths[
+          _cursor] =
+          _chunk_length;
+      }
+      catch(
+        _error) {
+        const
+          _msg =
+            "Error running '_chunk_length_check' " +
+            "with arguments:";
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _chunk_length_check_args);
+        _echo2(
+          _error);
+        throw _error;
+      }
+      _cursor =
+        _cursor + 1;
+    }
+  }
+  _override_set(
+    "chunk",
+    "lengths",
+    _chunk_lengths);
+}
+
+async function
+  _file_encode(
+    _file,
+    _sum,
+    _encoding_format,
+    _chunk_length,
+    _cache_dir) {
+  let
+    _chunks,
+    _chunks_total,
+    _msg;
+  const
+    _buffer_size_bytes =
+      "2000000"; // 2MB
+  const
+    _amount_only =
+      "n";
+  _chunk_length =
+    String(
+      _chunk_length);
+  const
+    _output_dir =
+      _path_join([
+        _cache_dir,
+        _sum,
+        "publish",
+        _encoding_format,
+        _chunk_length
+      ]);
+  if ( ! _dir_exists(
+          _output_dir) ) {
+    const
+      _mkdir_opts = {
+        "recursive":
+          true
+      };
+    _mkdir(
+      _output_dir,
+      _mkdir_opts);
+  }
+  const
+    _out =
+      _path_join([
+        _output_dir,
+        `${_sum}.base64`
+      ]);
+  _msg =
+    "Chunking files.";
+  const
+    _encoding_type =
+      "memory";
+  _msg_info(
+    _msg);
+  const
+    _bin2txt_args = [
+      _file,
+      _out,
+      _encoding_format,
+      _chunk_length,
+      _buffer_size_bytes,
+      _amount_only,
+      _encoding_type
+    ];
+  try {
+    [ _chunks_total,
+      _chunks ] =
+      await _bin2txt.apply(
+        null,
+        _bin2txt_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_bin2txt' " +
+      "arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _bin2txt_args);
+    _echo2(
+      _error);
+    throw _error;
+  }
+  _msg =
+    `Found '${_chunks_total}' ` +
+    "encoded chunks.";
+  _msg_info(
+    _msg);
+  return _chunks;
+}
+
+function
+  _encoding_skip_check(
+    _encoding_skip) {
+  let
+    _encoding_skip_get,
+    _msg;
+  _encoding_skip_get =
+    false;
+  const
+    _default =
+      "n";
+  const
+    _encoding_skip_type =
+      typeof(
+        _encoding_skip);
+  if ( _encoding_skip_type === "undefined" ) {
+    _msg =
+      "Variable 'encoding skip' is undefined, " +
+      `setting default '${_default}'.`;
+    _msg_info(
+      _msg);
+    _encoding_skip_get =
+      true;
+  }
+  else if ( _encoding_skip_type === "string" ) {
+    if ( _encoding_skip.length < 1 ) {
+      _msg =
+        "Variable 'encoding skip' is an empty string, " +
+        `setting default '${_default}'.`;
+      _msg_info(
+        _msg);
+      _encoding_skip_get =
+        true;
+    }
+  }
+  else if ( _encoding_skip_type === "boolean" ) {
+    if ( _encoding_skip ) {
+      _encoding_skip =
+        "y";
+    }
+    else {
+      _encoding_skip =
+        "n";
+    }
+  }
+  else if ( _encoding_skip_type === "object" ) {
+    if ( _encoding_skip === null ) {
+      _msg =
+        "Encoding skip variable should be 'y' or 'n'.";
+      _msg_error(
+        _msg,
+        0);
+      throw _msg;
+    }
+    else {
+      const
+        _encoding_skip_keys =
+          Object.keys(
+            _encoding_skip);
+      if ( _encoding_skip_keys.length < 1 ) {
+        _msg =
+          "Variable 'encoding skip' is an empty object, " +
+          `setting default '${_default}'.`;
+        _msg_info(
+          _msg);
+        _encoding_skip_get =
+          true;
+      }
+      else {
+        _msg =
+          "Encoding skip variable should " +
+          "be 'y' or 'n', not an object:";
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _encoding_skip);
+        throw _msg;
+      }
+    }
+  }
+  else {
+    _msg =
+      "Variable 'encoding skip' should be " +
+      "'y' or 'n', not:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _encoding_skip);
+    throw _msg;
+  }
+  if ( _encoding_skip_get ) {
+     _encoding_skip =
+       _default;
+  }
+  if ( _encoding_skip != "n" &&
+       _encoding_skip != "y" ) {
+    _msg =
+      "The 'encoding skip' variable should " +
+      "be 'y' or 'n'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  return _encoding_skip;
+}
+
+function
+  _lock_only_check(
+    _lock_only) {
+  let
+    _lock_only_get,
+    _msg;
+  _lock_only_get =
+    false;
+  const
+    _default =
+      "n";
+  const
+    _lock_only_type =
+      typeof(
+        _lock_only);
+  if ( _lock_only_type === "undefined" ) {
+    _msg =
+      "Variable 'lock only' is undefined, " +
+      `setting default '${_default}'.`;
+    _msg_info(
+      _msg);
+    _lock_only_get =
+      true;
+  }
+  else if ( _lock_only_type === "string" ) {
+    if ( _lock_only.length < 1 ) {
+      _msg =
+        "Variable 'lock only' is an empty string, " +
+        `setting default '${_default}'.`;
+      _msg_info(
+        _msg);
+      _lock_only_get =
+        true;
+    }
+    else {
+      if ( _lock_only !== "n" &&
+           _lock_only !== "y" &&
+           _lock_only !== "true" &&
+           _lock_only !== "false" ) {
+        _msg =
+          "The 'lock only' variable should be " +
+          `'y' or 'n', not '${_lock_only}'.`;
+        _msg_error(
+          _msg,
+          0);
+        throw _msg;
+      }
+    }
+  }
+  else if ( _lock_only_type === "boolean" ) {
+    if ( _lock_only ) {
+      _lock_only =
+        "y";
+    }
+    else {
+      _lock_only =
+        "n";
+    }
+  }
+  else if ( _lock_only_type === "object" ) {
+    if ( _lock_only === null ) {
+      _msg =
+        "The 'lock only' variable should be " +
+        "'y' or 'n', not 'null'.";
+      _msg_error(
+        _msg,
+        0);
+      throw _msg;
+    }
+    else {
+      const
+        _lock_only_keys =
+          Object.keys(
+            _lock_only);
+      if ( _lock_only_keys.length < 1 ) {
+        _msg =
+          "Variable 'lock only' is an empty object, " +
+          `setting default '${_default}'.`;
+        _msg_info(
+          _msg);
+        _lock_only_get =
+          true;
+      }
+      else {
+        _msg =
+          "The 'lock only' variable should be " +
+          "'y' or 'n', not an object.";
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _lock_only);
+        throw _msg;
+      }
+    }
+  }
+  else {
+    _msg =
+      "Variable 'lock only' should be " +
+      "'y' or 'n' but it has type " +
+      `'${_lock_only_type}'.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  if ( _lock_only_get ) {
+     _lock_only =
+       _default;
+  }
+  if ( _lock_only != "n" &&
+       _lock_only != "y" ) {
+    _msg =
+      "The 'lock only' variable should " +
+      "be 'y' or 'n' but it has value " +
+      `'${_lock_only}'.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  return _lock_only;
+}
+
+async function
+  _evmfs_publish(
+    _fs_address,
+    _ll_address,
+    _ccfs_address,
+    _fs_version,
+    _deployments_dir,
+    _user_level,
+    _wallet_name,
+    _wallet_path,
+    _wallet_password,
+    _wallet_seed,
+    _target_networks,
+    _index_network,
+    _api_key_path,
+    _upload_method,
+    _retries_max,
+    _call_timeout,
+    _price_gas,
+    _encoding_skip,
+    _checksum_type,
+    _encoding_type,
+    _lock_only,
+    _chunk_lengths,
+    _tasks_parallel,
+    _cache_dir,
+    _input_files) {
+  let
+    _checkpoint_file_exists,
+    _checkpoint_file_path,
+    _checkpoint_lock_path,
+    _checkpoint_verify_exists,
+    _checkpoint_verify_path,
+    _chunk,
+    _chunk_length,
+    _chunks_corrupted,
+    _chunks_files_paths,
+    _chunks_locked,
+    _chunks_publish_args,
+    _chunks_total,
+    _chunks_unverified,
+    _cursor,
+    _file,
+    _file_size,
+    _file_sum,
+    _fs_abi,
+    _fs_bytecode,
+    _fs_compiler_output,
+    _index,
+    _index_checkpoint,
+    _index_end,
+    _index_start,
+    _index_verify_checkpoint,
+    _index_verify_start,
+    _index_unverified,
+    _indexes,
+    _input_file,
+    _msg,
+    _namespace,
+    _path,
+    _publish_skip,
+    _verify_skip,
+    _work_dir_setup_args,
+    _work_dir;
+  const
+    _global =
+      _global_get();
+  const
+    _quiet =
+      _global[
+        "quiet"];
+  try {
+    _encoding_skip =
+      _encoding_skip_check(
+        _encoding_skip);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_encodign_skip_check'.";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
+  try {
+    _lock_only =
+      _lock_only_check(
+        _lock_only);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_lock_only_check'.";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
+  const
+    _uploaded_files =
+      [];
+  _chunks_files_paths =
+    [];
+  const
+    [ _target_network ] =
+      _target_networks;
+  const
+    _namespace_setup_args = [
+      _namespace,
+      _wallet_seed
+    ];
+  try {
+    _namespace =
+      await _namespace_setup.apply(
+        null,
+        _namespace_setup_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_namespace_setup' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _namespace_setup_args);
+    _echo2(
+      _error);
+    throw _error;
+  }
+  const
+    _libevm_app_contract_setup_args = [
+      "evmfs",                  // application name
+      "FileSystem",             // contract name
+      "_fs",                    // contract short name
+      _fs_version,
+      _target_network,
+      _user_level,
+      _deployments_dir,
+      "evmfs-contracts",
+      "json",                   // configuration format
+      ""                        // configuration file path
+    ];
+  try {
+    [ _fs_abi,
+      _fs_bytecode,
+      _fs_compiler_output ] =
+    await _libevm_app_contract_setup.apply(
+      null,
+      _libevm_app_contract_setup_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_libevm_contract_setup' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
+  _cursor =
+    0;
+  for ( _file of _input_files ) {
+    _chunk_length =
+      _chunk_lengths[
+        _cursor];
+    [ _file_size ] =
+      _du(
+        _file);
+    _file_sum =
+      await _file_hash(
+        _file);
+    _msg =
+      "Uploading file " +
+      `'${_file}' with SHA256 sum ` +
+      `'${_file_sum}'.`;
+    _msg_info(
+      _msg);
+    _input_file =
+      _input_files[
+        _cursor];
+    if ( _upload_method === "library" ) {
+      _work_dir_setup_args = [
+        _cache_dir,
+        _file_sum,
+        _encoding_type,
+        _chunk_length
+      ];
+      try {
+        _work_dir =
+          await _work_dir_setup.apply(
+            null,
+            _work_dir_setup_args);
+      }
+      catch(
+        _error) {
+        _msg =
+          "Error running '_work_dir_setup' with " +
+          "arguments:";
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _work_dir_setup_args);
+        _echo2(
+          _error);
+        throw _error;
+      }
+      _checkpoint_file_path =
+        _path_join([
+          _work_dir,
+          "checkpoint.publish"
+        ]);
+      _checkpoint_lock_path =
+        _path_join([
+          _work_dir,
+          "checkpoint.lock"
+        ]);
+      _checkpoint_verify_path =
+        _path_join([
+          _work_dir,
+          "checkpoint.verify"
+        ]);
+      _checkpoint_file_exists =
+        _file_exists(
+          _checkpoint_file_path);
+      if ( _checkpoint_file_exists ) {
+        _index_checkpoint =
+          _file_read(
+            _checkpoint_file_path);
+        _index_checkpoint =
+          Number(
+            _index_checkpoint);
+        if ( isNaN(
+               _index_checkpoint) ) {
+          _msg =
+            "Error converting index " +
+            `'${_index_checkpoint}' to number.`;
+          _msg_error(
+            _msg,
+            0);
+          throw _msg;
+	}
+        _index_start =
+          _index_checkpoint + 1;
+      }
+      else {
+        _index_checkpoint =
+          -2;
+        _index_start =
+          0;
+      }
+      const
+        _index_end_check_args = [
+          _index_end,
+          _file_sum,
+          _work_dir
+        ];
+      try {
+        _index_end =
+          await _index_end_check.apply(
+            null,
+            _index_end_check_args);
+      }
+      catch(
+        _error) {
+        _msg =
+          "Error running '_index_end_check' " +
+          "with arguments:";
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _index_end_check_args);
+        _echo2(
+          _error);
+        throw _error;
+      }
+      if ( _index_end === -1 ) {
+        if ( _encoding_skip === "y" ) {
+          _msg =
+            "Selected to skip encoding, " +
+            "but no previous encoding seems available " +
+            "for this file.";
+          _msg_error(
+            _msg,
+            0);
+          throw _msg;
+        }
+        const
+          _publish_dir =
+            _path_join([
+              _cache_dir,
+              _file_sum,
+              "publish"]);
+        const
+          _file_encode_args = [
+            _file,
+            _file_sum,
+            _encoding_type,
+            _chunk_length,
+            _cache_dir
+          ];
+        try {
+          _chunks_files_paths =
+            await _file_encode.apply(
+              null,
+              _file_encode_args);
+        }
+        catch(
+          _error) {
+          _msg =
+            "Error running '_file_encode' " +
+            `with arguments:`;
+          _msg_error(
+            _msg,
+            0);
+          _echo2(
+            _file_encode_args);
+          _echo2(
+            _error);
+          throw _error;
+        }
+        _index_end =
+          _chunks_files_paths.length - 1;
+      }
+      else {
+        _msg =
+          "Found index end " +
+          `'${_index_end}'.`;
+        _msg_info(
+          _msg);
+        // The reason this uses '_ls'
+        // rather than '_seq' is 'encoding-tools.js'
+        // module encodes with padding and '
+        // const
+        //   _work_dir_files =
+        //     await _ls(
+        //       _work_dir);
+        // for ( _chunk of _work_dir_files ) {
+        //   if ( _chunk.startsWith(
+        //          `${_file_sum}.base64`) ) {
+        //     _path =
+        //       _path_join([
+        //         _work_dir,
+        //         _chunk
+        //       ]);
+        //     _chunks_files_paths.push(
+        //       _path);
+        //   }
+        // }
+        _chunks_total =
+          _index_end + 1;
+        if ( _chunks_total < 1 ) {
+          _msg =
+            "It shouldn't be possible for " +
+            "the total chunks variable to be " +
+            "less than one.";
+          _msg_error(
+            _msg,
+            0);
+          throw _msg;
+        }
+        else if ( _chunks_total == 1 ) {
+          _chunks_files_paths = [
+            _path_join([
+              _work_dir,
+              `${_file_sum}.base64`
+            ])
+          ];
+        }
+        else if ( 1 < _chunks_total ) {
+          _indexes =
+            _seq(
+              1,
+              _chunks_total);
+          _chunks_files_paths =
+            [];
+          for ( _index of _indexes ) {
+            _chunks_files_paths.push(
+              _path_join([
+                _work_dir,
+                `${_file_sum}.base64.${_index}`
+              ]));
+          }
+        }
+      }
+      _publish_skip =
+        "n";
+      if ( _index_checkpoint === _index_end ) {
+        _msg =
+          "Publishing checkpoint reports same value " +
+          `'${_index_checkpoint}' as end index '${_index_end}', ` +
+          "publication complete, checking uploaded chunks.";
+        _msg_info(
+          _msg);
+        _publish_skip =
+          "y";
+      }
+      else if ( _index_checkpoint < _index_end ) {
+        _chunks_files_paths =
+          _chunks_files_paths.slice(
+            _index_start,
+            _index_end + 1);
+      }
+      _chunks_publish_args = [
+        _retries_max,
+        _call_timeout,
+        _wallet_seed,
+        _api_key_path,
+        _target_network,
+        _fs_address,
+        _fs_abi,
+        _fs_bytecode,
+        _fs_compiler_output,
+        _namespace,
+        _file_sum,
+        _index_start,
+        _index_end,
+        _checkpoint_file_path,
+        _chunks_files_paths,
+        _price_gas,
+        "" // ethers contract method object for the
+           // file system contract publish method.
+      ];
+      if ( _lock_only == "n" ) {
+        if ( _publish_skip == "n" ) {
+          _msg =
+            "Running '_chunks_publish' with " +
+            "arguments:";
+          _msg_info(
+            _msg);
+          if ( _quiet == "n" ) {
+            _echo(
+              _chunks_publish_args);
+          }
+          try {
+            _chunks_unverified =
+              await _chunks_publish.apply(
+                null,
+                _chunks_publish_args);
+          }
+          catch(
+            _error) {
+            _msg =
+              "Error running '_chunks_publish' " +
+              "with arguments:";
+            _msg_error(
+              _msg,
+              0);
+            _echo2(
+              _chunks_publish_args);
+            throw _error;
+          }
+        }
+        else if ( _publish_skip == "y" ) {
+          _chunks_unverified =
+            [];
+          _index_unverified =
+            _index_start;
+          for ( _chunk of _chunks_files_paths ) {
+            _chunks_unverified.push([
+              _index_unverified,
+              _chunk]);
+            _index_unverified =
+              _index_unverified + 1;
+          }
+        }
+        else {
+          _msg =
+            "Variable 'skip publish' can only " +
+            "be 'y' or 'n'.";
+          _msg_error(
+            _msg,
+            0);
+        }
+        _uploaded_files.push(
+          _file);
+        if ( 0 < _chunks_unverified.length ) {
+          _msg =
+            "There are chunks left to verify.";
+          _msg_info(
+            _msg);
+        }
+        _checkpoint_verify_exists =
+          _file_exists(
+            _checkpoint_verify_path);
+        if ( _checkpoint_verify_exists ) {
+          _index_verify_checkpoint =
+            _file_read(
+              _checkpoint_verify_path);
+          _index_verify_checkpoint =
+            Number(
+              _index_verify_checkpoint);
+          if ( isNaN(
+                 _index_verify_checkpoint) ) {
+            _msg =
+              "Error converting verification index " +
+              `'${_index_verify_checkpoint}' to number.`;
+            _msg_error(
+              _msg,
+              0);
+            throw _msg;
+          }
+          _index_verify_start =
+            _index_verify_checkpoint;
+          _msg =
+            "Previous verification run detected, " +
+            `reading from index '${_index_verify_start}'.`;
+          _msg_info(
+            _msg,
+            0);
+          if ( _index_verify_start === _index_end ) {
+            _msg =
+              "Verification checkpoint index " +
+              `'${_index_verify_start}' same as ` +
+	      `end index '${_index_end}'.`;
+            _msg_info(
+              _msg);
+            _verify_skip =
+              "y";
+	  }
+        }
+        else {
+          _msg =
+            "Found no previous verification index, " +
+            "starting from the beginning.";
+          _msg_info(
+            _msg);
+          if ( 0 < _index_end + 1 - _chunks_unverified.length) {
+            _msg =
+              "Only some of the index should be verified, " +
+              "but all of them are verified just the same.";
+            _msg_info(
+              _msg);
+          }
+          _index_verify_start =
+           0;
+        }
+        const
+          _chunks_files_paths_prefix =
+            _path_join([
+              _work_dir,
+              `${_file_sum}.base64`
+            ]);
+        const
+          _chunks_indexes =
+            _seq(
+              _index_verify_start,
+              _index_end);
+        // TODO
+        const
+          _chunks_verify_args = [
+            _retries_max,
+            _api_key_path,
+            _target_network,
+            _fs_address,
+            _fs_abi,
+            _fs_bytecode,
+            _fs_compiler_output,
+            "", // ethers contract method object for the
+                // file system contract publish method.
+            _namespace,
+            _file_sum,
+            _checkpoint_verify_path,
+            _chunks_files_paths_prefix,
+            _chunks_indexes
+          ];
+        if ( _verify_skip === "n" ) {
+          try {
+            _chunks_corrupted =
+              await _chunks_verify.apply(
+                null,
+                _chunks_verify_args);
+          }
+          catch(
+            _error) {
+            _msg =
+              "Error running '_chunks_verify' " +
+              "with arguments:";
+            _msg_error(
+              _msg,
+              0);
+            _echo2(
+              _chunks_verify_args);
+            _echo2(
+              _error);
+            throw _error;
+          }
+          _msg =
+            "Chunks correctly verified.";
+          _msg_info(
+            _msg);
+	}
+        else {
+          _msg =
+            "Verification skipped.";
+          _msg_info(
+            _msg);
+	}
+      }
+      _msg =
+        "Removing publishing checkpoint file.";
+      _msg_info(
+        _msg);
+      try {
+        _rm(
+          _checkpoint_file_path);
+      }
+      catch(
+        _error) {
+        _msg =
+          "Error removing checkpoint file.";
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _error);
+        throw _error;
+      }
+      const
+        _chunks_lock_args = [
+          _retries_max,
+          _call_timeout,
+          _wallet_seed,
+          _api_key_path,
+          _target_network,
+          _fs_address,
+          _fs_abi,
+          _fs_bytecode,
+          _fs_compiler_output,
+          _namespace,
+          _file_sum,
+          _index_start,
+          _index_end,
+          _checkpoint_lock_path
+        ];
+      try {
+        _chunks_locked =
+          await _chunks_lock.apply(
+            null,
+            _chunks_lock_args);
+      }
+      catch(
+        _error) {
+        _msg =
+          "Error running '_chunks_lock' " +
+          "arguments:";
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _chunks_lock_args);
+        _echo2(
+          _error);
+        throw _error;
+      }
+    }
+    else if ( _upload_method === "standalone" ) {
+      _msg =
+       "Upload method 'standalone' not implemented.";
+      _msg_error(
+        _msg,
+        0);
+      throw _msg;
+    }
+    _cursor =
+      _cursor + 1;
+  }
+  return _uploaded_files;
+}
+
+function
+  _input_files_check(
+    _input_files) {
+  let
+    _exists,
+    _file,
+    _real_name;
+  const
+    _input_files_dict =
+      {};
+  for ( _file of _input_files ) {
+    _exists =
+      _file_exists(
+        _file);
+    if ( ! _exists ) {
+      const
+        _msg =
+          `File '${_file}' ` +
+          "does not exist.";
+      _msg_error(
+        _msg,
+        0);
+      throw _msg;
+    }
+    else {
+      _real_name =
+        _realpath(
+          _file);
+      _input_files_dict[
+        _real_name] =
+          1;
+    }
+  }
+  const
+    _input_files_set =
+      Object.keys(
+        _input_files_dict);
+  return _input_files_set;
+}
+
+function
+  _input_files_auto_detect() {
+  let
+    _input_files;
+  _input_files =
+    _get(
+      "input",
+      "files");
+  const
+    _target_command =
+      _get(
+        "target",
+        "command");
+  const
+    _target_key =
+      _get(
+        "target",
+        "key");
+  const
+    _target_value =
+      _get(
+        "target",
+        "value");
+  const
+    _command_args =
+      _get(
+        "command",
+        "args");
+  if ( _target_command === "publish" ) {
+    _input_files.push(
+      _target_key);
+    if ( _target_key != "" ) {
+      _input_files.push(
+        _target_key);
+    }
+    if ( _target_value != "" ) {
+      _input_files.push(
+        _target_value);
+    }
+    _input_files =
+      _input_files.concat(
+        _command_args);
+    try {
+      _input_files =
+        _input_files_check(
+          _input_files);
+    }
+    catch(
+      _error) {
+      const
+        _msg =
+          "Error running '_input_files_check'.";
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _error);
+      throw _error;
+    }
+    _set(
+      "input",
+      "files",
+      _input_files);
+  }
+}
+
+// ES6 module export
+
+export {
+  _call_auth_auto_detect,
+  _call_timeout_auto_detect,
+  _check_module,
+  _chunk_lengths_auto_detect,
+  _common_module,
+  _contract_get,
+  _contract_setup,
+  _contracts_auto_detect,
+  _encoding_type_check,
+  _evmfs_publish,
+  _hash_check,
+  _hash_get,
+  _index_module,
+  _input_files_auto_detect,
+  _lengthlock_module,
+  _lock_module,
+  _namespace_get,
+  _namespace_setup,
+  _network_id_get,
+  _publish_module,
+  _publish_bulk_module,
+  _tasks_parallel_auto_detect,
+  _verify_module,
+};
+
+// Common JS exports
+
+// module.exports = {
+//   _call_auth_auto_detect:
+//     _call_auth_auto_detect,
+//   _call_timeout_auto_detect:
+//     _call_timeout_auto_detect,
+//   _chunk_lengths_auto_detect:
+//     _chunk_lengths_auto_detect,
+//   _common_module:
+//     _common_module,
+//   _check_module:
+//     _check_module,
+//   _contracts_auto_detect:
+//     _contracts_auto_detect,
+//   _deployments_dir_auto_detect:
+//     _deployments_dir_auto_detect,
+//   _evmfs_publish:
+//     _evmfs_publish,
+//   _index_module:
+//     _index_module,
+//   _lengthlock_module:
+//     _lengthlock_module,
+//   _lock_module:
+//     _lock_module,
+//   _publish_module:
+//     _publish_module,
+//   _publish_bulk_module:
+//     _publish_bulk_module,
+//   _tasks_parallel_auto_detect:
+//     _tasks_parallel_auto_detect,
+//   _verify_module:
+//     _verify_module,
+// };

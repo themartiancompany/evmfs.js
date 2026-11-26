@@ -21,6 +21,8 @@
     "man",
     "lib",
     "libevmfs",
+    "libevmfs-get",
+    "libevmfs-publish",
     "libevmfs.webpack.config.cjs",
     "package.json",
     "webpack.config.cjs"

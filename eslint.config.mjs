@@ -47,6 +47,8 @@ const
     `**/lib/*`,
     `**/lib/**`,
     `**/lib${_project}`,
+    `**/lib${_project}-get`,
+    `**/lib${_project}-publish`,
     "**/lib/ccget",
     "**/lib/check",
     "**/lib/common",
