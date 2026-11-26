@@ -89,6 +89,15 @@ const
   _set =
     _libcrash._set;
 const
+  _common_module =
+    await import(
+      "./common");
+/* global
+     _checkpoint_file_path_check */
+const
+  _checkpoint_file_path_check =
+    _common_module._checkpoint_file_path_check;
+const
   _evm_contracts_tools_module =
     await _require(
       "evm-contracts-tools");
