@@ -53,6 +53,9 @@ const
   _cmdline_check =
     _libcrash._cmdline_check;
 const
+  _debug_check =
+    _libcrash._debug_check;
+const
   _dir_exists =
     _libcrash._dir_exists;
 const
@@ -543,7 +546,8 @@ async function
     _checkpoint_file_path,
     _chunks_files_paths,
     _price_gas,
-    _method_object) {
+    _method_object,
+    _debug) {
   let
     _check_args,
     _check_call_base_opts,
@@ -561,6 +565,22 @@ async function
     _publish_call_opts,
     _published,
     _tx;
+  try {
+    _debug =
+      _debug_check(
+        _debug);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_debug_check'.";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
   const
     _global =
       _global_get();
@@ -729,12 +749,12 @@ async function
       _chunk,
       _check_call_opts
     ];
-    _msg =
-      "Running '_chunk_check' " +
-      "with options:";
-    _msg_info(
-      _msg);
-    if ( _quiet == "n" ) {
+    if ( _debug == "y" ) {
+      _msg =
+        "Running '_chunk_check' " +
+        "with options:";
+      _msg_info(
+        _msg);
       _echo(
         _chunk_check_args);
     }
@@ -773,18 +793,20 @@ async function
       _echo( 
         _method_object);
     }
-    _msg =
-      "Displaying '_check_call_base_opts' " +
-      "eighth item (index 7), current method object:";
-    _msg_info(
-      _msg);
-    if ( _quiet == "n" ) {
-      const
-        _method_object_current =
-        _check_call_base_opts[
-          7];
-      _echo( 
-        _method_object_current);
+    if ( _debug == "y" ) {
+      _msg =
+        "Displaying '_check_call_base_opts' " +
+        "eighth item (index 7), current method object:";
+      _msg_info(
+        _msg);
+      if ( _quiet == "n" ) {
+        const
+          _method_object_current =
+          _check_call_base_opts[
+            7];
+        _echo( 
+          _method_object_current);
+      }
     }
     if ( _check_call_base_opts[7] == "" ) {
       _msg =
