@@ -1987,6 +1987,13 @@ async function
     _publish_skip,
     _work_dir_setup_args,
     _work_dir;
+  const
+    _global =
+      _global_get();
+  const
+    _quiet =
+      _global[
+        "quiet"];
   try {
     _encoding_skip =
       _encoding_skip_check(
@@ -2293,7 +2300,7 @@ async function
             _path_join([
               _work_dir,
               `${_file_sum}.base64`
-	    ])
+            ])
           ];
         }
         else if ( 1 < _chunks_total ) {
@@ -2308,7 +2315,7 @@ async function
               _path_join([
                 _work_dir,
                 `${_file_sum}.base64.${_index}`
-	      ]));
+              ]));
           }
         }
       }
@@ -2352,6 +2359,15 @@ async function
       ];
       if ( _lock_only == "n" ) {
         if ( _publish_skip == "n" ) {
+          _msg =
+            "Running '_chunks_publish' with " +
+            "arguments:";
+          _msg_info(
+            _msg);
+          if ( _quiet == "n" ) {
+            _echo(
+              _chunks_publish_args);
+          }
           try {
             _chunks_unverified =
               await _chunks_publish.apply(
