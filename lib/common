@@ -991,11 +991,26 @@ function
   const
     _msg =
       `Published chunk '${_index}' ` +
-      `('${_progress}'of '${_total}')` +
+      `('${_progress}'of '${_total}') ` +
       `at transaction with nonce '${_tx.nonce}' ` +
       `and hash '${_tx.hash}'.`;
   _msg_info(
     _msg);
+  const
+    _global =
+      _global_get();
+  const
+    _quiet =
+      _global[
+        "quiet"];
+  if ( _quiet == "n" ) {
+    const
+      _tx_keys =
+        Object.keys(
+          _tx);
+    _echo(
+      _tx_keys);
+  }
 }
 
 function

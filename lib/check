@@ -340,6 +340,7 @@ function
   _chunks_files_paths_check(
     _chunks_files_paths) {
   let
+    _index,
     _msg;
   const
     _chunks_files_paths_type =
@@ -387,16 +388,27 @@ function
     }
     else {
       const
-        _object_array_keys =
+        _sequence =
           _seq(
             0,
             _chunks_files_paths_keys.length - 1);
+      const
+        _object_array_keys =
+          [];
+      for ( _index of _sequence ) {
+        _object_array_keys.push(
+          String(
+            _index));
+      }
       if ( _chunks_files_paths_keys !== _object_array_keys ) {
         _msg =
-          "Chunks files paths object must be an object array.";
+          "Chunks files paths object must be an object array, " +
+          "but instead it has keys:";
         _msg_error(
           _msg,
           0);
+        _echo2(
+          _chunks_files_paths_keys);
         throw _msg;
       }
     }
@@ -494,7 +506,7 @@ async function
   catch(
     _error) {
     _msg =
-      "Error running '_chunks_files_paths'.";
+      "Error running '_chunks_files_paths_check'.";
     _msg_error(
       _msg,
       0);
