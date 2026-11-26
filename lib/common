@@ -52,6 +52,14 @@ const
 const
   _dir_exists =
     _libcrash._dir_exists;
+/* global
+     _du */
+const
+  _du =
+    _libcrash._du;
+const
+  _echo2 =
+    _libcrash._echo2
 const
   _file_exists =
     _libcrash._file_exists;
@@ -65,8 +73,25 @@ const
   _msg_info =
     _libcrash._msg_info;
 const
+  _path_join =
+    _libcrash._path_join;
+const
   _set =
     _libcrash._set;
+// const
+//   _sha256sum_memory_module =
+//     await _require(
+//       "js-sha256");
+// const
+//   _sha256sum_memory =
+//     _sha256sum_memory_module.sha256.sha256;
+const
+  _senzacoreutils =
+    await _require(
+      "senzacoreutils");
+const
+  _sha256sum =
+    _senzacoreutils._sha256sum;
 
 function
   _global_variables_common() {
@@ -294,7 +319,7 @@ function
     try {
       [ _cache_dir ] =
         _cache_user_init(
-          "evmfs")
+          "evmfs");
     }
     catch(
       _error) {
@@ -351,7 +376,7 @@ function
       `variable '_path' in function ` +
       `'_chunk_file_path_check' run with ` +
       `arguments ('${_path}','${_index}','${_cursor}').`;
-    msg_error(
+    _msg_error(
       _msg,
       0);
     throw _msg;
@@ -380,6 +405,8 @@ async function
     _msg =
       "Encoding type undefined, " +
       `setting default '${_default}'.`;
+    _msg_info(
+      _msg);
     _encoding_type_get =
       true;
   }
@@ -388,6 +415,8 @@ async function
       _msg =
         "Encoding type is an empty string, " +
         `setting default '${_default}'.`;
+      _msg_info(
+        _msg);
       _encoding_type_get =
         true;
     }
@@ -411,10 +440,11 @@ async function
           _cache_dir,
           _file_hash,
           "publish"
-	]);
-    _encodings_available =
-      await _ls(
-        _encodings_dir);
+      ]);
+    const
+      _encodings_available =
+        await _ls(
+          _encodings_dir);
     if ( 0 < _encodings_available.length ) {
       [ _encoding_type ] =
         _encodings_available;
@@ -564,6 +594,57 @@ async function
     }
   }
   return _chunk_length;
+}
+
+async function
+  _file_hash(
+    _path) {
+  let
+    _msg,
+    _sum;
+  try {
+    const
+      [ _size ] =
+        await _du(
+          _path);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_du' " +
+      `at path '${_path}'.`;
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
+  if ( 100000000 < _size ) {
+    const
+      _msg =
+        `File '${_path}' ` +
+        "is over 100MB in size, " +
+        `it may take a while hashing it.`;
+      _msg_info(
+        _msg);
+    _sum =
+      await _sha256sum(
+        _path);
+  }
+  else {
+    // const
+    //   _file =
+    //     _file_read(
+    //       _path);
+    // _sum =
+    //   await _sha256sum_memory(
+    //     _path);
+    _sum =
+      await _sha256sum(
+        _path);
+  }
+  return _sum; 
 }
 
 async function
@@ -882,6 +963,7 @@ export {
   _global_variables_common,
   _global_variables_evmfs_get,
   _global_variables_evmfs_publish,
+  _file_hash,
   _index_end_check,
   _input_data_check,
   _method_object_check,
@@ -903,6 +985,8 @@ export {
 //     _chunk_file_path_check,
 //   _encoding_type_check:
 //     _encoding_type_check,
+//   _file_hash:
+//     _file_hash,
 //   _global_variables_common:
 //     _global_variables_common,
 //   _global_variables_evmfs_get:

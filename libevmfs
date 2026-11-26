@@ -177,6 +177,9 @@ const
   _encoding_type_check =
     _common_module._encoding_type_check;
 const
+  _file_hash =
+    _common_module._file_hash;
+const
   _index_end_check =
     _common_module._index_end_check;
 const
@@ -2564,39 +2567,6 @@ async function
     throw _msg;
   }
   return _return;
-}
-
-async function
-  _file_hash(
-    _path) {
-  let
-    _sum;
-  const
-  [ _size ] =
-    _du(
-      _path);
-  if ( 100000000 < _size ) {
-    const
-      _msg =
-        `File '${_path}' ` +
-        "is over 100MB in size, " +
-        `it may take a while hashing it.`;
-      _msg_info(
-        _msg);
-    _sum =
-      await _sha256sum(
-        _path);
-  }
-  else {
-    const
-      _file =
-        _file_read(
-          _path);
-    _sum =
-      await _sha256sum(
-        _path);
-  }
-  return _sum; 
 }
 
 async function

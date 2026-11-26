@@ -387,7 +387,7 @@ async function
         0);
       throw _error;
     }
-    if ( _check_opts[7] == "" ) {
+    if ( _chunks_check_args[7] == "" ) {
       _msg_info(
         "Reusing contract method object.");
       // I have no idea if _check_call_base_opts
@@ -396,7 +396,7 @@ async function
       // _method_object gets immediately updated
       // or I need to re-init the array so just
       // in case we re-init whole array.
-      _check_opts = [
+      _chunks_check_args = [
         _retries_max,
         _api_key_path,
         _target_network,
