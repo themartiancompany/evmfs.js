@@ -1970,6 +1970,7 @@ async function
     _fs_abi,
     _fs_bytecode,
     _fs_compiler_output,
+    _index_checkpoint,
     _index_end,
     _index_start,
     _index_verify_start,
@@ -2142,13 +2143,17 @@ async function
         ]);
       if ( _file_exists(
              _checkpoint_file_path) ) {
-        _index_start =
+        _index_checkpoint =
           _file_read(
             _checkpoint_file_path);
+        _index_start =
+          _index_checkpoint;
       }
       else {
-       _index_start =
-        0;
+        _index_checkpoint =
+          -1;
+        _index_start =
+          0;
       }
       const
         _index_end_check_args = [
@@ -2176,7 +2181,11 @@ async function
           _error);
         throw _error;
       }
-      if ( _index_end === -1 ) {
+      if ( _index_checkpoint === _index_end ) {
+        _publish_skip =
+          "true";
+      }
+      else if ( _index_end === -1 ) {
         if ( _encoding_skip === "y" ) {
           _msg =
             "Selected to skip encoding, " +
@@ -2285,6 +2294,8 @@ async function
           _msg_error(
             _msg,
             0);
+          _echo2(
+            _chunks_publish_args);
           throw _error;
         }
         _uploaded_files.push(
