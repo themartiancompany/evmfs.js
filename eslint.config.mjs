@@ -27,6 +27,19 @@ import js from "@eslint/js";
 import globals from "globals";
 import { defineConfig } from "eslint/config";
 
+function
+  _lib_add(
+    _files,
+    _libs) {
+  let
+    _file;
+  for ( _file of _libs ) {
+    _files.push(
+      _file);
+  }
+  return _files;
+}
+
 const
   _project =
     "evmfs";
@@ -42,14 +55,16 @@ const
   ];
 const
   _libs = [
+    "ccget",
     "check",
-     "get"
-     "verify",
-     "index",
-     "lock",
-     "publish",
-     "publish.bulk",
-     "verify",
+    "common",
+    "get"
+    "index",
+    "lengthlock",
+    "lock",
+    "publish",
+    "publish_bulk",
+    "verify"
   ];
 const
   _files = [
@@ -59,20 +74,6 @@ const
      `**/lib/**`,
      `**/lib${_project}`
   ];
-
-function
-  _lib_add(
-    _files,
-    _libs) {
-  let
-    _file;
-  for ( _file of _libs ) {
-    _files.push(
-      _file);
-  }
-  return _files;
-}
-
 const
   _files_mjs =
     _lib_add(
